@@ -2,7 +2,7 @@ import HeadingText from "../../Common/HeadingText";
 
 const PlanSections = () => {
   return (
-    <section className="container mx-auto max-w-[1440px]">
+    <section className="container mx-auto ">
       <div className="flex items-center justify-center flex-col gap-10">
         <div
           data-aos="fade-down"
