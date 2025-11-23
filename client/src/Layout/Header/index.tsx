@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 
 const Header = () => {
@@ -106,7 +106,7 @@ const Header = () => {
           data-aos-offset="300"
           data-aos-delay="100"
           data-aos-easing="ease-in-sine"
-          className="px-3 py-2 bg-[#0707B0] cursor-pointer hover:bg-[#0707b0b3] duration-300 text-white w-[120px] h-10 rounded-[50px] text-[16px] font-inter leading-6 font-normal"
+          className="px-3 py-2 bg-[#0707B0] cursor-pointer hover:bg-[#FBE443] hover:text-black duration-300 text-white w-[120px] h-10 rounded-[50px] text-[16px] font-inter leading-6 font-normal"
         >
           Contact
         </button>
