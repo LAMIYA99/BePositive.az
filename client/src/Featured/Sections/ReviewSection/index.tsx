@@ -1,12 +1,14 @@
-import ReviewCard from "@/Featured/Common/ReviewCards";
+import ReviewCard, { reviews } from "@/Featured/Common/ReviewCards";
 import HeadingText from "../../Common/HeadingText";
 
 const ReviewSection = () => {
   return (
     <div className="mt-[72px] container mx-auto">
       <HeadingText title="Customer reviews" />
-      <div className="grid grid-cols-3 ">
-        <ReviewCard />
+      <div className="flex flex-wrap justify-center items-center gap-[58px] mt-10 ">
+        {reviews.map((r) => (
+          <ReviewCard key={r.id} review={r} />
+        ))}
       </div>
     </div>
   );
