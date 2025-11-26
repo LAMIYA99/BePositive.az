@@ -5,7 +5,7 @@ const ReviewSection = () => {
   return (
     <div className="mt-[72px] container mx-auto">
       <HeadingText title="Customer reviews" />
-      <div className="flex flex-wrap justify-center items-center gap-[58px] mt-10 ">
+      <div className="flex flex-wrap justify-start items-center gap-[58px] mt-10 ">
         {reviews.map((r) => (
           <ReviewCard key={r.id} review={r} />
         ))}
