@@ -1,5 +1,5 @@
 import Header from "./Header";
-import Footer from "./Footer/intex";
+import Footer from "./Footer";
 import { children } from "@/Types/global";
 
 const Layout = ({ children }: children) => {
