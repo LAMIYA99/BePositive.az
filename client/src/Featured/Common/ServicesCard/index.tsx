@@ -3,7 +3,7 @@ export const ServicesCard = () => {
   const tags = ["Dashboard", "Saas", "Product"];
 
   return (
-    <div data-aos="zoom-in-left" className="relative h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
+    <div  className="relative h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
         style={{ backgroundImage: `url(${img})` }}
