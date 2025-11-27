@@ -8,4 +8,6 @@
 
 @theme {
   --font-inter: var(--font-inter);
+  --font-poppins: var(--font-poppins);
+  --font-space: var(--font-space-grotesk);
 }

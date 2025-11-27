@@ -43,7 +43,7 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
       </li>
 
       <li
-        className={`pl-9 pr-[61px]  transition-all duration-300
+        className={`pl-9 pr-[61px]  transition-all duration-300 
           ${open ? "opacity-100 mt-2" : "opacity-0 mt-0"}`}
       >
         <h2 className="w-[1217.067px] font-inter text-[16px] leading-7 font-normal text-white ">
