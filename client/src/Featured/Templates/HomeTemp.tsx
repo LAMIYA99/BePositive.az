@@ -1,6 +1,7 @@
 import BannerSection from "../Sections/BannerSection";
 import BlogSection from "../Sections/BlogSection";
 import BrandSection from "../Sections/BrandsSection";
+import FaqSection from "../Sections/FaqSection";
 import PlanSections from "../Sections/PlanSections";
 import ReviewSection from "../Sections/ReviewSection";
 import ServiceSection from "../Sections/ServiceSection";
@@ -16,7 +17,7 @@ const HomeTemp = () => {
       <BlogSection/>
       <PlanSections />
       <ReviewSection />
- 
+      <FaqSection />
     </div>
   );
 };

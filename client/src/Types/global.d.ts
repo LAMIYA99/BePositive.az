@@ -7,3 +7,9 @@ export type headingTypes = {
   title?: string;
   desc?: string;
 };
+
+export type AccordionsProps = {
+  title?: string;
+  desc?: string;
+};
+
