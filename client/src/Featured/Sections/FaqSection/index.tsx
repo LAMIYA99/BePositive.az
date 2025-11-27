@@ -35,7 +35,7 @@ const FaqSection = () => {
     },
     {
       id: 7,
-      title: "Why should I choose you?x",
+      title: "Why should I choose you?",
       desc: "We develop branding, social media management, content (Reels, photos, videos) writing, advertising planning, and marketing strategy. We develop branding, social media management, content (Reels, photos, videos) writing, advertising planning, and marketing strategy. We develop branding, social media management, content (Reels, photos, videos) writing, advertising planning, and marketing strategy.",
     },
   ];
