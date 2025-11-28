@@ -1,12 +1,12 @@
-import BannerSection from "../Sections/BannerSection";
-import BlogSection from "../Sections/BlogSection";
-import BrandSection from "../Sections/BrandsSection";
-import ContactSection from "../Sections/ContactSection";
-import FaqSection from "../Sections/FaqSection";
-import PlanSections from "../Sections/PlanSections";
-import ReviewSection from "../Sections/ReviewSection";
-import ServiceSection from "../Sections/ServiceSection";
-import TrainingSection from "../Sections/TrainingSection";
+import BannerSection from "../Sections/Home/BannerSection";
+import BlogSection from "../Sections/Home/BlogSection";
+import BrandSection from "../Sections/Home/BrandsSection";
+import ContactSection from "../Sections/Home/ContactSection";
+import FaqSection from "../Sections/Home/FaqSection";
+import PlanSections from "../Sections/Home/PlanSections";
+import ReviewSection from "../Sections/Home/ReviewSection";
+import ServiceSection from "../Sections/Home/ServiceSection";
+import TrainingSection from "../Sections/Home/TrainingSection";
 
 const HomeTemp = () => {
   return (

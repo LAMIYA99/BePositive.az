@@ -1,5 +1,5 @@
+import HeadingText from "@/Featured/Common/HeadingText";
 import ReviewCard, { reviews } from "@/Featured/Common/ReviewCards";
-import HeadingText from "../../Common/HeadingText";
 
 const ReviewSection = () => {
   return (

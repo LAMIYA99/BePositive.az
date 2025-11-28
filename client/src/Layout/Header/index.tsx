@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 
 const Header = () => {
@@ -58,7 +59,7 @@ const Header = () => {
       before:w-full before:bg-[#E5D037] before:scale-x-0 before:origin-left 
       before:transition-transform before:duration-300 hover:before:scale-x-100"
           >
-            About me
+          <Link href="/About">About me</Link>
           </li>
 
           <li
