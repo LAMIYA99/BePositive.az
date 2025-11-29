@@ -1,7 +1,8 @@
+import StorySection from "../Sections/About/StorySection"
 
 const AboutTemp = () => {
   return (
-    <div>AboutTemp</div>
+    <div><StorySection/></div>
   )
 }
 
