@@ -13,3 +13,8 @@ export type AccordionsProps = {
   desc?: string;
 };
 
+export type MeetCardProps = {
+  img: string;
+  name: string;
+  title: string;
+};
