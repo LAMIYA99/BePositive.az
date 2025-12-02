@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-
   const [currentLang, setCurrentLang] = useState({
     code: "Az",
     img: "/Aze.png",
@@ -20,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <header className="container flex items-center justify-between mx-auto py-10">
+    <header className="container flex items-center justify-between mx-auto md:py-10">
       <div
         data-aos="fade-right"
         data-aos-anchor="#example-anchor"
@@ -33,7 +32,7 @@ const Header = () => {
           className="w-[72px] h-[72px] object-contain"
         />
       </div>
-      <nav className="w-[846px] flex items-center gap-20">
+      <nav className="w-[846px]  items-center gap-20 md:flex  sm:hidden">
         <ul className="flex gap-14 text-[22px] font-inter font-semibold">
           <li
             data-aos="fade-right"
@@ -112,7 +111,7 @@ const Header = () => {
         </button>
       </nav>
 
-      <div className="relative">
+      <div className="relative sm:hidden md:block">
         <ul
           className="flex items-center gap-3 w-[97px] justify-center cursor-pointer"
           onClick={() => setOpen(!open)}
@@ -148,6 +147,37 @@ const Header = () => {
               ))}
           </div>
         )}
+      </div>
+      <div className="burgerMenu md:hidden w-10 h-10 px-2 pt-2 pb-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <path
+            d="M4 5H20"
+            stroke="#0A0A0A"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M4 12H20"
+            stroke="#0A0A0A"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M4 19H20"
+            stroke="#0A0A0A"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     </header>
   );
