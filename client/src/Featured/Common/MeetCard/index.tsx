@@ -1,0 +1,22 @@
+import { MeetCardProps } from "@/Types/global";
+
+const MeetCard = ({ img, name, title }: MeetCardProps) => {
+  return (
+    <div className="bg-white p-7 rounded-2xl flex flex-col items-center justify-center gap-6">
+      <div className="w-[140px] h-[140px] rounded-full overflow-hidden">
+        <img src={img} alt={name} className="w-full h-full object-cover" />
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <h2 className="text-black text-center text-[24px] font-bold leading-[34px] font-inter">
+          {name}
+        </h2>
+        <h3 className="text-[16px] font-medium text-center text-[#4D4D4D]">
+          {title}
+        </h3>
+      </div>
+    </div>
+  );
+};
+
+export default MeetCard;

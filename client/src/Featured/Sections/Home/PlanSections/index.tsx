@@ -1,4 +1,4 @@
-import HeadingText from "../../Common/HeadingText";
+import HeadingText from "@/Featured/Common/HeadingText";
 
 const PlanSections = () => {
   return (

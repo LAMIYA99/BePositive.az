@@ -1,0 +1,81 @@
+const StoryCard = () => {
+    const img = "./Frame1984078262.png";
+    const tags = ["Dashboard", "Saas", "Product"];
+  
+    return (
+      <div
+        data-aos="zoom-in-left"
+        className="relative 
+        h-[260px] sm:h-[300px] md:h-[334px] lg:h-[260px] 
+        rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200"
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+          style={{ backgroundImage: `url(${img})` }}
+        />
+  
+        <div
+          className="absolute flex flex-col gap-3 lg:gap-2 bottom-0 left-0 
+          w-full p-4 sm:p-5 md:p-6 lg:p-4 text-white 
+          bg-linear-to-t from-black/80 to-transparent
+          translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
+          transition-all duration-500"
+        >
+          <div className="flex gap-2 sm:gap-3 flex-wrap">
+            {tags.map((tag, i) => (
+              <span
+                key={i}
+                className="flex justify-center items-center 
+                w-[70px] sm:w-[85px] lg:w-[65px]
+                h-7 sm:h-8 lg:h-7
+                px-4 sm:px-[35px] lg:px-3
+                py-2 border leading-5 sm:leading-[26px] lg:leading-3.5
+                border-white rounded-full 
+                text-[10px] sm:text-[12px] lg:text-[10px] 
+                font-medium backdrop-blur-sm"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+  
+          <p className=" mt-2
+            text-[18px] sm:text-[22px] md:text-[26px] lg:text-[16px]
+            font-medium 
+            leading-[22px] sm:leading-6 md:leading-[26px] lg:leading-[18px]
+          ">
+            Mediani Pro – Social Media <br className="hidden md:block" /> 
+            Automation Dashboard
+          </p>
+  
+          <div className="absolute 
+            bottom-6 right-6 
+            sm:bottom-8 sm:right-8 
+            md:bottom-10 md:right-10 
+            lg:bottom-10 lg:right-20
+          ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="35"
+              height="35"
+              className="
+                sm:w-[35px] sm:h-[35px] 
+                md:w-[38px] md:h-[38px]
+                lg:w-5 lg:h-5
+              "
+              viewBox="0 0 41 41"
+              fill="none"
+            >
+              <path
+                d="M40.5651 1.49997C40.5651 0.671545 39.8935 -2.80897e-05 39.0651 -2.91434e-05L25.5651 -2.72889e-05C24.7367 -2.86376e-05 24.0651 0.671545 24.0651 1.49997C24.0651 2.3284 24.7367 2.99997 25.5651 2.99997L37.5651 2.99997L37.5651 15C37.5651 15.8284 38.2367 16.5 39.0651 16.5C39.8935 16.5 40.5651 15.8284 40.5651 15L40.5651 1.49997ZM1.06055 39.5045L2.12121 40.5652L40.1258 2.56063L39.0651 1.49997L38.0044 0.439311L-0.000113279 38.4439L1.06055 39.5045Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  export default StoryCard;
+  
