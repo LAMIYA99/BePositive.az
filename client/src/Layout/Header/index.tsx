@@ -44,7 +44,7 @@ const Header = () => {
         </Link>
       </div>
       <nav className="hidden md:flex items-center gap-20 w-[846px]">
-        <ul className="flex gap-14 text-[22px] font-inter font-semibold">
+        <ul className="flex gap-14 lg:text-[22px] text-[16px] font-inter font-semibold">
           {["Home", "About me", "Services", "Blog", "FAQ"].map(
             (item, index) => (
               <li

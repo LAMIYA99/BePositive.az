@@ -79,7 +79,7 @@ const ContactSection = () => {
 
   return (
     <div className="mt-[72px] container mx-auto px-6">
-      <div className="lg:bg-white py-10  rounded-3xl lg:shadow-[0_2px_12px_rgba(7,7,176,0.12)] shadow-none">
+      <div className="lg:bg-white py-10 px-3  rounded-3xl lg:shadow-[0_2px_12px_rgba(7,7,176,0.12)] shadow-none">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="flex flex-col gap-10">
             <div>

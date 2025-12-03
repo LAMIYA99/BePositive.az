@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className="mt-20 px-6">
-      <div className="container mx-auto font-inter">
+    <footer className="container mx-auto mt-20 px-6">
+      <div className=" font-inter">
         <div className="lg:hidden flex flex-col gap-10">
           <img
             src="./LogoFooter.png"
