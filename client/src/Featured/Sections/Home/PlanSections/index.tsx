@@ -2,7 +2,7 @@ import HeadingText from "@/Featured/Common/HeadingText";
 
 const PlanSections = () => {
   return (
-    <section className="container mx-auto mt-[72px]">
+    <section className="container mx-auto mt-[72px] px-6">
       <div className="flex items-center justify-center flex-col gap-10">
         <div
           data-aos="fade-down"
@@ -22,13 +22,13 @@ const PlanSections = () => {
             Yearly
           </button>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-1 lg:grid-cols-3 md:grid-cols-1 gap-4">
           <div
             data-aos="fade-right"
             data-aos-offset="300"
             data-aos-delay="500"
             data-aos-easing="ease-in-sine"
-            className="free pl-[111px] pt-[82px] pb-[83px] pr-[27.538px] flex flex-col items-start justify-center rounded-3xl bg-white  shadow-[0_2px_12.4px_rgba(178,178,236,0.24)] group duration-400 cursor-pointer hover:bg-[#0808C1] hover:scale-[1.05]"
+            className="free pl-[27px] lg:pl-[111px] pt-[82px] pb-[83px] pr-[27.538px] flex flex-col items-start justify-center rounded-3xl bg-white  shadow-[0_2px_12.4px_rgba(178,178,236,0.24)] group duration-400 cursor-pointer hover:bg-[#0808C1] hover:scale-[1.05]"
           >
             <h2 className="text-[#060689] font-space-grotesk text-[42px] font-bold leading-6 mb-[33px] group-hover:text-white duration-400">
               Free
@@ -110,7 +110,7 @@ const PlanSections = () => {
             data-aos-offset="300"
             data-aos-delay="300"
             data-aos-easing="ease-in-sine"
-            className="free pl-[111px] pt-[82px] pb-[83px] transition-all pr-[27.538px] flex flex-col items-start justify-center rounded-3xl bg-white  shadow-[0_2px_12.4px_rgba(178,178,236,0.24)] group duration-400 cursor-pointer hover:bg-[#0808C1] hover:scale-[1.05]"
+            className="free pl-[27px] lg:pl-[111px] pt-[82px] pb-[83px] transition-all pr-[27.538px] flex flex-col items-start justify-center rounded-3xl bg-white  shadow-[0_2px_12.4px_rgba(178,178,236,0.24)] group duration-400 cursor-pointer hover:bg-[#0808C1] hover:scale-[1.05]"
           >
             <h2 className="text-[#060689] font-space-grotesk text-[42px] font-bold leading-6 mb-[33px] group-hover:text-white duration-400">
               Professional
@@ -192,7 +192,7 @@ const PlanSections = () => {
             data-aos-offset="300"
             data-aos-delay="100"
             data-aos-easing="ease-in-sine"
-            className="free pl-[111px] pt-[82px] pb-[83px] pr-[27.538px] flex flex-col items-start justify-center rounded-3xl bg-white  shadow-[0_2px_12.4px_rgba(178,178,236,0.24)] group duration-400 cursor-pointer hover:bg-[#0808C1] hover:scale-[1.05]"
+            className="free pl-[27px] lg:pl-[111px] pt-[82px] pb-[83px] pr-[27.538px] flex flex-col items-start justify-center rounded-3xl bg-white  shadow-[0_2px_12.4px_rgba(178,178,236,0.24)] group duration-400 cursor-pointer hover:bg-[#0808C1] hover:scale-[1.05]"
           >
             <h2 className="text-[#060689] font-space-grotesk text-[42px] font-bold leading-6 mb-[33px] group-hover:text-white duration-400">
               Free

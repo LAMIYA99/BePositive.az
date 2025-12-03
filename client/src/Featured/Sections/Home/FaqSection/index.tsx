@@ -40,7 +40,7 @@ const FaqSection = () => {
     },
   ];
   return (
-    <div className="mt-[72px] container mx-auto">
+    <div className="mt-[72px] container mx-auto px-6">
       <HeadingText title="FAQ" />
       <div className="accardions mt-[53px] flex flex-col gap-4 items-start">
         {accordionsData &&

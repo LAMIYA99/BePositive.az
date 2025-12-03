@@ -6,7 +6,7 @@ const HeadingText = ({ title, }: headingTypes) => {
       <div className="mx-auto container  max-w-[1200px] ">
         <div className="flex items-center justify-center text-center">
           <div className="flex  items-center ">
-            <h2 className="text-[48px] leading-[55px] font-inter font-medium text-[#1B1B1B]">
+            <h2 className="lg:text-[48px] text-[28px] leading-[55px] font-inter font-medium text-[#1B1B1B]">
               {title}  
             </h2>
           </div>
