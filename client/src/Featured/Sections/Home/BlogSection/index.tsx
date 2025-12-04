@@ -9,11 +9,9 @@ const BlogSection = () => {
     <section className="container mx-auto py-10 px-6">
       <HeadingText title="Blog" />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-10 px-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-10 ">
         {cards.map((_, i) => (
-          <Link href="/Blog" key={i} className="block cursor-pointer">
-            <BlogCard />
-          </Link>
+            <BlogCard key={i}/>
         ))}
       </div>
     </section>

@@ -11,14 +11,14 @@ const PlanSections = () => {
         >
           <HeadingText title="Digital Marketing Plans" />
         </div>
-        <div className="flex items-center gap-[21px]">
-          <button className="h-14 px-8 py-2.5 rounded-2xl bg-[#0707B0] hover:bg-[#0707B0] duration-300 cursor-pointer text-white border border-transparent text-[20px] font-inter font-normal leading-6">
+        <div className="flex items-center gap-[15px] lg:gap-[21px]">
+          <button className="h-14 px-6 lg:px-8 lg:py-2.5 py-2  rounded-2xl bg-[#0707B0] hover:bg-[#0707B0] duration-300 cursor-pointer text-white border border-transparent lg:text-[20px] text-[12px] font-inter font-normal leading-6">
             Monthly
           </button>
-          <button className="h-14 px-8 py-2.5 rounded-2xl bg-transparent text-black hover:bg-[#0707B0] hover:text-white duration-300 cursor-pointer border border-[#0808C1] text-[20px] font-inter font-normal leading-6">
+          <button className="h-14 px-6 lg:px-8 lg:py-2.5 py-2 rounded-2xl bg-transparent text-black hover:bg-[#0707B0] hover:text-white duration-300 cursor-pointer border border-[#0808C1] lg:text-[20px] text-[12px]  font-inter font-normal leading-6">
             6 Month
           </button>
-          <button className="h-14 px-8 py-2.5 rounded-2xl bg-transparent text-black hover:bg-[#0707B0] hover:text-white duration-300 cursor-pointer border border-[#0808C1] text-[20px] font-inter font-normal leading-6">
+          <button className="h-14 px-6 lg:px-8 lg:py-2.5 py-2 rounded-2xl bg-transparent text-black hover:bg-[#0707B0] hover:text-white duration-300 cursor-pointer border border-[#0808C1] lg:text-[20px] text-[12px]  font-inter font-normal leading-6">
             Yearly
           </button>
         </div>

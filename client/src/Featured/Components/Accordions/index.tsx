@@ -17,7 +17,7 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
     >
       <li className="h-[78px] sm:h-[100px] md:h-[110px] flex items-center justify-between w-full pl-9 pr-[61px]">
         <h2
-          className={`font-inter text-[20px] leading-[30px] font-semibold 
+          className={`font-inter lg:text-[20px] text-[12px] leading-[30px] font-semibold 
             ${open ? "text-white" : "text-black"}`}
         >
           {title}
@@ -25,11 +25,11 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="19"
-          height="12"
           viewBox="0 0 19 12"
           fill="none"
-          className={`duration-300 ${open ? "rotate-180 fill-white" : "fill-black"}`}
+          className={`duration-300 ${
+            open ? "rotate-180 fill-white" : "fill-black"
+          } lg:w-[19px] lg:h-3 w-[18px] h-[9px]`}
         >
           <path
             fillRule="evenodd"
@@ -41,11 +41,11 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
 
       <li
         className={`pl-9 pr-[61px] transition-all duration-300 
-          ${open ? "opacity-100 mt-2" : "opacity-0 mt-0"}`}
+          ${open ? "opacity-100 " : "opacity-0 mt-0"}`}
       >
         <h2
           className="
-            font-inter text-[16px] leading-7 font-normal text-white
+            font-inter lg:text-[16px] text-[8px] lg:leading-7 leading-3.5 font-normal text-white
             max-h-[300px] overflow-y-scroll pr-3
           "
         >

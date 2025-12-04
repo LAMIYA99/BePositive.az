@@ -25,7 +25,7 @@ export const reviews = [
 ];
 const ReviewCard = ({ review }: { review: (typeof reviews)[0] }) => {
   return (
-    <div className="box rounded-3xl bg-white p-6 flex flex-col items-center justify-center gap-6 h-[352px] w-[369px]">
+    <div className="box rounded-3xl bg-white lg:p-6  p-2 flex flex-col items-center justify-center gap-6 h-[352px] ">
       <div className="w-[76px] h-[76px] border-2 rounded-full overflow-hidden border-[#0808C1]">
         <img
           src={review.avatar}

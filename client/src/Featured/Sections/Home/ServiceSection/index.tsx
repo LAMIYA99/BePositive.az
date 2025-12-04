@@ -8,7 +8,7 @@ const ServiceSection = () => {
     <section  className="container mx-auto py-10 px-6">
       <HeadingText title="Services" />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-10 px-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-10 ">
         {cards.map((item) => (
           <ServicesCard key={item} />
         ))}
