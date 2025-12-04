@@ -45,7 +45,7 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
       >
         <h2
           className="
-            font-inter lg:text-[16px] text-[8px] lg:leading-7 leading-3.5 font-normal text-white
+            font-inter lg:text-[16px] pb-10 text-[8px] lg:leading-7 leading-3.5 font-normal text-white
             max-h-[300px] overflow-y-scroll pr-3
           "
         >
