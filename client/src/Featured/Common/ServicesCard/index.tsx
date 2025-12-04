@@ -3,37 +3,58 @@ export const ServicesCard = () => {
   const tags = ["Dashboard", "Saas", "Product"];
 
   return (
-    <div  className="relative h-[334px]  rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
+    <div className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
         style={{ backgroundImage: `url(${img})` }}
       />
 
       <div
-        className="absolute flex flex-col gap-4 bottom-0 left-0 w-full p-6 text-white bg-linear-to-t from-black/80 to-transparent
-    translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-    transition-all duration-500 space-y-3"
+        className="absolute flex flex-col gap-4 bottom-0 left-0 w-full 
+          p-4 sm:p-5 md:p-6
+          text-white 
+          bg-linear-to-t from-black/80 to-transparent
+          translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
+          transition-all duration-500 space-y-3"
       >
-        <div className="flex gap-3">
+        <div className="flex gap-2 sm:gap-3">
           {tags.map((tag, i) => (
             <span
               key={i}
-              className="flex justify-center items-center gap-3.5 w-[85px] h-8 px-[35px] py-3 border leading-[26px] border-white rounded-full text-[12px] font-medium backdrop-blur-sm"
+              className="
+                flex justify-center items-center 
+                w-[65px] h-7 text-[10px] 
+                sm:w-[75px] sm:h-7 sm:text-[11px]
+                md:w-[85px] md:h-8 md:text-[12px]
+                px-[20px] sm:px-[28px] md:px-[35px]
+                leading-[20px] sm:leading-[22px] md:leading-[26px]
+                border border-white rounded-full font-medium backdrop-blur-sm
+              "
             >
               {tag}
             </span>
           ))}
         </div>
-
-        <p className="text-[26px] font-medium leading-[26px] ">
-          Mediani Pro – Social Media <br /> Automation Dashboard
-        </p>
-
-        <div className="absolute bottom-17 right-19 ">
-          <svg
+        <div className="relative">
+          <p
+            className="
+          text-[16px] leading-[20px]
+          sm:text-[20px] sm:leading-[22px]
+          md:text-[26px] md:leading-[26px]
+          font-medium
+        "
+          >
+            Mediani Pro – Social Media <br className="hidden sm:block" />{" "}
+            Automation Dashboard
+          </p>
+        <div className="absolute top-0 right-0">
+        <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="41"
-            height="41"
+            className="
+              w-6 h-6 
+              sm:w-8 sm:h-8 
+              md:w-[41px] md:h-[41px]
+            "
             viewBox="0 0 41 41"
             fill="none"
           >
@@ -42,6 +63,7 @@ export const ServicesCard = () => {
               fill="white"
             />
           </svg>
+        </div>
         </div>
       </div>
     </div>

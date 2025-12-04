@@ -40,9 +40,8 @@ const ContentSection = () => {
           </div>
         </div>
       </div>
-
-      <div className="flex flex-col lg:flex-row items-start gap-12 mt-14 ">
-        <p className="text-[#414141] font-inter text-[24px] leading-11 font-normal flex-1">
+      <div className="flex flex-col lg:flex-row items-center gap-12 mt-14">
+        <p className="text-[#414141] font-inter text-[24px] leading-11 font-normal flex-1 w-[769px] text-start">
           We already understand that the word strategy is about any planning.
           When we say social media strategy, we are drawing up a general plan
           for social networks about sharing times, collaborations, trainings,
@@ -52,21 +51,23 @@ const ContentSection = () => {
           continuous.
         </p>
 
-        <div
-          className="w-[542px] h-[332px] rounded-3xl bg-cover bg-center shrink-0"
-          style={{
-            backgroundImage: "url('./')",
-          }}
-        ></div>
+        <div className="w-[542px] h-[332px] rounded-3xl bg-cover bg-center shrink-0">
+          <img
+            src="/download.png"
+            alt=""
+            className="w-full h-full object-cover rounded-3xl"
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row items-start gap-12">
-        <div
-          className="w-[542px] h-[332px] rounded-3xl bg-cover bg-center shrink-0"
-          style={{
-            backgroundImage: "url('/your-image-2.png')",
-          }}
-        ></div>
+      <div className="flex flex-col lg:flex-row items-center gap-12 mt-14 ">
+        <div className="w-[542px] h-[332px] rounded-3xl bg-cover bg-center shrink-0">
+          <img
+            src="/download.png"
+            alt=""
+            className="w-full h-full object-cover rounded-3xl"
+          />
+        </div>
 
         <p className="text-[#414141] font-inter text-[24px] leading-11 font-normal flex-1">
           As the name suggests, he is a content creator, but although it sounds
@@ -81,7 +82,7 @@ const ContentSection = () => {
       <p className="mt-10 mb-[210px] text-[#414141] font-normal text-[24px] leading-9">
         Therefore, if someone asks why social networks are needed, they are
         simply not an innovative person and after a while their work or business
-        will collapse. If you have any questions, you can write to me on 
+        will collapse. If you have any questions, you can write to me on
         Instagram <br /> @alamdarmanafov. Ələmdar Manafov
       </p>
     </section>

@@ -8,18 +8,17 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
   return (
     <ul
       onClick={() => setOpen(!open)}
-      className={`overflow-hidden rounded-3xl  duration-300 cursor-pointer w-full
+      className={`overflow-hidden rounded-3xl duration-300 cursor-pointer w-full 
         ${
           open
-            ? "h-[186px] bg-[#0707B0] hover:bg-[#0707B0]"
-            : "h-[78px] bg-white hover:bg-[#F6F6E8] "
+            ? "h-auto bg-[#0707B0] hover:bg-[#0707B0]"
+            : "h-[78px] sm:h-[100px] md:h-[110px] bg-white hover:bg-[#F6F6E8]"
         }`}
     >
-      <li className="h-[78px] flex items-center justify-between w-full pl-9 pr-[61px]">
+      <li className="h-[78px] sm:h-[100px] md:h-[110px] flex items-center justify-between w-full pl-9 pr-[61px]">
         <h2
-          className={`w-[948px] font-inter text-[20px] leading-[30px] font-semibold  ${
-            open ? "text-white" : "text-black"
-          }`}
+          className={`font-inter text-[20px] leading-[30px] font-semibold 
+            ${open ? "text-white" : "text-black"}`}
         >
           {title}
         </h2>
@@ -30,9 +29,7 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
           height="12"
           viewBox="0 0 19 12"
           fill="none"
-          className={`duration-300 ${
-            open ? "rotate-180 fill-white" : "fill-black"
-          }`}
+          className={`duration-300 ${open ? "rotate-180 fill-white" : "fill-black"}`}
         >
           <path
             fillRule="evenodd"
@@ -43,10 +40,15 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
       </li>
 
       <li
-        className={`pl-9 pr-[61px]  transition-all duration-300 
+        className={`pl-9 pr-[61px] transition-all duration-300 
           ${open ? "opacity-100 mt-2" : "opacity-0 mt-0"}`}
       >
-        <h2 className="w-[1217.067px] font-inter text-[16px] leading-7 font-normal text-white ">
+        <h2
+          className="
+            font-inter text-[16px] leading-7 font-normal text-white
+            max-h-[300px] overflow-y-scroll pr-3
+          "
+        >
           {desc}
         </h2>
       </li>
