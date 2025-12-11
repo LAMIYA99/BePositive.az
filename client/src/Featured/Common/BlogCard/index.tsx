@@ -1,4 +1,5 @@
 
+import Image from "next/image";
 import Link from "next/link";
 
 const BlogCard = () => {
@@ -9,7 +10,13 @@ const BlogCard = () => {
       bg-white hover:bg-[#0808C1] hover:text-white"
     >
       <div className="flex items-center mb-4">
-        <img src="./Ellipse50.png" alt="" className="w-17 h-17 rounded-full" />
+        <Image
+          src="/Ellipse50.png"
+          alt="Blog author"
+          width={68}
+          height={68}
+          className="w-17 h-17 rounded-full object-cover"
+        />
       </div>
 
       <div className="flex flex-col gap-3">

@@ -31,7 +31,7 @@
       ".content.tsx",
       ".content.jsx"
     ],
-    "baseDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client",
+    "baseDir": "/Users/lamiya/Desktop/BePositive/client",
     "excludedPath": [
       "**/node_modules/**",
       "**/dist/**",
@@ -46,18 +46,18 @@
     ],
     "watch": true,
     "contentDir": [
-      "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client"
+      "/Users/lamiya/Desktop/BePositive/client"
     ],
-    "moduleAugmentationDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\types",
-    "unmergedDictionariesDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\unmerged_dictionary",
-    "remoteDictionariesDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\remote_dictionary",
-    "dictionariesDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\dictionary",
-    "dynamicDictionariesDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\dynamic_dictionary",
-    "fetchDictionariesDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\fetch_dictionary",
-    "typesDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\types",
-    "mainDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\main",
-    "configDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\config",
-    "cacheDir": "C:\\Users\\Marvan\\Desktop\\BePositive.az\\client\\.intlayer\\cache",
+    "moduleAugmentationDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/types",
+    "unmergedDictionariesDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/unmerged_dictionary",
+    "remoteDictionariesDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/remote_dictionary",
+    "dictionariesDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/dictionary",
+    "dynamicDictionariesDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/dynamic_dictionary",
+    "fetchDictionariesDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/fetch_dictionary",
+    "typesDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/types",
+    "mainDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/main",
+    "configDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/config",
+    "cacheDir": "/Users/lamiya/Desktop/BePositive/client/.intlayer/cache",
     "watchedFilesPattern": [
       "/**/*.content.ts",
       "/**/*.content.js",
@@ -70,17 +70,17 @@
       "/**/*.content.jsx"
     ],
     "watchedFilesPatternWithPath": [
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.ts",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.js",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.cjs",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.cjx",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.mjs",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.mjx",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.json",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.tsx",
-      "C:/Users/Marvan/Desktop/BePositive.az/client/**/*.content.jsx"
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.ts",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.js",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.cjs",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.cjx",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.mjs",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.mjx",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.json",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.tsx",
+      "/Users/lamiya/Desktop/BePositive/client/**/*.content.jsx"
     ],
-    "outputFilesPatternWithPath": "C:/Users/Marvan/Desktop/BePositive.az/client/.intlayer/dictionary/**/*.json"
+    "outputFilesPatternWithPath": "/Users/lamiya/Desktop/BePositive/client/.intlayer/dictionary/**/*.json"
   },
   "editor": {
     "applicationURL": "",

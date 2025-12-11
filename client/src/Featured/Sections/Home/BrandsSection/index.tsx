@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Marquee from "react-fast-marquee";
 
 const BrandSection = () => {
@@ -23,10 +24,14 @@ const BrandSection = () => {
             key={index}
             className="bg-[#F5F7FA] rounded-[99px] inline-block mx-4"
           >
-            <img
+            <Image
               src={src}
-              alt=""
+              alt="brand logo"
+              width={130}
+              height={130}
               className="w-[130px] h-[130px] object-cover"
+              sizes="130px"
+              loading="lazy"
             />
           </div>
         ))}

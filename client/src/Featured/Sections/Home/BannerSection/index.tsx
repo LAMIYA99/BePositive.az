@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { sectionContent } from "@/translations/sections";
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
@@ -12,14 +14,16 @@ const BannerSection = () => {
 
   return (
     <section className="relative w-full h-[600px] sm:h-[650px] md:h-[700px] lg:h-[750px] overflow-hidden flex justify-center items-center">
-      <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat scale-105"
-        style={{
-          backgroundImage: "url('/pexels.png')",
-        }}
-      ></div>
+      <Image
+        src="/pexels.png"
+        alt="Banner"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover scale-105"
+      />
 
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative flex flex-col items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-4 text-center">
         <h1

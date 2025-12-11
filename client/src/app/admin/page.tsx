@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   Plus,
   Edit,
@@ -406,11 +407,14 @@ export default function BePositiveAdmin() {
               className="bg-white rounded-2xl overflow-hidden shadow-lg shadow-violet-100/50 hover:shadow-xl hover:shadow-violet-200/50 transition-all group"
             >
               {blog.image && (
-                <div className="h-48 overflow-hidden">
-                  <img
+                <div className="relative h-48 overflow-hidden">
+                  <Image
                     src={blog.image}
                     alt={blog.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    priority={false}
                   />
                 </div>
               )}

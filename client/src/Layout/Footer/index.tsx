@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 import { getLocalizedUrl, getTranslation } from "intlayer";
@@ -26,9 +27,11 @@ const Footer = () => {
     <footer className="container mx-auto mt-20 px-6 pb-8">
       <div className=" font-inter px-6">
         <div className="lg:hidden flex flex-col gap-10">
-          <img
-            src="./LogoFooter.png"
+          <Image
+            src="/LogoFooter.png"
             alt="logo"
+            width={94}
+            height={95}
             className="lg:w-[94px] lg:h-[95px] w-16 h-16 object-contain"
           />
 
@@ -137,9 +140,11 @@ const Footer = () => {
         <div className="hidden lg:grid grid-cols-12 gap-20">
           <div className="col-span-5">
             <div className="flex flex-col gap-9">
-              <img
-                src="./LogoFooter.png"
+              <Image
+                src="/LogoFooter.png"
                 alt="logo"
+                width={94}
+                height={95}
                 className="w-[94px] h-[95px] object-contain"
               />
 

@@ -1,12 +1,42 @@
+// This component lazy-loads heavy home sections; it must be client-side.
+"use client";
+
+import dynamic from "next/dynamic";
+
 import BannerSection from "../Sections/Home/BannerSection";
-import BlogSection from "../Sections/Home/BlogSection";
-import BrandSection from "../Sections/Home/BrandsSection";
-import ContactSection from "../Sections/Home/ContactSection";
-import FaqSection from "../Sections/Home/FaqSection";
-import PlanSections from "../Sections/Home/PlanSections";
-import ReviewSection from "../Sections/Home/ReviewSection";
-import ServiceSection from "../Sections/Home/ServiceSection";
-import TrainingSection from "../Sections/Home/TrainingSection";
+
+const BrandSection = dynamic(() => import("../Sections/Home/BrandsSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const ServiceSection = dynamic(() => import("../Sections/Home/ServiceSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const TrainingSection = dynamic(() => import("../Sections/Home/TrainingSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const BlogSection = dynamic(() => import("../Sections/Home/BlogSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const PlanSections = dynamic(() => import("../Sections/Home/PlanSections"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const ReviewSection = dynamic(() => import("../Sections/Home/ReviewSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const FaqSection = dynamic(() => import("../Sections/Home/FaqSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
+const ContactSection = dynamic(() => import("../Sections/Home/ContactSection"), {
+  ssr: false,
+  loading: () => <div className="h-32" />,
+});
 
 const HomeTemp = () => {
   return (

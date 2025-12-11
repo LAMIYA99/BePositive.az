@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { getLocalizedUrl, getLocaleName, getTranslation } from "intlayer";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -53,15 +54,15 @@ const Header = () => {
     [locale]
   );
 
-const languageList = useMemo(
-  () =>
-    availableLocales.map((code) => ({
-      code,
-      img: code === "az" ? "/Aze.png" : "/en.png",
-      label: code.charAt(0).toUpperCase() + code.slice(1).toLowerCase(),
-    })),
-  [availableLocales]
-);
+  const languageList = useMemo(
+    () =>
+      availableLocales.map((code) => ({
+        code,
+        img: code === "az" ? "/Aze.png" : "/en.png",
+        label: code.charAt(0).toUpperCase() + code.slice(1).toLowerCase(),
+      })),
+    [availableLocales]
+  );
 
   const resolveLanguageContent = (code: string) =>
     languageContent[code as keyof typeof languageContent] ?? languageContent.en;
@@ -70,10 +71,13 @@ const languageList = useMemo(
     <header className="container mx-auto flex items-center justify-between py-6 md:py-10 relative px-6">
       <div data-aos="fade-right" data-aos-offset="500" data-aos-duration="500">
         <Link href={getLocalizedUrl("/", locale)}>
-          <img
+          <Image
             src="/Logo.png"
             alt="Logo"
+            width={72}
+            height={72}
             className="lg:w-[72px] lg:h-[72px] w-12 h-12 object-contain"
+            priority
           />
         </Link>
       </div>
@@ -116,11 +120,13 @@ const languageList = useMemo(
             {uiLocale || locale}
           </li>
           <li>
-            <img
+            <Image
               src={
                 languageList.find((l) => l.code === (uiLocale || locale))?.img ?? "/en.png"
               }
               alt={getLocaleName(uiLocale || locale)}
+              width={32}
+              height={32}
               className="w-8 h-8 object-contain"
             />
           </li>
@@ -137,7 +143,13 @@ const languageList = useMemo(
                   onClick={() => handleSelect(lang.code)}
                 >
                   <span className="text-[18px]">{lang.label}</span>
-                  <img src={lang.img} className="w-[30px] h-[30px]" />
+                  <Image
+                    src={lang.img}
+                    alt={getLocaleName(lang.code)}
+                    width={30}
+                    height={30}
+                    className="w-[30px] h-[30px] object-contain"
+                  />
                 </div>
               ))}
           </div>
@@ -196,7 +208,13 @@ const languageList = useMemo(
                       className="flex items-center justify-center w-[142px] px-4 py-3 gap-2 border border-[#E5E7EB] hover:bg-[#155DFC] hover:text-white rounded-2xl"
                       onClick={() => handleSelect(lang.code)}
                     >
-                      <img src={lang.img} className="w-8 h-8" />
+                      <Image
+                        src={lang.img}
+                        alt={getLocaleName(lang.code)}
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 object-contain"
+                      />
                       {lang.label}
                     </button>
                   ))}

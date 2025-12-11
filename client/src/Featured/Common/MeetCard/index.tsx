@@ -1,10 +1,18 @@
+import Image from "next/image";
+
 import { MeetCardProps } from "@/Types/global";
 
 const MeetCard = ({ img, name, title }: MeetCardProps) => {
   return (
     <div className="bg-white p-7 rounded-2xl flex flex-col items-center justify-center gap-6">
       <div className="w-[140px] h-[140px] rounded-full overflow-hidden">
-        <img src={img} alt={name} className="w-full h-full object-cover" />
+        <Image
+          src={img}
+          alt={name}
+          width={140}
+          height={140}
+          className="w-full h-full object-cover"
+        />
       </div>
 
       <div className="flex flex-col gap-1">
