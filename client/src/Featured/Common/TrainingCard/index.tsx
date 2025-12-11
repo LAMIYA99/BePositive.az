@@ -1,7 +1,6 @@
-const TrainingCard = () => {
-  const img = "./Frame1984078262.png";
-  const tags = ["Dashboard", "Saas", "Product"];
+import { TrainingCardProps } from "@/Types/global";
 
+const TrainingCard = ({ title, image, tag }:TrainingCardProps) => {
   return (
     <div
       data-aos="zoom-in-left"
@@ -9,7 +8,7 @@ const TrainingCard = () => {
     >
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-        style={{ backgroundImage: `url(${img})` }}
+        style={{ backgroundImage: `url(${image})` }}
       />
 
       <div
@@ -19,21 +18,21 @@ const TrainingCard = () => {
         transition-all duration-500 space-y-3"
       >
         <div className="flex gap-2 sm:gap-3 flex-wrap">
-          {tags.map((tag, i) => (
-            <span
-              key={i}
-              className="flex justify-center items-center gap-3.5 
-              w-[70px] sm:w-[85px] h-7 sm:h-8 
-              px-5 sm:px-[35px] py-2 border leading-5 sm:leading-[26px] 
-              border-white rounded-full text-[10px] sm:text-[12px] font-medium backdrop-blur-sm"
-            >
-              {tag}
-            </span>
-          ))}
+        {tag&&Array.isArray(tag)&&tag.map((item: any) => (
+          <span
+            key={item?.id}
+            className="flex justify-center items-center gap-3.5 
+            w-[70px] sm:w-[85px] h-7 sm:h-8 
+            px-5 sm:px-[35px] py-2 border leading-5 sm:leading-[26px] 
+            border-white rounded-full text-[10px] sm:text-[12px] font-medium "
+          >
+            {item?.name}
+          </span>
+        ))}
         </div>
 
         <p className="text-[18px] sm:text-[22px] md:text-[26px] font-medium leading-[22px] sm:leading-6 md:leading-[26px]">
-          Mediani Pro – Social Media <br /> Automation Dashboard
+         {title}
         </p>
 
         <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 md:bottom-10 md:right-10">

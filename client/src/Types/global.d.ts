@@ -18,3 +18,8 @@ export type MeetCardProps = {
   name: string;
   title: string;
 };
+export type TrainingCardProps = {
+  tag: string;
+  image: string;
+  title: string;
+};
