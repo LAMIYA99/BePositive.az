@@ -1,4 +1,27 @@
+"use client";
+import Link from "next/link";
+import { useMemo } from "react";
+import { getLocalizedUrl, getTranslation } from "intlayer";
+import { useLocale } from "next-intlayer";
+
+import { footerContent, navContent } from "@/translations/common";
+
 const Footer = () => {
+  const { locale } = useLocale();
+  const t = (content: { en: string; az: string }) =>
+    getTranslation(content, locale);
+
+  const navLinks = useMemo(
+    () => [
+      { title: t(navContent.home), href: "/" },
+      { title: t(navContent.about), href: "/About" },
+      { title: t(navContent.services), href: "/Services" },
+      { title: t(navContent.blog), href: "/Blog" },
+      { title: t(navContent.faq), href: "/Faq" },
+    ],
+    [locale]
+  );
+
   return (
     <footer className="container mx-auto mt-20 px-6 pb-8">
       <div className=" font-inter px-6">
@@ -10,7 +33,9 @@ const Footer = () => {
           />
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-[20px] font-bold">Contact</h2>
+            <h2 className="text-[20px] font-bold">
+              {t(footerContent.contactTitle)}
+            </h2>
 
             <div className="text-[17px] flex flex-col gap-4 leading-7">
               <div className="flex flex-col">
@@ -20,17 +45,17 @@ const Footer = () => {
 
               <div className="flex flex-col">
                 <p>info@bepositive.az</p>
-                <p>Azerbaijan, Baku, Fuad Ibrahimbayov 13.</p>
+                <p>{t(footerContent.address)}</p>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-6 text-[18px]">
-            <a href="#">Home</a>
-            <a href="#">About me</a>
-            <a href="#">Services</a>
-            <a href="#">Blog</a>
-            <a href="#">FAQ</a>
+            {navLinks.map((item) => (
+              <Link key={item.title} href={getLocalizedUrl(item.href, locale)}>
+                {item.title}
+              </Link>
+            ))}
           </div>
 
           <div className="flex gap-5 mt-2">
@@ -119,7 +144,9 @@ const Footer = () => {
               />
 
               <div className="flex flex-col gap-4">
-                <h2 className="text-2xl font-bold">Contact</h2>
+                <h2 className="text-2xl font-bold">
+                  {t(footerContent.contactTitle)}
+                </h2>
 
                 <div className="text-[16px] flex flex-col gap-4 leading-6">
                   <div className="flex flex-col gap-0.5">
@@ -128,7 +155,7 @@ const Footer = () => {
                   </div>
                   <div className="flex flex-col gap-1">
                     <p>info@bepositive.az</p>
-                    <p>Azerbaijan, Baku, Fuad Ibrahimayov 13.</p>
+                    <p>{t(footerContent.address)}</p>
                   </div>
                 </div>
               </div>
@@ -138,11 +165,14 @@ const Footer = () => {
           <div className="col-span-7 flex flex-col justify-end">
             <div className="flex items-end justify-between">
               <div className="flex gap-10 font-semibold text-lg">
-                <a href="#">Home</a>
-                <a href="#">About me</a>
-                <a href="#">Services</a>
-                <a href="#">Blog</a>
-                <a href="#">FAQ</a>
+                {navLinks.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={getLocalizedUrl(item.href, locale)}
+                  >
+                    {item.title}
+                  </Link>
+                ))}
               </div>
 
               <div className="flex gap-4">

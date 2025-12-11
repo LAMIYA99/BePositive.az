@@ -11,14 +11,20 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
       className={`overflow-hidden rounded-3xl duration-300 cursor-pointer w-full 
         ${
           open
-            ? "h-auto bg-[#0707B0] hover:bg-[#0707B0]"
+            ? "h-auto bg-[#0707B0]"
             : "h-[78px] sm:h-[100px] md:h-[110px] bg-white hover:bg-[#F6F6E8]"
-        }`}
+        }
+      `}
     >
-      <li className="h-[78px] sm:h-[100px] md:h-[110px] flex items-center justify-between w-full pl-9 pr-[61px]">
+      <li
+        className={`flex items-center w-full pl-9 pr-[61px] 
+          ${open ? "justify-between h-auto py-4" : "justify-between h-full"}
+        `}
+      >
         <h2
           className={`font-inter lg:text-[20px] text-[12px] leading-[30px] font-semibold 
-            ${open ? "text-white" : "text-black"}`}
+            ${open ? "text-white" : "text-black"}
+          `}
         >
           {title}
         </h2>
@@ -41,13 +47,14 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
 
       <li
         className={`pl-9 pr-[61px] transition-all duration-300 
-          ${open ? "opacity-100 " : "opacity-0 mt-0"}`}
+          ${open ? "opacity-100 pb-8" : "opacity-0 mt-0"}
+        `}
       >
         <h2
           className="
-            font-inter lg:text-[16px] pb-10 text-[8px] lg:leading-7 leading-3.5 font-normal text-white
-            max-h-[300px] overflow-y-scroll pr-3
-          "
+    font-inter lg:text-[16px] text-[12px] lg:leading-7 leading-5 font-normal text-white
+    max-h-[300px] overflow-y-scroll pr-3 hide-scrollbar
+  "
         >
           {desc}
         </h2>

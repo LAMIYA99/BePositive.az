@@ -1,0 +1,169 @@
+export const sectionContent = {
+  bannerTitle: {
+    en: "Be Positive Advertising Agency",
+    az: "Be Positive Reklam Agentliyi",
+  },
+  bannerSubtitle: {
+    en: "#BePositive - speak with colors, be remembered with your message!",
+    az: "#BePositive - rənglərlə danış, mesajınla yadda qal!",
+  },
+} as const;
+
+export const planContent = {
+  buttons: {
+    monthly: { en: "Monthly", az: "Aylıq" },
+    sixMonth: { en: "6 Month", az: "6 Ay" },
+    yearly: { en: "Yearly", az: "İllik" },
+  },
+} as const;
+
+export const reviewsContent = [
+  {
+    id: 1,
+    avatar: "/avatar1.jpg",
+    text: {
+      en: "Working with this agency has been transformative for our business. Their strategic approach and creative solutions exceeded all our expectations.",
+      az: "Bu agentliklə işləmək biznesimiz üçün dönüş nöqtəsi oldu. Onların strateji yanaşması və yaradıcı həlləri bütün gözləntilərimizi aşdı.",
+    },
+    name: {
+      en: "Sarah Johnson",
+      az: "Sarah Johnson",
+    },
+    role: {
+      en: "CEO, TechFlow",
+      az: "CEO, TechFlow",
+    },
+  },
+
+  {
+    id: 2,
+    avatar: "/avatar2.jpg",
+    text: {
+      en: "They delivered amazing results on our project. Communication and professionalism were top-notch.",
+      az: "Layihəmizdə möhtəşəm nəticə verdilər. Kommunikasiya və peşəkarlıq ən yüksək səviyyədə idi.",
+    },
+    name: {
+      en: "Michael Lee",
+      az: "Michael Lee",
+    },
+    role: {
+      en: "CTO, InnovateX",
+      az: "CTO, InnovateX",
+    },
+  },
+
+  {
+    id: 3,
+    avatar: "/avatar3.jpg",
+    text: {
+      en: "Highly recommend! The team brought creativity and efficiency to every task we gave them.",
+      az: "Çox tövsiyə edirəm! Komanda verdiyimiz hər tapşırığa yaradıcılıq və səmərəlilik qatdı.",
+    },
+    name: {
+      en: "Emily Davis",
+      az: "Emily Davis",
+    },
+    role: {
+      en: "Product Manager, Creatify",
+      az: "Məhsul Meneceri, Creatify",
+    },
+  },
+];
+
+export const accordionsData = [
+  {
+    id: 1,
+    title: {
+      en: "Can you work without an SMM service?",
+      az: "SMM xidməti olmadan işləyə bilərsiniz?",
+    },
+    desc: {
+      en: "We develop branding, social media management, content (Reels, photos, videos) writing, advertising planning, and marketing strategy. We can handle projects independently without an SMM service if required.",
+      az: "Biz brendinq, sosial media idarəsi, kontent (Reels, foto, video) hazırlanması, reklam planlaması və marketinq strategiyası hazırlayırıq. Lazım gələrsə, layihələri SMM xidməti olmadan da həyata keçirə bilərik.",
+    },
+  },
+  {
+    id: 2,
+    title: {
+      en: "Where is the filming taking place?",
+      az: "Çəkiliş harada baş tutacaq?",
+    },
+    desc: {
+      en: "Our projects are flexible. Filming can take place on-site at your location or in studio settings, depending on the project requirements.",
+      az: "Layihələrimiz çevikdir. Çəkiliş layihənin tələblərinə görə sizin yerinizdə və ya studiya şəraitində baş tuta bilər.",
+    },
+  },
+  {
+    id: 3,
+    title: {
+      en: "What services does Be Positive provide?",
+      az: "Be Positive hansı xidmətləri təqdim edir?",
+    },
+    desc: {
+      en: "We provide branding, social media management, content creation (Reels, photos, videos), advertising planning, and marketing strategy development tailored to your needs.",
+      az: "Biz brendinq, sosial media idarəsi, kontent yaradılması (Reels, foto, video), reklam planlaması və marketinq strategiyası hazırlayırıq və bunları sizin tələblərinizə uyğunlaşdırırıq.",
+    },
+  },
+  {
+    id: 4,
+    title: {
+      en: "How are prices determined?",
+      az: "Qiymətlər necə müəyyən olunur?",
+    },
+    desc: {
+      en: "Pricing depends on the scope of the project, duration, and resources required. We provide transparent quotes before starting any work.",
+      az: "Qiymət layihənin həcmi, müddəti və tələb olunan resurslardan asılıdır. İşə başlamazdan əvvəl şəffaf təkliflər təqdim edirik.",
+    },
+  },
+  {
+    id: 5,
+    title: {
+      en: "What is your ordering process like?",
+      az: "Sifariş prosesi necədir?",
+    },
+    desc: {
+      en: "Our ordering process is simple: initial consultation → project proposal → agreement → execution → delivery. We ensure full transparency at each step.",
+      az: "Sifariş prosesi sadədir: ilkin konsultasiya → layihə təklifi → razılaşma → icra → təhvil. Hər mərhələdə tam şəffaflığı təmin edirik.",
+    },
+  },
+  {
+    id: 6,
+    title: {
+      en: "What is your fastest delivery time?",
+      az: "Ən sürətli çatdırılma müddətiniz nədir?",
+    },
+    desc: {
+      en: "Delivery time depends on the project size. Small tasks can be completed in a few days, while larger campaigns may take several weeks.",
+      az: "Çatdırılma müddəti layihənin ölçüsündən asılıdır. Kiçik tapşırıqlar bir neçə günə tamamlanır, böyük kampaniyalar isə bir neçə həftə çəkə bilər.",
+    },
+  },
+  {
+    id: 7,
+    title: { en: "Why should I choose you?", az: "Niyə sizi seçməliyəm?" },
+    desc: {
+      en: "We combine creativity, strategy, and efficiency. Our team ensures high-quality results while maintaining excellent communication and professionalism.",
+      az: "Biz yaradıcılığı, strategiyanı və səmərəliliyi birləşdiririk. Komandamız yüksək keyfiyyətli nəticələr təmin edir və əla kommunikasiya və peşəkarlığı qoruyur.",
+    },
+  },
+];
+
+export const contactFormContent = {
+  title: {
+    en: ["Get in-", "touch with us"],
+    az: ["Bizimlə-", "əlaqə saxlayın"],
+  },
+  fields: {
+    name: { en: "Name and surname", az: "Ad və Soyad" },
+    email: { en: "E-mail", az: "E-poçt" },
+    message: { en: "What can help you?", az: "Nə ilə kömək edə bilərik?" },
+  },
+  placeholders: {
+    name: { en: "Alamdar Manafov", az: "Alamdar Manafov" },
+    email: { en: "bepositive21@gmail.com", az: "bepositive21@gmail.com" },
+    message: {
+      en: "Hello, I want to learn ...",
+      az: "Salam, mən öyrənmək istəyirəm ...",
+    },
+  },
+  button: { en: "Contact Me", az: "Əlaqə saxla" },
+};

@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { NextLayoutIntlayer } from "next-intlayer";
+import { getHTMLTextDir } from "intlayer";
 import { Inter, Poppins, Space_Grotesk } from "next/font/google";
 
 import "../globals.css";
@@ -23,13 +24,11 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
+  const { locale } = await params;
+
   return (
-    <html lang="en">
+    <html lang={locale} dir={getHTMLTextDir(locale)}>
       <body
         className={`${inter.variable} ${poppins.variable} ${spaceGrotesk.variable} antialiased bg-[#ECF0F6]`}
       >
@@ -38,4 +37,7 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default LocaleLayout;
+

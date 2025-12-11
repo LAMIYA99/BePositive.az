@@ -1,6 +1,11 @@
-import React from "react";
+"use client";
+import { contactFormContent } from "@/translations/sections";
+import { useLocale } from "next-intlayer";
 
 const ContactSection = () => {
+  const { locale } = useLocale();
+  const t = (content: { en: string; az: string }) => content[locale];
+
   const contacts = [
     {
       id: 1,
@@ -21,8 +26,8 @@ const ContactSection = () => {
           />
         </svg>
       ),
-      type: "Phone",
-      address: <>+994 10 533 01 29</>,
+      type: { en: "Phone", az: "Telefon" },
+      address: { en: "+994 10 533 01 29", az: "+994 10 533 01 29" },
     },
     {
       id: 2,
@@ -43,8 +48,8 @@ const ContactSection = () => {
           />
         </svg>
       ),
-      type: "Gmail",
-      address: "info@bepositive.az",
+      type: { en: "Gmail", az: "Gmail" },
+      address: { en: "info@bepositive.az", az: "info@bepositive.az" },
     },
     {
       id: 3,
@@ -72,22 +77,25 @@ const ContactSection = () => {
           />
         </svg>
       ),
-      type: "Adress",
-      address: "Azerbaijan, Baku, Fuad Ibrahimbayov 13.",
+      type: { en: "Address", az: "Ünvan" },
+      address: {
+        en: "Azerbaijan, Baku, Fuad Ibrahimbayov 13.",
+        az: "Azərbaycan, Bakı, Fuad İbrahimbayov 13.",
+      },
     },
   ];
 
   return (
     <div className="mt-[72px] container mx-auto px-6">
-      <div className="lg:bg-white py-10 px-3 lg:px-[46px] lg:py-[54px]  rounded-3xl lg:shadow-[0_2px_12px_rgba(7,7,176,0.12)] shadow-none">
+      <div className="lg:bg-white py-10 px-3 lg:px-[46px] lg:py-[54px] rounded-3xl lg:shadow-[0_2px_12px_rgba(7,7,176,0.12)] shadow-none">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="flex flex-col gap-10">
             <div>
               <h2 className="text-[40px] sm:text-[48px] font-medium text-[#0808C1] leading-tight">
-                Get in-
+                {contactFormContent.title[locale][0]}
               </h2>
               <h3 className="text-[32px] sm:text-[40px] font-medium text-[#0808C1]">
-                touch with us
+                {contactFormContent.title[locale][1]}
               </h3>
             </div>
 
@@ -95,8 +103,8 @@ const ContactSection = () => {
               <div key={item.id} className="flex items-center gap-3">
                 {item.icon}
                 <div className="flex flex-col">
-                  <h4 className="text-[16px] font-semibold">{item.type}</h4>
-                  <p className="text-[15px] leading-6">{item.address}</p>
+                  <h4 className="text-[16px] font-semibold">{t(item.type)}</h4>
+                  <p className="text-[15px] leading-6">{t(item.address)}</p>
                 </div>
               </div>
             ))}
@@ -104,35 +112,39 @@ const ContactSection = () => {
 
           <form className="flex bg-white p-4 rounded-2xl flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <label className="font-bold text-[16px]">Name and surname</label>
+              <label className="font-bold text-[16px]">
+                {t(contactFormContent.fields.name)}
+              </label>
               <input
                 type="text"
-                placeholder="Alamdar Manafov"
-                className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <label className="font-bold text-[16px]">E-mail</label>
-              <input
-                type="email"
-                placeholder="bepositive21@gmail.com"
+                placeholder={t(contactFormContent.placeholders.name)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label className="font-bold text-[16px]">
-                What can help you?
+                {t(contactFormContent.fields.email)}
+              </label>
+              <input
+                type="email"
+                placeholder={t(contactFormContent.placeholders.email)}
+                className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="font-bold text-[16px]">
+                {t(contactFormContent.fields.message)}
               </label>
               <textarea
-                placeholder="Hello, I want to learn ..."
+                placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
               />
             </div>
 
             <button className="w-full h-[55px] bg-[#0707B0] text-white font-medium rounded-2xl hover:bg-[#FBE443] hover:text-black transition">
-              Contact Me
+              {t(contactFormContent.button)}
             </button>
           </form>
         </div>

@@ -1,17 +1,24 @@
+"use client";
 import BlogCard from "@/Featured/Common/BlogCard";
 import HeadingText from "@/Featured/Common/HeadingText";
-import Link from "next/link";
+import { useLocale } from "next-intlayer";
+import { getTranslation } from "intlayer";
+import { HeadingTexts } from "@/translations/heading";
 
 const BlogSection = () => {
+  const { locale } = useLocale();
+  const t = (content: { en: string; az: string }) =>
+    getTranslation(content, locale);
+
   const cards = Array(8).fill(0);
 
   return (
     <section className="container mx-auto py-10 px-6">
-      <HeadingText title="Blog" />
+      <HeadingText title={t(HeadingTexts.blogTitle)} />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-10 ">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-10">
         {cards.map((_, i) => (
-            <BlogCard key={i}/>
+          <BlogCard key={i} />
         ))}
       </div>
     </section>
@@ -19,4 +26,3 @@ const BlogSection = () => {
 };
 
 export default BlogSection;
-
