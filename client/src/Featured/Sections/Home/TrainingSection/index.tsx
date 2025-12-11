@@ -8,8 +8,7 @@ import ApiServices from "@/Services/api";
 import { useQuery } from "@tanstack/react-query";
 
 const TrainingSection = () => {
-  const STRAPI_BASE_URL =
-    "https://fabulous-excellence-5e42c1cc4f.strapiapp.com";
+  const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
 
   const api = new ApiServices(`${STRAPI_BASE_URL}/api/`);
 

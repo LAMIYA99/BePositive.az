@@ -1,10 +1,45 @@
 "use client";
 import { contactFormContent } from "@/translations/sections";
 import { useLocale } from "next-intlayer";
+import { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 const ContactSection = () => {
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) => content[locale];
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: any) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const sendEmail = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      alert("Mesaj göndərildi!");
+      setForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      alert("Xəta baş verdi!");
+      console.log(err);
+    }
+  };
 
   const contacts = [
     {
@@ -110,15 +145,22 @@ const ContactSection = () => {
             ))}
           </div>
 
-          <form className="flex bg-white p-4 rounded-2xl flex-col gap-6">
+          <form
+            onSubmit={sendEmail}
+            className="flex bg-white p-4 rounded-2xl flex-col gap-6"
+          >
             <div className="flex flex-col gap-2">
               <label className="font-bold text-[16px]">
                 {t(contactFormContent.fields.name)}
               </label>
               <input
                 type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
                 placeholder={t(contactFormContent.placeholders.name)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
+                required
               />
             </div>
 
@@ -128,8 +170,12 @@ const ContactSection = () => {
               </label>
               <input
                 type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
                 placeholder={t(contactFormContent.placeholders.email)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
+                required
               />
             </div>
 
@@ -138,8 +184,12 @@ const ContactSection = () => {
                 {t(contactFormContent.fields.message)}
               </label>
               <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
                 placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
+                required
               />
             </div>
 
