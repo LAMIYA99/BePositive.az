@@ -8,17 +8,19 @@ import ApiServices from "@/Services/api";
 import { useQuery } from "@tanstack/react-query";
 
 const TrainingSection = () => {
-  const api = new ApiServices("http://localhost:1337/api/");
+  const STRAPI_BASE_URL =
+    "https://fabulous-excellence-5e42c1cc4f.strapiapp.com";
+
+  const api = new ApiServices(`${STRAPI_BASE_URL}/api/`);
 
   const { data } = useQuery({
     queryKey: ["trainingBlog"],
     queryFn: () => api.getData("blogs?populate=*"),
   });
+
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
-
-
 
   return (
     <section className="container mx-auto py-10 px-6">
@@ -26,9 +28,10 @@ const TrainingSection = () => {
 
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-10">
         {data?.data?.map((item: any) => {
-          const firstImage = item?.img?.[0];
-          const imageUrl = firstImage?.url 
-            ? `http://localhost:1337${firstImage.url}` 
+          const firstImage = item?.img[0]?.url;
+
+          const imageUrl = firstImage?.url
+            ? `${STRAPI_BASE_URL}${firstImage.url}`
             : "/pexels.png";
 
           return (
