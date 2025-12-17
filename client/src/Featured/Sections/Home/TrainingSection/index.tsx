@@ -20,7 +20,7 @@ const TrainingSection = () => {
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
-
+  console.log(data);
   return (
     <section className="container mx-auto py-10 px-6">
       <HeadingText title={t(HeadingTexts.trainingsTitle)} />
