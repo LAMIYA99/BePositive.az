@@ -6,6 +6,7 @@ import { getTranslation } from "intlayer";
 import { HeadingTexts } from "@/translations/heading";
 import ApiServices from "@/Services/api";
 import { useQuery } from "@tanstack/react-query";
+import { ServicesCard } from "@/Featured/Common/ServicesCard";
 
 const TrainingSection = () => {
   const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
@@ -26,22 +27,9 @@ const TrainingSection = () => {
       <HeadingText title={t(HeadingTexts.trainingsTitle)} />
 
       <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-10">
-        {data?.data?.map((item: any) => {
-          const firstImage = item?.img[0]?.url;
-
-          const imageUrl = firstImage?.url
-            ? `${STRAPI_BASE_URL}${firstImage.url}`
-            : "/pexels.png";
-
-          return (
-            <TrainingCard
-              key={item?.id}
-              image={imageUrl}
-              tag={item?.tags ?? []}
-              title={item?.title ?? ""}
-            />
-          );
-        })}
+        <ServicesCard />
+        <ServicesCard />
+        <ServicesCard />
       </div>
     </section>
   );

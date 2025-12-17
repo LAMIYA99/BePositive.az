@@ -26,8 +26,8 @@ export const ServicesCard = () => {
                 w-[65px] h-7 text-[10px] 
                 sm:w-[75px] sm:h-7 sm:text-[11px]
                 md:w-[85px] md:h-8 md:text-[12px]
-                px-[20px] sm:px-[28px] md:px-[35px]
-                leading-[20px] sm:leading-[22px] md:leading-[26px]
+                px-5 sm:px-7 md:px-[35px]
+                leading-5 sm:leading-[22px] md:leading-[26px]
                 border border-white rounded-full font-medium backdrop-blur-sm
               "
             >
@@ -38,7 +38,7 @@ export const ServicesCard = () => {
         <div className="relative">
           <p
             className="
-          text-[16px] leading-[20px]
+          text-[16px] leading-5
           sm:text-[20px] sm:leading-[22px]
           md:text-[26px] md:leading-[26px]
           font-medium
