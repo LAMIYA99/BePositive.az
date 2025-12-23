@@ -3,6 +3,7 @@ import { contactFormContent } from "@/translations/sections";
 import { useLocale } from "next-intlayer";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
 
 const ContactSection = () => {
   const { locale } = useLocale();
@@ -22,7 +23,7 @@ const ContactSection = () => {
     e.preventDefault();
 
     try {
-      const result = await emailjs.send(
+      await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         {
@@ -33,10 +34,10 @@ const ContactSection = () => {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
-      alert("Mesaj göndərildi!");
+      toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
-      alert("Xəta baş verdi!");
+      toast.error(locale === "az" ? "Xəta baş verdi!" : "An error occurred!");
       console.log(err);
     }
   };

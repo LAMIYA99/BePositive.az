@@ -1,11 +1,11 @@
-import ContentSection from "../Sections/BlogDetail/ContentSection"
+import ContentSection from "../Sections/BlogDetail/ContentSection";
 
-const BlogDetailTemp = () => {
+const BlogDetailTemp = ({ id }: { id: string }) => {
   return (
     <div>
-        <ContentSection/>
+      <ContentSection id={id} />
     </div>
-  )
-}
+  );
+};
 
-export default BlogDetailTemp
+export default BlogDetailTemp;

@@ -3,6 +3,8 @@ import { Inter, Poppins, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
 import "aos/dist/aos.css";
+import { AppLoaderProvider } from "@/Provider/AppLoaderProvider";
+import { Suspense } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,11 +23,24 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
+import { Toaster } from "react-hot-toast";
+import { NotificationProvider } from "@/Provider/NotificationProvider";
+
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${poppins.variable} ${spaceGrotesk.variable} antialiased bg-[#ECF0F6]`}>
-        {children}
+      <body
+        className={`${inter.variable} ${poppins.variable} ${spaceGrotesk.variable} antialiased bg-[#ECF0F6]`}
+        suppressHydrationWarning
+      >
+        <Suspense fallback={null}>
+          <AppLoaderProvider>
+            <NotificationProvider>
+              {children}
+              <Toaster position="top-center" reverseOrder={false} />
+            </NotificationProvider>
+          </AppLoaderProvider>
+        </Suspense>
       </body>
     </html>
   );

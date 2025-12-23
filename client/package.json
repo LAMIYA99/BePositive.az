@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "intlayer watch --with \"next dev\"",
+    "dev": "intlayer watch --with \"next dev --turbo\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -22,11 +22,13 @@
     "framer-motion": "^12.23.25",
     "intlayer": "^7.3.13",
     "lucide-react": "^0.555.0",
-    "next": "16.0.3",
+    "next": "^16.0.10",
     "next-intlayer": "^7.3.13",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-fast-marquee": "^1.6.5",
+    "react-hot-toast": "^2.6.0",
+    "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7"
   },

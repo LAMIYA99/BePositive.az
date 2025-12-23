@@ -1,90 +1,191 @@
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
 import HeadingText from "@/Featured/Common/HeadingText";
 import { Calendar, Clock } from "lucide-react";
+import { useLocale } from "next-intlayer";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAppLoading } from "@/Provider/AppLoaderProvider";
 
-const ContentSection = () => {
+interface LocalizedString {
+  en: string;
+  az: string;
+}
+
+interface Section {
+  content: LocalizedString;
+  image?: string;
+}
+
+interface Blog {
+  _id: string;
+  title: LocalizedString;
+  content: LocalizedString;
+  sections?: Section[];
+  createdAt: string;
+  category?: string[];
+  image: string;
+  image2?: string;
+}
+
+const ContentSection = ({ id }: { id: string }) => {
+  const { locale } = useLocale();
+  const [blog, setBlog] = useState<Blog | null>(null);
+  const [loading, setLoadingState] = useState(true);
+  const { setLoading } = useAppLoading();
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!id) return;
+
+    setLoading(true);
+
+    fetch(`http://localhost:5000/api/blogs/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed");
+        return res.json();
+      })
+      .then((data) => {
+        setBlog(data);
+        setLoading(false);
+        setLoadingState(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError(true);
+        setLoading(false);
+        setLoadingState(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return null;
+  }
+
+  if (error || !blog) {
+    return (
+      <div className="container mx-auto py-20 text-center text-gray-500">
+        Bloq tapılmadı.
+      </div>
+    );
+  }
+
+  const title = blog.title[locale as "az" | "en"] || blog.title.en;
+
   return (
-    <section className="container font-inter mx-auto py-9 px-4 lg:px-0">
-      <div className="flex flex-col gap-[52px]">
-        <div>
-          <HeadingText title="Blog" />
-        </div>
+    <section className="container font-inter mx-auto pt-10 pb-10 px-4 lg:px-0">
+      <HeadingText title="Blog" />
 
-        <div className="flex flex-wrap items-center gap-4 md:gap-10 text-[#4A5565] font-inter text-[14px] md:text-[16px] font-normal leading-6 tracking-[-0.312px] mt-6 mb-10">
-          {["All", "Design", "Marketing", "Business"].map((item, i) => (
-            <span
-              key={i}
-              className="px-4 py-1 rounded-full bg-white hover:bg-black hover:text-white transition-all duration-300 cursor-pointer"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-4 mt-8 mb-10">
+        {blog.category?.map((item) => (
+          <span
+            key={item}
+            className="px-4 py-1 rounded-full bg-white text-black hover:bg-black hover:text-white transition-all duration-300 cursor-pointer text-sm"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
 
-        <div className="flex flex-col gap-4 font-inter">
-          <h2 className="text-[28px] md:text-[36px] text-black font-medium leading-[36px] md:leading-[46px]">
-            Who is a Content Creator ?
-          </h2>
-          <div className="text-[#6A7282] text-[14px] font-normal leading-5 tracking-[-0.15px]">
-            <div className="flex gap-4 items-center">
-              <span className="flex items-center gap-1">
-                <Calendar size={16} /> Nov 5, 2025
-              </span>
-              <span className="flex items-center gap-1">
-                <Clock size={16} /> 5 min read
-              </span>
+      <div className="mb-14">
+        <h1 className="text-[28px] sm:text-[32px] md:text-[36px] font-medium text-black leading-tight">
+          {title}
+        </h1>
+
+        <div className="flex gap-6 mt-4 text-[#6A7282] text-[14px]">
+          <span className="flex items-center gap-1">
+            <Calendar size={16} />
+            {new Date(blog.createdAt).toLocaleDateString(
+              locale === "az" ? "az-AZ" : "en-US",
+              { day: "numeric", month: "short", year: "numeric" }
+            )}
+          </span>
+
+          <span className="flex items-center gap-1">
+            <Clock size={16} />{" "}
+            {Math.ceil(
+              (blog.content[locale as "en" | "az"]?.split(" ").length || 0) /
+                200 +
+                (blog.sections?.reduce(
+                  (acc, s) =>
+                    acc +
+                    (s.content[locale as "en" | "az"]?.split(" ").length || 0),
+                  0
+                ) || 0) /
+                  200
+            ) || 1}{" "}
+            min read
+          </span>
+        </div>
+      </div>
+
+      <article className="text-[#414141] text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9 whitespace-pre-wrap">
+        {blog.sections && blog.sections.length > 0 ? (
+          blog.sections.map((section, idx) => {
+            const sectionContent =
+              section.content[locale as "az" | "en"] || section.content.en;
+            const isEven = idx % 2 === 1;
+
+            return (
+              <div key={idx} className="mb-12 md:mb-16 last:mb-0">
+                {section.image && (
+                  <div
+                    className={`
+                    relative w-full aspect-video lg:aspect-auto lg:h-[400px] mb-6 lg:mb-0
+                    ${
+                      isEven
+                        ? "lg:float-left lg:mr-10"
+                        : "lg:float-right lg:ml-10"
+                    }
+                    lg:w-[620px]
+                  `}
+                  >
+                    <Image
+                      src={section.image}
+                      alt={`Section ${idx + 1}`}
+                      fill
+                      className="rounded-3xl object-cover"
+                    />
+                  </div>
+                )}
+                <p className="antialiased">{sectionContent}</p>
+                <div className="clear-both" />
+              </div>
+            );
+          })
+        ) : (
+          <>
+            <div className="relative w-full aspect-video lg:aspect-auto lg:h-[400px] lg:float-right lg:ml-10 lg:mb-6 lg:w-[620px] mb-6">
+              <Image
+                src={blog.image || "/download.png"}
+                alt={title}
+                fill
+                className="rounded-3xl object-cover shadow-lg"
+                priority
+              />
             </div>
-          </div>
-        </div>
-      </div>
+            <p className="antialiased">
+              {blog.content[locale as "az" | "en"] || blog.content.en}
+            </p>
+            <div className="clear-both" />
 
-      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mt-10 md:mt-14">
-        <p className="text-[#414141] font-inter text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9 lg:leading-11 font-normal flex-1 text-start">
-          We already understand that the word strategy is about any planning.
-          When we say social media strategy, we are drawing up a general plan
-          for social networks about sharing times, collaborations, trainings,
-          seminars. The most important thing is to do these things consistently
-          so that our audience can receive continuous information. Some people
-          think that just sharing a post is enough, but no, all work must be
-          continuous.
-        </p>
-
-        <div className="relative w-full max-w-[542px] h-[240px] md:h-[300px] lg:h-[332px] rounded-3xl overflow-hidden shrink-0">
-          <Image
-            src="/download.png"
-            alt="Blog visual"
-            fill
-            className="object-cover rounded-3xl"
-            sizes="(max-width: 1024px) 100vw, 542px"
-            priority={false}
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 mt-10 md:mt-14">
-        <div className="relative w-full max-w-[542px] h-[240px] md:h-[300px] lg:h-[332px] rounded-3xl overflow-hidden shrink-0">
-          <Image
-            src="/download.png"
-            alt="Content illustration"
-            fill
-            className="object-cover rounded-3xl"
-            sizes="(max-width: 1024px) 100vw, 542px"
-            priority={false}
-          />
-        </div>
-
-        <p className="text-[#414141] font-inter text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9 lg:leading-11 font-normal flex-1">
-          As the name suggests, he is a content creator, but although it sounds
-          easy, his job is very difficult. Nowadays, these people need to read
-          more books and communicate with people more so that they can relate
-          the events that are happening to their work. In foreign markets, these
-          people are offered more money because the content creator creates not
-          only the title but also the general content that will be discussed.
-        </p>
-      </div>
-
-      <p className="mt-10 mb-20 md:mb-[210px] text-[#414141] font-normal text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9">
+            {blog.image2 && (
+              <div className="mt-12 md:mt-16">
+                <div className="relative w-full aspect-video lg:aspect-auto lg:h-[400px] lg:float-left lg:mr-10 lg:mb-6 lg:w-[620px] mb-6">
+                  <Image
+                    src={blog.image2}
+                    alt={title}
+                    fill
+                    className="rounded-3xl object-cover"
+                  />
+                </div>
+                <div className="clear-both" />
+              </div>
+            )}
+          </>
+        )}
+      </article>
+      <p className="mt-10 text-[#414141] font-normal text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9">
         Therefore, if someone asks why social networks are needed, they are
         simply not an innovative person and after a while their work or business
         will collapse. If you have any questions, you can write to me on

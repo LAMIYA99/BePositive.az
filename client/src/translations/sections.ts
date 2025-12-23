@@ -167,3 +167,64 @@ export const contactFormContent = {
   },
   button: { en: "Contact Me", az: "Əlaqə saxla" },
 };
+
+export const storySectionContent = {
+  aboutTitle: {
+    en: "About Be Positive",
+    az: "Be Positive Haqqında",
+  },
+  aboutSubtitle: {
+    en: "#BePositive - speak with colors, be remembered with your message!",
+    az: "#BePositive - rənglərlə danış, mesajınla yadda qal!",
+  },
+  storyTitle: {
+    en: "The Story of Be Positive",
+    az: "Be Positive-in Hekayəsi",
+  },
+  storyDescription: {
+    en: "Figma ipsum component variant main layer. Font text distribute variant pen group pen subtract move move. Polygon opacity component text rectangle strikethrough slice. Blur library bold union line component list hand create reesizing. Selection export star create subtract boolean hand main. Library slice ipsum reesizing auto image line blur. Plugin scrolling inspect library component inspect ipsum rectangle. Select variant duplicate distribute object connection vertical.",
+    az: "Figma ipsum komponent variantının əsas təbəqəsi. Font mətn paylama variantı qələm qrupu qələm çıxarma hərəkəti hərəkət. Poliqon qeyri-şəffaflıq komponenti mətn düzbucaqlı üstü xətt çəkilmiş dilim. Blur kitabxanası qalın birlik xətti komponent siyahısı əl yaratmaq ölçüsünün dəyişdirilməsi. Seçim ixrac ulduz yaratmaq çıxarma bul əli əsas. Kitabxana dilim ipsum reesizing avto image line blur. Plagin sürüşmə yoxlama kitabxanası komponent yoxlama ipsum düzbucaqlı. Variant dublikat seçin obyekt əlaqəsini şaquli paylayın.",
+  },
+} as const;
+
+export const storyCardContent = {
+  tags: {
+    dashboard: { en: "Dashboard", az: "Panel" },
+    saas: { en: "Saas", az: "Saas" },
+    product: { en: "Product", az: "Məhsul" },
+  },
+  title: {
+    en: "Mediani Pro – Social Media Automation Dashboard",
+    az: "Mediani Pro – Sosial Media Avtomatlaşdırma Paneli",
+  },
+} as const;
+
+export const meetSectionContent = {
+  title: {
+    en: "Meet Our Team",
+    az: "Komandamızla Tanış Olun",
+  },
+  roles: {
+    ceo: { en: "CEO / Founder", az: "CEO / Təsisçi" },
+    uiux: { en: "UI/UX Designer", az: "UI/UX Dizayner" },
+    marketing: { en: "Marketing Lead", az: "Marketinq Rəhbəri" },
+  },
+} as const;
+
+export const serviceSectionContent = {
+  title: {
+    en: "Services",
+    az: "Xidmətlər",
+  },
+  card: {
+    tags: {
+      dashboard: { en: "Dashboard", az: "Panel" },
+      saas: { en: "Saas", az: "Saas" },
+      product: { en: "Product", az: "Məhsul" },
+    },
+    title: {
+      en: "Mediani Pro – Social Media Automation Dashboard",
+      az: "Mediani Pro – Sosial Media Avtomatlaşdırma Paneli",
+    },
+  },
+} as const;
