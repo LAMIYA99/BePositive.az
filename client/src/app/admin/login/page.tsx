@@ -18,7 +18,6 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
 
-    // Real backend authentication
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",

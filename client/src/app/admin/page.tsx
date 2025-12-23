@@ -343,7 +343,7 @@ export default function BePositiveAdmin() {
   const filteredBlogs = blogs.filter((blog) => {
     const s = searchTerm.toLowerCase();
 
-    // Handle legacy data (string) vs new data (object)
+
     const titleEn =
       typeof blog.title === "string" ? blog.title : blog.title?.en || "";
     const titleAz = typeof blog.title === "string" ? "" : blog.title?.az || "";
@@ -687,7 +687,7 @@ export default function BePositiveAdmin() {
                           {(formData.sections || []).map((section, idx) => (
                             <div
                               key={idx}
-                              className="relative p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6 group/section"
+                              className="relative p-8 bg-slate-50 rounded-4xl border border-slate-100 space-y-6 group/section"
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
@@ -880,7 +880,6 @@ export default function BePositiveAdmin() {
                     </div>
                   </div>
 
-                  {/* Metadata Sidebar */}
                   <div className="space-y-6">
                     <div className="bg-white rounded-[40px] p-8 shadow-2xl shadow-slate-100 border border-slate-50 space-y-6">
                       <h3 className="font-bold text-lg mb-2">Metadata</h3>
