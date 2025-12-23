@@ -1,4 +1,5 @@
 require("dotenv").config(); 
+require("dotenv").config(); 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -23,11 +24,13 @@ const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
+
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
@@ -35,6 +38,7 @@ io.on("connection", (socket) => {
     console.log("User disconnected:", socket.id);
   });
 });
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -51,13 +55,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
   res.json({ url: `http://localhost:5000/uploads/${req.file.filename}` });
 });
 
+
 app.use("/api/blogs", blogRoutes);
 app.use("/api/auth", authRoutes);
+
 
 const connectDB = async () => {
   try {
