@@ -14,7 +14,6 @@ interface BlogCardProps {
 const BlogCard = ({ blog }: BlogCardProps) => {
   const { locale } = useLocale();
 
-  // Safely get the translation based on locale, fallback to EN
   const displayTitle =
     (blog.title as any)[locale] || blog.title?.en || "Untitled";
   const displayExcerpt =

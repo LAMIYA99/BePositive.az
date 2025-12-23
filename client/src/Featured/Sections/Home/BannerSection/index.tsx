@@ -20,7 +20,7 @@ const BannerSection = () => {
 
   if (!mounted) {
     return (
-      <section className="relative w-full h-[600px] sm:h-[650px] md:h-[700px] lg:h-[750px] overflow-hidden bg-black/80" />
+      <section className="relative w-full h-[600px] sm:h-[650px] md:h-[700px] lg:h-[750px] overflow-hidden " />
     );
   }
 

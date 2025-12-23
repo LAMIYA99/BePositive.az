@@ -22,7 +22,7 @@ const BlogSection = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/blogs")
+    fetch("http://localhost:5001/api/blogs")
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();

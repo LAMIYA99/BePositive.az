@@ -35,7 +35,6 @@ exports.createBlog = async (req, res) => {
   try {
     const newBlog = await blog.save();
 
-    // Emit real-time notification
     if (req.io) {
       req.io.emit("blogCreated", {
         title: newBlog.title,
@@ -55,7 +54,6 @@ exports.updateBlog = async (req, res) => {
       new: true,
     });
 
-    // Emit real-time notification
     if (req.io) {
       req.io.emit("blogUpdated", {
         title: updatedBlog.title,
