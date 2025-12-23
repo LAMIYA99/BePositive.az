@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const blogSchema = new mongoose.Schema(
   {
     title: {
-      en: { type: String, required: true },
-      az: { type: String, required: true },
+      en: { type: String, default: "" },
+      az: { type: String, default: "" },
     },
     excerpt: {
       en: { type: String, default: "" },
       az: { type: String, default: "" },
     },
     content: {
-      en: { type: String, required: true },
-      az: { type: String, required: true },
+      en: { type: String, default: "" },
+      az: { type: String, default: "" },
     },
     author: {
       type: String,
