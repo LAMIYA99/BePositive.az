@@ -7,7 +7,6 @@ import {
   Trash2,
   Eye,
   Sparkles,
-  TrendingUp,
   X,
   Search,
   CheckCircle2,
@@ -131,7 +130,7 @@ export default function BePositiveAdmin() {
   const fetchBlogs = useCallback(async () => {
     withLoading(async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/blogs");
+        const res = await fetch("http://localhost:5001/api/blogs");
         if (res.ok) {
           const data = await res.json();
           setBlogs(data);
@@ -194,11 +193,11 @@ export default function BePositiveAdmin() {
     setIsEditing(true);
     setActiveTab("en");
     setImageModes({
-      image: blog.image?.startsWith("http://localhost:5000/uploads")
+      image: blog.image?.startsWith("http://localhost:5001/uploads")
         ? "upload"
         : "url",
       sections: (blog.sections || []).map((s) =>
-        s.image?.startsWith("http://localhost:5000/uploads") ? "upload" : "url"
+        s.image?.startsWith("http://localhost:5001/uploads") ? "upload" : "url"
       ),
     });
   };
@@ -215,7 +214,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch("http://localhost:5000/api/upload", {
+        const res = await fetch("http://localhost:5001/api/upload", {
           method: "POST",
           body: formDataUpload,
         });
@@ -242,7 +241,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch("http://localhost:5000/api/upload", {
+        const res = await fetch("http://localhost:5001/api/upload", {
           method: "POST",
           body: formDataUpload,
         });
@@ -288,8 +287,8 @@ export default function BePositiveAdmin() {
     withLoading(async () => {
       try {
         const url = currentBlog
-          ? `http://localhost:5000/api/blogs/${currentBlog._id}`
-          : "http://localhost:5000/api/blogs";
+          ? `http://localhost:5001/api/blogs/${currentBlog._id}`
+          : "http://localhost:5001/api/blogs";
 
         const method = currentBlog ? "PUT" : "POST";
 
@@ -319,7 +318,7 @@ export default function BePositiveAdmin() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       withLoading(async () => {
         try {
-          const res = await fetch(`http://localhost:5000/api/blogs/${id}`, {
+          const res = await fetch(`http://localhost:5001/api/blogs/${id}`, {
             method: "DELETE",
           });
           if (res.ok) {
@@ -343,7 +342,6 @@ export default function BePositiveAdmin() {
   const filteredBlogs = blogs.filter((blog) => {
     const s = searchTerm.toLowerCase();
 
-    // Handle legacy data (string) vs new data (object)
     const titleEn =
       typeof blog.title === "string" ? blog.title : blog.title?.en || "";
     const titleAz = typeof blog.title === "string" ? "" : blog.title?.az || "";
@@ -880,7 +878,6 @@ export default function BePositiveAdmin() {
                     </div>
                   </div>
 
-                  {/* Metadata Sidebar */}
                   <div className="space-y-6">
                     <div className="bg-white rounded-[40px] p-8 shadow-2xl shadow-slate-100 border border-slate-50 space-y-6">
                       <h3 className="font-bold text-lg mb-2">Metadata</h3>
