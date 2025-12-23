@@ -58,7 +58,7 @@ export const AppLoaderProvider = ({
 
   useEffect(() => {
     setIsNavigating(true);
-    const timer = setTimeout(() => setIsNavigating(false), 600);
+    const timer = setTimeout(() => setIsNavigating(false), 300);
     return () => clearTimeout(timer);
   }, [pathname, searchParams]);
 
@@ -66,7 +66,7 @@ export const AppLoaderProvider = ({
     if (loading) {
       setIsLoading(true);
     } else {
-      setTimeout(() => setIsLoading(false), 500);
+      setTimeout(() => setIsLoading(false), 200);
     }
   };
 

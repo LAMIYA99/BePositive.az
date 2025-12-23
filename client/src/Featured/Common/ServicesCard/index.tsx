@@ -1,6 +1,21 @@
+"use client";
+
+import { getTranslation } from "intlayer";
+import { useLocale } from "next-intlayer";
+import { serviceSectionContent } from "@/translations/sections";
+
 export const ServicesCard = () => {
-  const img = "./cart.png";
-  const tags = ["Dashboard", "Saas", "Product"];
+  const { locale } = useLocale();
+
+  const t = (content: { en: string; az: string }) =>
+    getTranslation(content, locale);
+
+  const img = "/cart.png";
+  const tags = [
+    t(serviceSectionContent.card.tags.dashboard),
+    t(serviceSectionContent.card.tags.saas),
+    t(serviceSectionContent.card.tags.product),
+  ];
 
   return (
     <div className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
@@ -44,26 +59,25 @@ export const ServicesCard = () => {
           font-medium
         "
           >
-            Mediani Pro – Social Media <br className="hidden sm:block" />{" "}
-            Automation Dashboard
+            {t(serviceSectionContent.card.title)}
           </p>
-        <div className="absolute top-0 right-0">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="
+          <div className="absolute top-0 right-0">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="
               w-6 h-6 
               sm:w-8 sm:h-8 
               md:w-[41px] md:h-[41px]
             "
-            viewBox="0 0 41 41"
-            fill="none"
-          >
-            <path
-              d="M40.5651 1.49997C40.5651 0.671545 39.8935 -2.80897e-05 39.0651 -2.91434e-05L25.5651 -2.72889e-05C24.7367 -2.86376e-05 24.0651 0.671545 24.0651 1.49997C24.0651 2.3284 24.7367 2.99997 25.5651 2.99997L37.5651 2.99997L37.5651 15C37.5651 15.8284 38.2367 16.5 39.0651 16.5C39.8935 16.5 40.5651 15.8284 40.5651 15L40.5651 1.49997ZM1.06055 39.5045L2.12121 40.5652L40.1258 2.56063L39.0651 1.49997L38.0044 0.439311L-0.000113279 38.4439L1.06055 39.5045Z"
-              fill="white"
-            />
-          </svg>
-        </div>
+              viewBox="0 0 41 41"
+              fill="none"
+            >
+              <path
+                d="M40.5651 1.49997C40.5651 0.671545 39.8935 -2.80897e-05 39.0651 -2.91434e-05L25.5651 -2.72889e-05C24.7367 -2.86376e-05 24.0651 0.671545 24.0651 1.49997C24.0651 2.3284 24.7367 2.99997 25.5651 2.99997L37.5651 2.99997L37.5651 15C37.5651 15.8284 38.2367 16.5 39.0651 16.5C39.8935 16.5 40.5651 15.8284 40.5651 15L40.5651 1.49997ZM1.06055 39.5045L2.12121 40.5652L40.1258 2.56063L39.0651 1.49997L38.0044 0.439311L-0.000113279 38.4439L1.06055 39.5045Z"
+                fill="white"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
