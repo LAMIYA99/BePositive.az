@@ -1,6 +1,5 @@
-import BlogDetail from "@/Featured/Pages/BlogDetail";
+import { redirect } from "next/navigation";
 
-export default function About() {
-  return <BlogDetail />;
+export default function BlogDetailRedirect() {
+  redirect("/Blog");
 }
-

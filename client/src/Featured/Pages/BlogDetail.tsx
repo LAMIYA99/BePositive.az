@@ -1,9 +1,11 @@
-import BlogDetailTemp from "../Templates/BlogDetailTemp"
+import BlogDetailTemp from "../Templates/BlogDetailTemp";
 
-const BlogDetail = () => {
+const BlogDetail = ({ id }: { id: string }) => {
   return (
-    <div><BlogDetailTemp/></div>
-  )
-}
+    <div>
+      <BlogDetailTemp id={id} />
+    </div>
+  );
+};
 
-export default BlogDetail
+export default BlogDetail;

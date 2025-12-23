@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intlayer";
+import { useAppLoading } from "@/Provider/AppLoaderProvider";
 
 import { languageContent, navContent } from "@/translations/common";
 
@@ -14,15 +15,18 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [uiLocale, setUiLocale] = useState("");
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const { locale, pathWithoutLocale, availableLocales, setLocale } = useLocale();
+  const { locale, pathWithoutLocale, availableLocales, setLocale } =
+    useLocale();
+  const { setLoading } = useAppLoading();
 
-  // Dil seçimi funksiyası
   const handleSelect = (langCode: string) => {
     setOpen(false);
     setMobileMenu(false);
     setUiLocale(langCode);
+    setLoading(true);
     setLocale(langCode);
 
     const target = getLocalizedUrl(pathWithoutLocale ?? "/", langCode);
@@ -34,10 +38,12 @@ const Header = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
     setUiLocale(locale);
   }, [locale]);
 
-  const t = (content: { en: string; az: string }) => getTranslation(content, locale);
+  const t = (content: { en: string; az: string }) =>
+    getTranslation(content, locale);
 
   useEffect(() => {
     setMobileMenu(false);
@@ -51,7 +57,7 @@ const Header = () => {
       { title: t(navContent.blog), href: "/Blog" },
       { title: t(navContent.faq), href: "/Faq" },
     ],
-    [locale]
+    [locale, mounted]
   );
 
   const languageList = useMemo(
@@ -66,6 +72,12 @@ const Header = () => {
 
   const resolveLanguageContent = (code: string) =>
     languageContent[code as keyof typeof languageContent] ?? languageContent.en;
+
+  if (!mounted) {
+    return (
+      <header className="container mx-auto flex items-center justify-between py-6 md:py-10 relative px-6 opacity-0" />
+    );
+  }
 
   return (
     <header className="container mx-auto flex items-center justify-between py-6 md:py-10 relative px-6">
@@ -122,7 +134,8 @@ const Header = () => {
           <li>
             <Image
               src={
-                languageList.find((l) => l.code === (uiLocale || locale))?.img ?? "/en.png"
+                languageList.find((l) => l.code === (uiLocale || locale))
+                  ?.img ?? "/en.png"
               }
               alt={getLocaleName(uiLocale || locale)}
               width={32}
@@ -162,9 +175,24 @@ const Header = () => {
           onClick={() => setMobileMenu(!mobileMenu)}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-            <path d="M4 5H20" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" />
-            <path d="M4 12H20" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" />
-            <path d="M4 19H20" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M4 5H20"
+              stroke="#0A0A0A"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M4 12H20"
+              stroke="#0A0A0A"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M4 19H20"
+              stroke="#0A0A0A"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </div>
       </div>
@@ -192,7 +220,9 @@ const Header = () => {
                     key={item.title}
                     className="cursor-pointer p-2.5 border-b border-[#F1F1F1] hover:border-y-amber-400"
                   >
-                    <Link href={getLocalizedUrl(item.href, locale)}>{item.title}</Link>
+                    <Link href={getLocalizedUrl(item.href, locale)}>
+                      {item.title}
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -1,8 +1,25 @@
-
 import Image from "next/image";
 import Link from "next/link";
+import { useLocale } from "next-intlayer";
 
-const BlogCard = () => {
+interface BlogCardProps {
+  blog: {
+    _id: string;
+    title: { en: string; az: string };
+    excerpt: { en: string; az: string };
+    image: string;
+  };
+}
+
+const BlogCard = ({ blog }: BlogCardProps) => {
+  const { locale } = useLocale();
+
+  // Safely get the translation based on locale, fallback to EN
+  const displayTitle =
+    (blog.title as any)[locale] || blog.title?.en || "Untitled";
+  const displayExcerpt =
+    (blog.excerpt as any)[locale] || blog.excerpt?.en || "";
+
   return (
     <div
       className="font-space group flex flex-col gap-[22px]
@@ -11,11 +28,16 @@ const BlogCard = () => {
     >
       <div className="flex items-center mb-4">
         <Image
-          src="/Ellipse50.png"
-          alt="Blog author"
+          src={
+            blog.image &&
+            (blog.image.startsWith("http") || blog.image.startsWith("/"))
+              ? blog.image
+              : "/Ellipse50.png"
+          }
+          alt={displayTitle}
           width={68}
           height={68}
-          className="w-17 h-17 rounded-full object-cover"
+          className="w-[68px] h-[68px] rounded-full object-cover"
         />
       </div>
 
@@ -24,15 +46,15 @@ const BlogCard = () => {
           className="text-xl font-semibold 
           text-[#060689] group-hover:text-white"
         >
-          Personalized Flight <br /> Alert
+          {displayTitle}
         </h3>
 
         <p className="text-[#B2B2EC] text-[16px] font-medium leading-[21px] group-hover:text-gray-200">
-          enjoy seamless booking, smarter <br /> flight
+          {displayExcerpt}
         </p>
 
         <Link
-          href="/BlogDetail"
+          href={`/BlogDetail/${blog._id}`}
           className="flex items-center gap-2 
             text-[16px] font-medium leading-[21px]
             text-[#0808C1] group-hover:text-white"

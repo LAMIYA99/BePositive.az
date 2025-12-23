@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { getLocalizedUrl, getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
 
@@ -9,6 +9,12 @@ import { footerContent, navContent } from "@/translations/common";
 
 const Footer = () => {
   const { locale } = useLocale();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
 
@@ -20,12 +26,16 @@ const Footer = () => {
       { title: t(navContent.blog), href: "/Blog" },
       { title: t(navContent.faq), href: "/Faq" },
     ],
-    [locale]
+    [locale, mounted]
   );
 
+  if (!mounted) {
+    return <footer className="container mx-auto mt-20 px-6 pb-8 opacity-0" />;
+  }
+
   return (
-    <footer className="container mx-auto mt-20 px-6 pb-8">
-      <div className=" font-inter px-6">
+    <footer className="container mx-auto mt-20 px-4 pb-8">
+      <div className=" font-inter ">
         <div className="lg:hidden flex flex-col gap-10">
           <Image
             src="/LogoFooter.png"

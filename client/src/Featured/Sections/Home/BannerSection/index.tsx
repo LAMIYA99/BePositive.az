@@ -2,15 +2,27 @@
 
 import Image from "next/image";
 
+import { useEffect, useState } from "react";
 import { sectionContent } from "@/translations/sections";
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
 
 const BannerSection = () => {
   const { locale } = useLocale();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
+
+  if (!mounted) {
+    return (
+      <section className="relative w-full h-[600px] sm:h-[650px] md:h-[700px] lg:h-[750px] overflow-hidden bg-black/80" />
+    );
+  }
 
   return (
     <section className="relative w-full h-[600px] sm:h-[650px] md:h-[700px] lg:h-[750px] overflow-hidden flex justify-center items-center">
