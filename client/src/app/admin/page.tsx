@@ -441,7 +441,7 @@ export default function BePositiveAdmin() {
                   />
                 </div>
 
-                <div className="bg-white rounded-[32px] p-6 shadow-2xl shadow-slate-100 mb-8 flex flex-col md:flex-row gap-4">
+                <div className="bg-white rounded-4xl p-6 shadow-2xl shadow-slate-100 mb-8 flex flex-col md:flex-row gap-4">
                   <div className="relative flex-1">
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                     <input
