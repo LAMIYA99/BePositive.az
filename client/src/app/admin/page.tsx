@@ -685,7 +685,7 @@ export default function BePositiveAdmin() {
                           {(formData.sections || []).map((section, idx) => (
                             <div
                               key={idx}
-                              className="relative p-8 bg-slate-50 rounded-[32px] border border-slate-100 space-y-6 group/section"
+                              className="relative p-8 bg-slate-50 rounded-4xl border border-slate-100 space-y-6 group/section"
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">

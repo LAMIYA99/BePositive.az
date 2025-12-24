@@ -10,7 +10,7 @@ export const NotificationProvider = ({
   children: React.ReactNode;
 }) => {
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:5001");
 
     socket.on("connect", () => {
       console.log("Connected to notification server");
