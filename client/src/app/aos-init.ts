@@ -17,8 +17,8 @@ export default function AosInit() {
       AOS.init({
         duration: 800,
         once: true,
-        // Disable animations for users who prefer reduced motion or on small screens
-        disable: prefersReducedMotion || isSmallScreen,
+        // Only disable animations for users who prefer reduced motion
+        disable: prefersReducedMotion,
       });
     });
 
