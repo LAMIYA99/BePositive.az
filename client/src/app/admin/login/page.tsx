@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import { API_URL } from "@/lib/api";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5001/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),

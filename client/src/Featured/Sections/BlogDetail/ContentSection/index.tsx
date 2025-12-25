@@ -6,6 +6,7 @@ import { Calendar, Clock } from "lucide-react";
 import { useLocale } from "next-intlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
+import { API_URL } from "@/lib/api";
 
 interface LocalizedString {
   en: string;
@@ -40,7 +41,7 @@ const ContentSection = ({ id }: { id: string }) => {
 
     setLoading(true);
 
-    fetch(`http://localhost:5001/api/blogs/${id}`)
+    fetch(`${API_URL}/api/blogs/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();

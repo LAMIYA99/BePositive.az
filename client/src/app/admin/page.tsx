@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
+import { API_URL, UPLOADS_URL } from "@/lib/api";
 
 interface LocalizedString {
   en: string;
@@ -130,7 +131,7 @@ export default function BePositiveAdmin() {
   const fetchBlogs = useCallback(async () => {
     withLoading(async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/blogs");
+        const res = await fetch(`${API_URL}/api/blogs`);
         if (res.ok) {
           const data = await res.json();
           setBlogs(data);
@@ -193,11 +194,9 @@ export default function BePositiveAdmin() {
     setIsEditing(true);
     setActiveTab("en");
     setImageModes({
-      image: blog.image?.startsWith("http://localhost:5001/uploads")
-        ? "upload"
-        : "url",
+      image: blog.image?.startsWith(UPLOADS_URL) ? "upload" : "url",
       sections: (blog.sections || []).map((s) =>
-        s.image?.startsWith("http://localhost:5001/uploads") ? "upload" : "url"
+        s.image?.startsWith(UPLOADS_URL) ? "upload" : "url"
       ),
     });
   };
@@ -214,7 +213,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch("http://localhost:5001/api/upload", {
+        const res = await fetch(`${API_URL}/api/upload`, {
           method: "POST",
           body: formDataUpload,
         });
@@ -241,7 +240,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch("http://localhost:5001/api/upload", {
+        const res = await fetch(`${API_URL}/api/upload`, {
           method: "POST",
           body: formDataUpload,
         });
@@ -287,8 +286,8 @@ export default function BePositiveAdmin() {
     withLoading(async () => {
       try {
         const url = currentBlog
-          ? `http://localhost:5001/api/blogs/${currentBlog._id}`
-          : "http://localhost:5001/api/blogs";
+          ? `${API_URL}/api/blogs/${currentBlog._id}`
+          : `${API_URL}/api/blogs`;
 
         const method = currentBlog ? "PUT" : "POST";
 
@@ -318,7 +317,7 @@ export default function BePositiveAdmin() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       withLoading(async () => {
         try {
-          const res = await fetch(`http://localhost:5001/api/blogs/${id}`, {
+          const res = await fetch(`${API_URL}/api/blogs/${id}`, {
             method: "DELETE",
           });
           if (res.ok) {

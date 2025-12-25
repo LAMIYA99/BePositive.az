@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
+import { API_URL } from "@/lib/api";
 
 export const NotificationProvider = ({
   children,
@@ -10,7 +11,7 @@ export const NotificationProvider = ({
   children: React.ReactNode;
 }) => {
   useEffect(() => {
-    const socket = io("http://localhost:5001");
+    const socket = io(API_URL);
 
     socket.on("connect", () => {
       console.log("Connected to notification server");
