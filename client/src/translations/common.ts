@@ -1,6 +1,6 @@
 export const navContent = {
   home: { en: "Home", az: "Ana səhifə" },
-  about: { en: "About me", az: "Haqqımda" },
+  about: { en: "About me", az: "Haqqımızda" },
   services: { en: "Services", az: "Xidmətlər" },
   blog: { en: "Blog", az: "Bloq" },
   faq: { en: "FAQ", az: "Tez-tez verilən suallar" },

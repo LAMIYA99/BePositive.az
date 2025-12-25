@@ -70,9 +70,6 @@ const Header = () => {
     [availableLocales]
   );
 
-  const resolveLanguageContent = (code: string) =>
-    languageContent[code as keyof typeof languageContent] ?? languageContent.en;
-
   if (!mounted) {
     return (
       <header className="container mx-auto flex items-center justify-between py-6 md:py-10 relative px-6 opacity-0" />
@@ -112,15 +109,17 @@ const Header = () => {
           ))}
         </ul>
 
-        <button
-          data-aos="fade-right"
-          data-aos-offset="0"
-          data-aos-delay="100"
-          data-aos-easing="ease-in-sine"
-          className="px-5 py-1 min-w-[140px] h-11 rounded-[50px] bg-[#0707B0] text-white font-inter text-[18px] font-normal cursor-pointer hover:bg-[#FBE443] hover:text-black duration-300"
-        >
-          {t(navContent.contact)}
-        </button>
+        <Link href={getLocalizedUrl("/Contact", uiLocale || locale)}>
+          <button
+            data-aos="fade-right"
+            data-aos-offset="0"
+            data-aos-delay="100"
+            data-aos-easing="ease-in-sine"
+            className="px-5 py-1 min-w-[140px] h-11 rounded-[50px] bg-[#0707B0] text-white font-inter text-[18px] font-normal cursor-pointer hover:bg-[#FBE443] hover:text-black duration-300"
+          >
+            {t(navContent.contact)}
+          </button>
+        </Link>
       </nav>
 
       <div className="relative hidden md:block">
@@ -207,7 +206,7 @@ const Header = () => {
             onClick={() => setMobileMenu(false)}
           >
             <motion.div
-              className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[342px] bg-white shadow-lg flex flex-col items-start rounded-2xl px-3 py-0.5 gap-6 md:hidden"
+              className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[342px] bg-white shadow-lg flex flex-col items-start rounded-2xl px-3 py-0.5 gap-1 md:hidden"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
@@ -228,6 +227,11 @@ const Header = () => {
               </ul>
 
               <div className="px-4 py-3 flex items-start flex-col gap-[22px]">
+                <Link href={getLocalizedUrl("/Contact", uiLocale || locale)}>
+                  <button className="px-5  min-w-[90px] h-8 rounded-[50px] bg-[#0707B0] text-white font-inter text-[16px] font-normal cursor-pointer hover:bg-[#FBE443] hover:text-black duration-300">
+                    {t(navContent.contact)}
+                  </button>
+                </Link>
                 <h2 className="text-[#4A5565] text-[16px]">
                   {t(languageContent.selectLanguage)}
                 </h2>

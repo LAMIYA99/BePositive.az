@@ -25,6 +25,7 @@ const Footer = () => {
       { title: t(navContent.services), href: "/Services" },
       { title: t(navContent.blog), href: "/Blog" },
       { title: t(navContent.faq), href: "/Faq" },
+
     ],
     [locale, mounted]
   );
@@ -147,7 +148,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="hidden lg:grid grid-cols-12 gap-20">
+        <div className="hidden lg:grid grid-cols-12 gap-10">
           <div className="col-span-5">
             <div className="flex flex-col gap-9">
               <Image
@@ -178,12 +179,13 @@ const Footer = () => {
           </div>
 
           <div className="col-span-7 flex flex-col justify-end">
-            <div className="flex items-end justify-between">
-              <div className="flex gap-10 font-semibold text-lg">
+            <div className="flex flex-col xl:flex-row items-end xl:items-center justify-between gap-10">
+              <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 2xl:gap-10 font-semibold text-lg text-right">
                 {navLinks.map((item) => (
                   <Link
                     key={item.title}
                     href={getLocalizedUrl(item.href, locale)}
+                    className="whitespace-nowrap hover:text-[#0808C1] transition-colors"
                   >
                     {item.title}
                   </Link>
