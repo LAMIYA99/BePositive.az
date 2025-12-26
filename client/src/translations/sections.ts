@@ -158,8 +158,8 @@ export const contactFormContent = {
     message: { en: "What can help you?", az: "Nə ilə kömək edə bilərik?" },
   },
   placeholders: {
-    name: { en: "Alamdar Manafov", az: "Alamdar Manafov" },
-    email: { en: "bepositive21@gmail.com", az: "bepositive21@gmail.com" },
+    name: { en: "Alamdar Manafov", az: "Ələmdar Manafov" },
+    email: { en: info@bepositive.az", az: "info@bepositive.az" },
     message: {
       en: "Hello, I want to learn ...",
       az: "Salam, mən öyrənmək istəyirəm ...",
