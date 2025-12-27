@@ -1,13 +1,17 @@
 "use client";
 import { contactFormContent } from "@/translations/sections";
 import { useLocale } from "next-intlayer";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactSection = () => {
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) => content[locale];
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -22,6 +26,15 @@ const ContactSection = () => {
   const sendEmail = async (e: any) => {
     e.preventDefault();
 
+    if (!captchaToken) {
+      toast.error(
+        locale === "az"
+          ? "Zəhmət olmasa robot olmadığınızı təsdiqləyin."
+          : "Please verify that you are not a robot."
+      );
+      return;
+    }
+
     try {
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
@@ -30,12 +43,15 @@ const ContactSection = () => {
           from_name: form.name,
           from_email: form.email,
           message: form.message,
+          "g-recaptcha-response": captchaToken,
         },
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
       toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
       setForm({ name: "", email: "", message: "" });
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
     } catch (err) {
       console.error("EmailJS Error:", err);
       toast.error(locale === "az" ? "Xəta baş verdi!" : "An error occurred!");
@@ -191,6 +207,14 @@ const ContactSection = () => {
                 placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
                 required
+              />
+            </div>
+
+            <div className="w-full flex justify-center">
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={(token: string | null) => setCaptchaToken(token)}
+                ref={recaptchaRef}
               />
             </div>
 
