@@ -253,6 +253,39 @@ export const servicesContent = [
       az: "Kontent yazılması və Video çəkilişi",
     },
   },
+  {
+    id: 4,
+    image: "/cart.png",
+    tags: [{ en: "Social media", az: "Sosial media" } 
+           { en: "Strategy", az: "Strategiya" },
+          { en: "Management", az: "İdarəetmə" },],
+    title: {
+      en: "Social Media Strategy & Management",
+      az: "Sosial Media Strategiyası və İdarəetməsi",
+    },
+  },
+  {
+    id: 5,
+    image: "/cart.png",
+    tags: [{ en: "ADS", az: "Reklam" } 
+           { en: "Campaign", az: "Kampaniya" },],
+    title: {
+      en: "Paid Advertising",
+      az: "Ödənişli Reklam",
+    },
+  },
+  {
+    id: 6,
+    image: "/cart.png",
+    tags: [{ en: "Studio", az: "Studio" } 
+           { en: "Podcast", az: "Podcast" }
+           { en: "Photoshoot", az: "Fotosessiya" },
+          ],
+    title: {
+      en: "Studio Rental",
+      az: "Studio icarəsi",
+    },
+  },
 ];
 
 export const trainingsContent = [
@@ -284,7 +317,7 @@ export const trainingsContent = [
     id: 3,
     image: "/cart.png",
     tags: [{ en: "Seminar", az: "Seminar" }
-          { en: "Social media", az: "Sosial media" }
+          { en: "Social media", az: "Sosial media" },
           ],
     title: {
       en: "Social Media Seminar",
