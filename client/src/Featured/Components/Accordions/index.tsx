@@ -12,12 +12,12 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
         ${
           open
             ? "h-auto bg-[#0707B0]"
-            : "h-[78px] sm:h-[100px] md:h-[110px] bg-white hover:bg-[#F6F6E8]"
+            : "h-[54px] sm:h-[58px] md:h-[78px] bg-white hover:bg-[#F6F6E8]"
         }
       `}
     >
       <li
-        className={`flex items-center w-full pl-9 pr-[61px] 
+        className={`flex items-center w-full pl-9 lg:pr-[61px] pr-[20px] 
           ${open ? "justify-between h-auto py-4" : "justify-between h-full"}
         `}
       >

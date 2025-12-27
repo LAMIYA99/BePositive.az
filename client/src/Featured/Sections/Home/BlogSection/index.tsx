@@ -29,7 +29,7 @@ const BlogSection = () => {
         return res.json();
       })
       .then((data) => {
-        if (Array.isArray(data)) setBlogs(data.slice(0, 8));
+        if (Array.isArray(data)) setBlogs(data.slice(0, 4));
         else setError(true);
       })
       .catch((err) => {
@@ -41,10 +41,10 @@ const BlogSection = () => {
   if (error) return null;
 
   return (
-    <section className="container mx-auto py-10 px-6">
+    <section className="container mx-auto py-2 lg:py-10  px-6">
       <HeadingText title={t(HeadingTexts.blogTitle)} />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-5 lg:mt-10  ">
         {blogs.map((blog) => (
           <BlogCard key={blog._id} blog={blog} />
         ))}

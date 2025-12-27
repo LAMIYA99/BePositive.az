@@ -25,7 +25,6 @@ const Footer = () => {
       { title: t(navContent.services), href: "/Services" },
       { title: t(navContent.blog), href: "/Blog" },
       { title: t(navContent.faq), href: "/Faq" },
-
     ],
     [locale, mounted]
   );

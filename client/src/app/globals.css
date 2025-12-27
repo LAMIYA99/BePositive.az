@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-
-
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -131,9 +129,25 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+
+  *:not(input):not(textarea):not([contenteditable="true"]) {
+    caret-color: transparent;
+  }
+
+
+  *:focus-visible {
+    @apply outline-2 outline-ring/50 outline-offset-2;
+  }
+
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   body {
     @apply bg-background text-foreground;
+    -webkit-tap-highlight-color: transparent;
   }
 }

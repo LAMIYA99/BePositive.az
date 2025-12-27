@@ -12,10 +12,10 @@ const ReviewSection = () => {
   const t = (c: { en: string; az: string }) => getTranslation(c, locale);
 
   return (
-    <div className="mt-[72px] container mx-auto px-6">
+    <div className="mt-[22px] lg:mt-[52px] container mx-auto px-6">
       <HeadingText title={t(HeadingTexts.reviewsTitle)} />
 
-      <div className="flex flex-wrap justify-center items-center gap-[58px] mt-10">
+      <div className="flex flex-wrap  justify-center items-center gap-6 mt-5 lg:mt-10  ">
         {reviewsContent.map((item: any) => (
           <ReviewCard key={item.id} review={item} />
         ))}

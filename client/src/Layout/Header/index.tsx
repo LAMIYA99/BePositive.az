@@ -78,7 +78,7 @@ const Header = () => {
 
   return (
     <header className="container mx-auto flex items-center justify-between py-6 md:py-10 relative px-6">
-      <div data-aos="fade-right" data-aos-offset="0" data-aos-duration="500">
+      <div>
         <Link href={getLocalizedUrl("/", locale)}>
           <Image
             src="/Logo.png"
@@ -96,10 +96,6 @@ const Header = () => {
           {navLinks.map((item, index) => (
             <li
               key={item.title}
-              data-aos="fade-right"
-              data-aos-offset="0"
-              data-aos-delay={600 - index * 100}
-              data-aos-easing="ease-in-sine"
               className="relative cursor-pointer whitespace-nowrap before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[3px] before:w-full before:bg-[#E5D037] before:scale-x-0 before:origin-left before:transition-transform before:duration-300 hover:before:scale-x-100"
             >
               <Link href={getLocalizedUrl(item.href, uiLocale || locale)}>
@@ -110,13 +106,7 @@ const Header = () => {
         </ul>
 
         <Link href={getLocalizedUrl("/Contact", uiLocale || locale)}>
-          <button
-            data-aos="fade-right"
-            data-aos-offset="0"
-            data-aos-delay="100"
-            data-aos-easing="ease-in-sine"
-            className="px-5 py-1 min-w-[140px] h-11 rounded-[50px] bg-[#0707B0] text-white font-inter text-[18px] font-normal cursor-pointer hover:bg-[#FBE443] hover:text-black duration-300"
-          >
+          <button className="px-5 py-1 min-w-[140px] h-11 rounded-[50px] bg-[#0707B0] text-white font-inter text-[18px] font-normal cursor-pointer hover:bg-[#FBE443] hover:text-black duration-300">
             {t(navContent.contact)}
           </button>
         </Link>

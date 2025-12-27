@@ -211,20 +211,121 @@ export const meetSectionContent = {
   },
 } as const;
 
-export const serviceSectionContent = {
-  title: {
-    en: "Services",
-    az: "Xidmətlər",
-  },
-  card: {
-    tags: {
-      dashboard: { en: "Dashboard", az: "Panel" },
-      saas: { en: "Saas", az: "Saas" },
-      product: { en: "Product", az: "Məhsul" },
-    },
+export const servicesContent = [
+  {
+    id: 1,
+    image: "/cart.png",
+    tags: [
+      { en: "Dashboard", az: "Panel" },
+      { en: "Saas", az: "Saas" },
+      { en: "Product", az: "Məhsul" },
+    ],
     title: {
       en: "Mediani Pro – Social Media Automation Dashboard",
       az: "Mediani Pro – Sosial Media Avtomatlaşdırma Paneli",
     },
   },
-} as const;
+  {
+    id: 2,
+    image: "/cart.png",
+    tags: [
+      { en: "Branding", az: "Brendinq" },
+      { en: "Design", az: "Dizayn" },
+    ],
+    title: {
+      en: "Creative Branding Solutions",
+      az: "Yaradıcı Brendinq Həlləri",
+    },
+  },
+  {
+    id: 3,
+    image: "/cart.png",
+    tags: [{ en: "Marketing", az: "Marketinq" }],
+    title: {
+      en: "Digital Marketing Strategy",
+      az: "Rəqəmsal Marketinq Strategiyası",
+    },
+  },
+];
+
+export const trainingsContent = [
+  {
+    id: 1,
+    image: "/cart.png",
+    tags: [
+      { en: "Course", az: "Kurs" },
+      { en: "SMM", az: "SMM" },
+    ],
+    title: {
+      en: "Professional SMM Training",
+      az: "Peşəkar SMM Təlimi",
+    },
+  },
+  {
+    id: 2,
+    image: "/cart.png",
+    tags: [
+      { en: "Ads", az: "Reklam" },
+      { en: "Meta", az: "Meta" },
+    ],
+    title: {
+      en: "Meta Ads Mastery",
+      az: "Meta Reklam Ustalığı",
+    },
+  },
+  {
+    id: 3,
+    image: "/cart.png",
+    tags: [{ en: "Design", az: "Dizayn" }],
+    title: {
+      en: "Graphic Design Basics",
+      az: "Qrafik Dizayn Əsasları",
+    },
+  },
+];
+
+export const storyCardsContent = [
+  {
+    id: 1,
+    image: "/Frame1984078262.png",
+    tags: [
+      { en: "Dashboard", az: "Panel" },
+      { en: "Saas", az: "Saas" },
+      { en: "Product", az: "Məhsul" },
+    ],
+    title: {
+      en: "Mediani Pro – Social Media Automation Dashboard",
+      az: "Mediani Pro – Sosial Media Avtomatlaşdırma Paneli",
+    },
+  },
+  {
+    id: 2,
+    image: "/Frame1984078262.png",
+    tags: [
+      { en: "Dashboard", az: "Panel" },
+      { en: "Saas", az: "Saas" },
+    ],
+    title: {
+      en: "Mediani Pro – Version 2.0",
+      az: "Mediani Pro – Versiya 2.0",
+    },
+  },
+  {
+    id: 3,
+    image: "/Frame1984078262.png",
+    tags: [{ en: "Product", az: "Məhsul" }],
+    title: {
+      en: "Mediani Cloud",
+      az: "Mediani Cloud",
+    },
+  },
+  {
+    id: 4,
+    image: "/Frame1984078262.png",
+    tags: [{ en: "Saas", az: "Saas" }],
+    title: {
+      en: "Mediani Enterprise",
+      az: "Mediani Enterprise",
+    },
+  },
+];

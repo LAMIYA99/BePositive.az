@@ -1,23 +1,22 @@
 "use client";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function AosInit() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isSmallScreen =
-      typeof window !== "undefined" && window.innerWidth < 768;
 
     let canceled = false;
 
-    // Lazy-load AOS to keep it out of the critical path
     import("aos").then(({ default: AOS }) => {
       if (canceled) return;
       AOS.init({
         duration: 800,
         once: true,
-        // Only disable animations for users who prefer reduced motion
         disable: prefersReducedMotion,
       });
     });
@@ -26,6 +25,12 @@ export default function AosInit() {
       canceled = true;
     };
   }, []);
+
+  useEffect(() => {
+    import("aos").then(({ default: AOS }) => {
+      AOS.refresh();
+    });
+  }, [pathname]);
 
   return null;
 }

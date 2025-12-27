@@ -22,23 +22,37 @@ const ContactSection = () => {
   const sendEmail = async (e: any) => {
     e.preventDefault();
 
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS environment variables are missing!");
+      toast.error(
+        locale === "az"
+          ? "Sistem xətası: Email parametrləri tapılmadı."
+          : "System error: Email parameters not found."
+      );
+      return;
+    }
+
     try {
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        serviceId,
+        templateId,
         {
           from_name: form.name,
           from_email: form.email,
           message: form.message,
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        publicKey
       );
 
       toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
+      console.error("EmailJS Error:", err);
       toast.error(locale === "az" ? "Xəta baş verdi!" : "An error occurred!");
-      console.log(err);
     }
   };
 
