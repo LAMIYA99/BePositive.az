@@ -3,7 +3,7 @@ export const navContent = {
   about: { en: "About me", az: "Haqqımızda" },
   services: { en: "Services", az: "Xidmətlər" },
   blog: { en: "Blog", az: "Bloq" },
-  faq: { en: "FAG", az: "FAQ" },
+  faq: { en: "FAQ", az: "FAQ" },
   contact: { en: "Contact", az: "Əlaqə" },
 } as const;
 
