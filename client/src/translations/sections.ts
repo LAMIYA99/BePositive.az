@@ -220,7 +220,7 @@ export const meetSectionContent = {
 export const servicesContent = [
   {
     id: 1,
-    image: "/cart.png",
+    image: "/marketing.png",
     tags: [
       { en: "Marketing", az: "Marketinq" },
       { en: "PR", az: "PR" },
@@ -233,7 +233,7 @@ export const servicesContent = [
   },
   {
     id: 2,
-    image: "/cart.png",
+    image: "/branding.png",
     tags: [
       { en: "Advertising", az: "Reklam" },
       { en: "Branding", az: "Brendinq" },
@@ -245,7 +245,7 @@ export const servicesContent = [
   },
   {
     id: 3,
-    image: "/cart.png",
+    image: "/videoshoot.png",
     tags: [{ en: "Video recording", az: "Video çəkilişi" } 
            { en: "Content", az: "Məzmun" },],
     title: {
@@ -255,7 +255,7 @@ export const servicesContent = [
   },
   {
     id: 4,
-    image: "/cart.png",
+    image: "/sms.jpeg",
     tags: [{ en: "Social media", az: "Sosial media" } 
            { en: "Strategy", az: "Strategiya" },
           { en: "Management", az: "İdarəetmə" },],
@@ -266,7 +266,7 @@ export const servicesContent = [
   },
   {
     id: 5,
-    image: "/cart.png",
+    image: "/ads.png",
     tags: [{ en: "ADS", az: "Reklam" } 
            { en: "Campaign", az: "Kampaniya" },],
     title: {
@@ -276,7 +276,7 @@ export const servicesContent = [
   },
   {
     id: 6,
-    image: "/cart.png",
+    image: "/studio.png",
     tags: [{ en: "Studio", az: "Studio" } 
            { en: "Podcast", az: "Podcast" }
            { en: "Photoshoot", az: "Fotosessiya" },
