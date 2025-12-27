@@ -159,7 +159,7 @@ export const contactFormContent = {
   },
   placeholders: {
     name: { en: "Alamdar Manafov", az: "Ələmdar Manafov" },
-    email: { en: info@bepositive.az", az: "info@bepositive.az" },
+    email: { en: "info@bepositive.az", az: "info@bepositive.az" },
     message: {
       en: "Hello, I want to learn ...",
       az: "Salam, mən öyrənmək istəyirəm ...",
