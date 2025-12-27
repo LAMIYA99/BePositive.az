@@ -17,7 +17,7 @@ export const footerContent = {
   contactTitle: { en: "Contact", az: "Əlaqə" },
   address: {
     en: "Azerbaijan, Baku, Fuad Ibrahimbayov 13.",
-    az: "Azərbaycan, Bakı, Fuad İbrahimov 13.",
+    az: "Azərbaycan, Bakı, Fuad İbrahimbəyov 13.",
   },
   navHome: navContent.home,
   navAbout: navContent.about,

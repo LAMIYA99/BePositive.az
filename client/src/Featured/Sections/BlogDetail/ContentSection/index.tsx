@@ -187,10 +187,7 @@ const ContentSection = ({ id }: { id: string }) => {
         )}
       </article>
       <p className="mt-10 text-[#414141] font-normal text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9">
-        Therefore, if someone asks why social networks are needed, they are
-        simply not an innovative person and after a while their work or business
-        will collapse. If you have any questions, you can write to me on
-        Instagram <br /> @alamdarmanafov. Ələmdar Manafov
+        Author <br /> @alamdarmanafov. Ələmdar Manafov
       </p>
     </section>
   );
