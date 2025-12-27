@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 
 import BannerSection from "../Sections/Home/BannerSection";
+import ContactSection from "../Sections/Home/ContactSection";
 
 const BrandSection = dynamic(() => import("../Sections/Home/BrandsSection"), {
   ssr: false,
@@ -44,9 +45,9 @@ const HomeTemp = () => {
       <ServiceSection />
       <TrainingSection />
       <BlogSection />
-
       <ReviewSection />
       <FaqSection />
+      <ContactSection />
     </div>
   );
 };
