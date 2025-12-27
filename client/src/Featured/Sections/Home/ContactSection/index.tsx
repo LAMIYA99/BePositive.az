@@ -221,6 +221,8 @@ const ContactSection = () => {
                 placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
                 required
+
+                
               />
             </div>
 
