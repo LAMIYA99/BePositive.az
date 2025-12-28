@@ -237,8 +237,9 @@ export const servicesContent = [
     id: 2,
     image: "/branding.png",
     tags: [
-      { en: "Advertising", az: "Reklam" },
       { en: "Branding", az: "Brendinq" },
+      { en: "Design", az: "Dizayn" },
+      { en: "Logo", az: "Logo" },
     ],
     title: {
       en: "Branding & Design",
@@ -274,8 +275,9 @@ export const servicesContent = [
     id: 5,
     image: "/ads.png",
     tags: [
-      { en: "ADS", az: "Reklam" },
-      { en: "Campaign", az: "Kampaniya" },
+      { en: "Advertising", az: "Reklam" },
+      { en: "Audience", az: "Auditoriya" },
+      { en: "Targeting", az: "Targetinq" },
     ],
     title: {
       en: "Paid Advertising",
