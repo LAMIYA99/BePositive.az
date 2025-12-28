@@ -54,7 +54,7 @@ export const reviewsContent = [
 
   {
     id: 3,
-    avatar: "/clife.jpg",
+    avatar: "/clife.png",
     text: {
       en: "As a company providing digital solutions, our brand image is very important to us. The Be Positive team developed professional branding, content and advertising campaigns for us. As a result, we have increased the number of both local and international customers.",
       az: "Rəqəmsal həllər təqdim edən bir şirkət olaraq, brend imicimiz bizim üçün çox vacibdir. Be Positive komandası bizim üçün peşəkar brendinq, kontent və reklam kampaniyaları hazırlayıb. Nəticədə həm yerli, həm də beynəlxalq müştərilərimizin sayını artırmışıq.",
