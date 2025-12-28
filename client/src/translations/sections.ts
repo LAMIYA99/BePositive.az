@@ -214,6 +214,8 @@ export const meetSectionContent = {
   },
   roles: {
     ceo: { en: "CEO / Founder", az: "CEO / Təsisçi" },
+    uiux: { en: "UI/UX", az: "UI/UX" },
+    marketing: { en: "Marketing", az: "Marketinq" },
   },
 } as const;
 
@@ -246,8 +248,10 @@ export const servicesContent = [
   {
     id: 3,
     image: "/videoshoot.png",
-    tags: [{ en: "Video recording", az: "Video çəkilişi" } 
-           { en: "Content", az: "Məzmun" },],
+    tags: [
+      { en: "Video recording", az: "Video çəkilişi" },
+      { en: "Content", az: "Məzmun" },
+    ],
     title: {
       en: "Content Creation & Video recording",
       az: "Kontent yazılması və Video çəkilişi",
@@ -256,9 +260,11 @@ export const servicesContent = [
   {
     id: 4,
     image: "/sms.jpeg",
-    tags: [{ en: "Social media", az: "Sosial media" } 
-           { en: "Strategy", az: "Strategiya" },
-          { en: "Management", az: "İdarəetmə" },],
+    tags: [
+      { en: "Social media", az: "Sosial media" },
+      { en: "Strategy", az: "Strategiya" },
+      { en: "Management", az: "İdarəetmə" },
+    ],
     title: {
       en: "Social Media Strategy & Management",
       az: "Sosial Media Strategiyası və İdarəetməsi",
@@ -267,8 +273,10 @@ export const servicesContent = [
   {
     id: 5,
     image: "/ads.png",
-    tags: [{ en: "ADS", az: "Reklam" } 
-           { en: "Campaign", az: "Kampaniya" },],
+    tags: [
+      { en: "ADS", az: "Reklam" },
+      { en: "Campaign", az: "Kampaniya" },
+    ],
     title: {
       en: "Paid Advertising",
       az: "Ödənişli Reklam",
@@ -277,10 +285,11 @@ export const servicesContent = [
   {
     id: 6,
     image: "/studio.png",
-    tags: [{ en: "Studio", az: "Studio" } 
-           { en: "Podcast", az: "Podcast" }
-           { en: "Photoshoot", az: "Fotosessiya" },
-          ],
+    tags: [
+      { en: "Studio", az: "Studio" },
+      { en: "Podcast", az: "Podcast" },
+      { en: "Photoshoot", az: "Fotosessiya" },
+    ],
     title: {
       en: "Studio Rental",
       az: "Studio icarəsi",
@@ -316,9 +325,10 @@ export const trainingsContent = [
   {
     id: 3,
     image: "/seminar.png",
-    tags: [{ en: "Seminar", az: "Seminar" }
-          { en: "Social media", az: "Sosial media" },
-          ],
+    tags: [
+      { en: "Seminar", az: "Seminar" },
+      { en: "Social media", az: "Sosial media" },
+    ],
     title: {
       en: "Social Media Seminar",
       az: "Sosial media Seminar",
