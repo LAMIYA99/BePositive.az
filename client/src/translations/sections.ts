@@ -20,52 +20,52 @@ export const planContent = {
 export const reviewsContent = [
   {
     id: 1,
-    avatar: "/avatar1.jpg",
+    avatar: "/murshudmehdi.jpeg",
     text: {
-      en: "Working with this agency has been transformative for our business. Their strategic approach and creative solutions exceeded all our expectations.",
+      en: "Working with the Be Positive team took my book promotion to a whole new level. They not only promoted it, but also emotionally conveyed my story to readers. Now my book is reaching a much wider audience on social media.",
       az: "Bu agentliklə işləmək biznesimiz üçün dönüş nöqtəsi oldu. Onların strateji yanaşması və yaradıcı həlləri bütün gözləntilərimizi aşdı.",
     },
     name: {
-      en: "Sarah Johnson",
-      az: "Sarah Johnson",
+      en: "Murshud Mehdi",
+      az: "Mürşüd Mehdi",
     },
     role: {
-      en: "CEO, TechFlow",
-      az: "CEO, TechFlow",
+      en: "Author",
+      az: "Yazar",
     },
   },
 
   {
     id: 2,
-    avatar: "/avatar2.jpg",
+    avatar: "/novella.jpeg",
     text: {
       en: "They delivered amazing results on our project. Communication and professionalism were top-notch.",
       az: "Layihəmizdə möhtəşəm nəticə verdilər. Kommunikasiya və peşəkarlıq ən yüksək səviyyədə idi.",
     },
     name: {
-      en: "Michael Lee",
-      az: "Michael Lee",
+      en: "Xanim İlhamqizi ",
+      az: "Xanım İlhamqızı",
     },
     role: {
-      en: "CTO, InnovateX",
-      az: "CTO, InnovateX",
+      en: "CEO, Novella Book Center",
+      az: "Direktor, Novella kitab mərkəzi",
     },
   },
 
   {
     id: 3,
-    avatar: "/avatar3.jpg",
+    avatar: "/clife.png",
     text: {
-      en: "Highly recommend! The team brought creativity and efficiency to every task we gave them.",
-      az: "Çox tövsiyə edirəm! Komanda verdiyimiz hər tapşırığa yaradıcılıq və səmərəlilik qatdı.",
+      en: "As a company providing digital solutions, our brand image is very important to us. The Be Positive team developed professional branding, content and advertising campaigns for us. As a result, we have increased the number of both local and international customers.",
+      az: "Rəqəmsal həllər təqdim edən bir şirkət olaraq, brend imicimiz bizim üçün çox vacibdir. Be Positive komandası bizim üçün peşəkar brendinq, kontent və reklam kampaniyaları hazırlayıb. Nəticədə həm yerli, həm də beynəlxalq müştərilərimizin sayını artırmışıq.",
     },
     name: {
-      en: "Emily Davis",
-      az: "Emily Davis",
+      en: "Ali Javadov",
+      az: "Ali Cavadov",
     },
     role: {
-      en: "Product Manager, Creatify",
-      az: "Məhsul Meneceri, Creatify",
+      en: "CEO, Clife Agency",
+      az: "Direktor, Clife Agency",
     },
   },
 ];
@@ -78,8 +78,8 @@ export const accordionsData = [
       az: "SMM xidməti olmadan işləyə bilərsiniz?",
     },
     desc: {
-      en: "We develop branding, social media management, content (Reels, photos, videos) writing, advertising planning, and marketing strategy. We can handle projects independently without an SMM service if required.",
-      az: "Biz brendinq, sosial media idarəsi, kontent (Reels, foto, video) hazırlanması, reklam planlaması və marketinq strategiyası hazırlayırıq. Lazım gələrsə, layihələri SMM xidməti olmadan da həyata keçirə bilərik.",
+      en: "Yes! Our most affordable packages only include content writing, reel shooting & editing, and advertising planning.",
+      az: "Ən sərfəli paketlərimizə məzmun yazımı, Reels çəkilişi və montajı, həmçinin reklam planlaşdırması daxildir.",
     },
   },
   {
@@ -145,6 +145,14 @@ export const accordionsData = [
       az: "Biz yaradıcılığı, strategiyanı və səmərəliliyi birləşdiririk. Komandamız yüksək keyfiyyətli nəticələr təmin edir və əla kommunikasiya və peşəkarlığı qoruyur.",
     },
   },
+  {
+    id: 8,
+    title: { en: "Why Be Positive ?", az: "Niyə Be Positive ?" },
+    desc: {
+      en: "Because we don't just advertise - we bring your brand to life. There is energy in every shot, difference in every design, and results in every strategy. Our job: to introduce you, make you love you, and make you memorable.",
+      az: "Çünki biz sadəcə reklam etmirik – brendinizə həyat veririk. Hər kadrda enerji, hər dizaynda fərq, hər strategiyada nəticə var. Bizim işimiz: sizi tanıtmaq, sevdirmək və yaddaşlara həkk etməkdir.",
+    },
+  },
 ];
 
 export const contactFormContent = {
@@ -182,8 +190,8 @@ export const storySectionContent = {
     az: "Be Positive-in Hekayəsi",
   },
   storyDescription: {
-    en: "Figma ipsum component variant main layer. Font text distribute variant pen group pen subtract move move. Polygon opacity component text rectangle strikethrough slice. Blur library bold union line component list hand create reesizing. Selection export star create subtract boolean hand main. Library slice ipsum reesizing auto image line blur. Plugin scrolling inspect library component inspect ipsum rectangle. Select variant duplicate distribute object connection vertical.",
-    az: "Figma ipsum komponent variantının əsas təbəqəsi. Font mətn paylama variantı qələm qrupu qələm çıxarma hərəkəti hərəkət. Poliqon qeyri-şəffaflıq komponenti mətn düzbucaqlı üstü xətt çəkilmiş dilim. Blur kitabxanası qalın birlik xətti komponent siyahısı əl yaratmaq ölçüsünün dəyişdirilməsi. Seçim ixrac ulduz yaratmaq çıxarma bul əli əsas. Kitabxana dilim ipsum reesizing avto image line blur. Plagin sürüşmə yoxlama kitabxanası komponent yoxlama ipsum düzbucaqlı. Variant dublikat seçin obyekt əlaqəsini şaquli paylayın.",
+    en: "How was the Be Positive brand created? When I was a student, I noticed something simple yet powerful: most people around me dressed only in black and white. I believed that colors could make people feel happier and more alive. That small observation sparked a big idea — to spread positive messages through colors.That’s how the slogan “Be Positive” was created. My vision was to inspire people to share joy and positivity with others through color and a smile.Today, Be Positive is no longer just an idea — it has grown into a creative agency. We bring brands to life by adding color, energy, and meaningful messages, making their stories more impactful and unforgettable.Be Positive — speak in colors, be remembered with your message.",
+    az: "Be Positive markası necə yarandı?Tələbə olanda fərq etdim ki, ətrafımdakı insanların çoxu ağ-qara geyinirdi. Mən isə düşündüm ki, rənglər insanlara xoşbəxtlik bəxş edir.Bu sadə müşahidə mənə bir ideya verdi – rənglərlə pozitiv mesaj ötürmək.Beləcə “Be Positive” sloqanı yarandı. Mən istədim ki, insanlar rənglər və gülüş vasitəsilə həm özlərini, həm də başqalarını xoşbəxt etsinlər.Bu gün isə Be Positive sadəcə bir fikir deyil – artıq bir yaradıcı agentlik və şirkətdir. Biz brendlərə rəng, enerji və həyat dolu mesaj qataraq onların hekayəsini daha təsirli və yadda qalan formada çatdırırıq.Be Positive — rənglərlə danış, mesajınla yadda qal.",
   },
 } as const;
 
@@ -206,44 +214,87 @@ export const meetSectionContent = {
   },
   roles: {
     ceo: { en: "CEO / Founder", az: "CEO / Təsisçi" },
-    uiux: { en: "UI/UX Designer", az: "UI/UX Dizayner" },
-    marketing: { en: "Marketing Lead", az: "Marketinq Rəhbəri" },
+    uiux: { en: "UI/UX", az: "UI/UX" },
+    marketing: { en: "Marketing", az: "Marketinq" },
   },
 } as const;
 
 export const servicesContent = [
   {
     id: 1,
-    image: "/cart.png",
+    image: "/marketing.png",
     tags: [
-      { en: "Dashboard", az: "Panel" },
-      { en: "Saas", az: "Saas" },
-      { en: "Product", az: "Məhsul" },
+      { en: "Marketing", az: "Marketinq" },
+      { en: "PR", az: "PR" },
+      { en: "Consulting", az: "Konsultasiya" },
     ],
     title: {
-      en: "Mediani Pro – Social Media Automation Dashboard",
-      az: "Mediani Pro – Sosial Media Avtomatlaşdırma Paneli",
+      en: "Marketing & PR Consulting",
+      az: "Marketinq və PR Məsləhətçiliyi",
     },
   },
   {
     id: 2,
-    image: "/cart.png",
+    image: "/branding.png",
     tags: [
       { en: "Branding", az: "Brendinq" },
       { en: "Design", az: "Dizayn" },
+      { en: "Logo", az: "Logo" },
     ],
     title: {
-      en: "Creative Branding Solutions",
-      az: "Yaradıcı Brendinq Həlləri",
+      en: "Branding & Design",
+      az: "Brendinq və Dizayn",
     },
   },
   {
     id: 3,
-    image: "/cart.png",
-    tags: [{ en: "Marketing", az: "Marketinq" }],
+    image: "/videoshoot.png",
+    tags: [
+      { en: "Video recording", az: "Video çəkilişi" },
+      { en: "Content", az: "Məzmun" },
+    ],
     title: {
-      en: "Digital Marketing Strategy",
-      az: "Rəqəmsal Marketinq Strategiyası",
+      en: "Content Creation & Video recording",
+      az: "Kontent yazılması və Video çəkilişi",
+    },
+  },
+  {
+    id: 4,
+    image: "/sms.jpeg",
+    tags: [
+      { en: "Social media", az: "Sosial media" },
+      { en: "Strategy", az: "Strategiya" },
+      { en: "Management", az: "İdarəetmə" },
+    ],
+    title: {
+      en: "Social Media Strategy & Management",
+      az: "Sosial Media Strategiyası və İdarəetməsi",
+    },
+  },
+  {
+    id: 5,
+    image: "/ads.png",
+    tags: [
+      { en: "Advertising", az: "Reklam" },
+      { en: "Audience", az: "Auditoriya" },
+      { en: "Targeting", az: "Targetinq" },
+    ],
+    title: {
+      en: "Paid Advertising",
+      az: "Ödənişli Reklam",
+    },
+  },
+  {
+    id: 6,
+    image: "/studio.png",
+    tags: [
+      { en: "Studio", az: "Studio" },
+      { en: "Podcast", az: "Podcast" },
+      { en: "Photoshoot", az: "Fotosessiya" },
+    ],
+    title: {
+      en: "Studio Rental",
+      az: "Studio icarəsi",
     },
   },
 ];
@@ -251,35 +302,38 @@ export const servicesContent = [
 export const trainingsContent = [
   {
     id: 1,
-    image: "/cart.png",
+    image: "/smmtraining.jpg",
     tags: [
       { en: "Course", az: "Kurs" },
       { en: "SMM", az: "SMM" },
     ],
     title: {
-      en: "Professional SMM Training",
-      az: "Peşəkar SMM Təlimi",
+      en: "SMM Training",
+      az: "SMM Təlimi",
     },
   },
   {
     id: 2,
-    image: "/cart.png",
+    image: "/adstraining.png",
     tags: [
-      { en: "Ads", az: "Reklam" },
+      { en: "Advertising", az: "Reklam" },
       { en: "Meta", az: "Meta" },
     ],
     title: {
-      en: "Meta Ads Mastery",
-      az: "Meta Reklam Ustalığı",
+      en: "Meta Ads Training",
+      az: "Meta Reklam təlimi",
     },
   },
   {
     id: 3,
-    image: "/cart.png",
-    tags: [{ en: "Design", az: "Dizayn" }],
+    image: "/seminar.png",
+    tags: [
+      { en: "Seminar", az: "Seminar" },
+      { en: "Social media", az: "Sosial media" },
+    ],
     title: {
-      en: "Graphic Design Basics",
-      az: "Qrafik Dizayn Əsasları",
+      en: "Social Media Seminar",
+      az: "Sosial media Seminar",
     },
   },
 ];

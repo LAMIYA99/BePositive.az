@@ -14,7 +14,7 @@ const MeetSection = () => {
 
   const team = [
     {
-      img: "/Responsive.png",
+      img: "/alamdarmanafov.png",
       name: "Alamdar Manafov",
       title: t(meetSectionContent.roles.ceo),
     },
