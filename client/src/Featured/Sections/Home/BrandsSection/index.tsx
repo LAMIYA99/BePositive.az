@@ -30,7 +30,6 @@ const BrandSection = () => {
   }, []);
 
   if (brands.length === 0) {
- 
     return null;
   }
 
@@ -47,7 +46,7 @@ const BrandSection = () => {
               alt="brand logo"
               width={130}
               height={130}
-              className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] object-cover"
+              className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] object-cover rounded-full"
               sizes="130px"
               loading="lazy"
             />
