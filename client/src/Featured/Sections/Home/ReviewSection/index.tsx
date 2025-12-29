@@ -30,7 +30,7 @@ const ReviewSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/reviews`);
+        const res = await fetch(`/api/reviews`);
         if (res.ok) {
           const data = await res.json();
           setReviews(data);

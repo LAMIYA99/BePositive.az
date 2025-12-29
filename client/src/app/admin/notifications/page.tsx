@@ -94,7 +94,7 @@ export default function NotificationAdmin() {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -288,7 +288,7 @@ export default function NotificationAdmin() {
                           ))}
                         </div>
 
-                        {/* Stats / Score bar */}
+                        {}
                         <div className="mt-4">
                           <label className="block text-sm font-bold text-slate-500">
                             Responses ({notif.stats?.total ?? 0})
@@ -317,9 +317,9 @@ export default function NotificationAdmin() {
                           </div>
                         </div>
 
-                        {/* Charts */}
+                        {}
                         <div className="mt-6">
-                          {/* @ts-ignore - dynamic import for chart components */}
+                          {}
                           <NotificationCharts notification={notif as any} />
                         </div>
                       </div>

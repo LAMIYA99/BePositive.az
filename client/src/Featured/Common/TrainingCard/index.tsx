@@ -1,4 +1,5 @@
 import { TrainingCardProps } from "@/Types/global";
+import { getImageUrl } from "@/lib/utils";
 
 const TrainingCard = ({ title, image, tag }: TrainingCardProps) => {
   return (
@@ -8,7 +9,7 @@ const TrainingCard = ({ title, image, tag }: TrainingCardProps) => {
     >
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105 will-change-transform"
-        style={{ backgroundImage: `url(${image})` }}
+        style={{ backgroundImage: `url(${getImageUrl(image)})` }}
       />
 
       <div

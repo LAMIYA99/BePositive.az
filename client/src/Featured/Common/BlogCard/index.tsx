@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intlayer";
+import { getImageUrl } from "@/lib/utils";
 
 interface BlogCardProps {
   blog: {
@@ -27,12 +28,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     >
       <div className="flex items-center mb-4">
         <Image
-          src={
-            blog.image &&
-            (blog.image.startsWith("http") || blog.image.startsWith("/"))
-              ? blog.image
-              : "/Ellipse50.png"
-          }
+          src={getImageUrl(blog.image)}
           alt={displayTitle}
           width={68}
           height={68}

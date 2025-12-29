@@ -29,7 +29,7 @@ const TrainingSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/trainings`);
+        const res = await fetch(`/api/trainings`);
         if (res.ok) {
           const data = await res.json();
           setTrainings(data);

@@ -59,9 +59,9 @@ const upload = multer({ storage });
 
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-  const backendUrl = process.env.BACKEND_URL || "http://localhost:5001";
-  console.log(`Image uploaded, returning URL with base: ${backendUrl}`);
-  res.json({ url: `${backendUrl}/uploads/${req.file.filename}` });
+  // Return relative path instead of absolute URL
+  console.log(`Image uploaded: ${req.file.filename}`);
+  res.json({ url: `/uploads/${req.file.filename}` });
 });
 
 app.use("/api/blogs", blogRoutes);

@@ -70,7 +70,7 @@ export default function TrainingAdmin() {
   const fetchTrainings = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/trainings`);
+      const res = await fetch(`/api/trainings`);
       if (res.ok) {
         const data = await res.json();
         setTrainings(data);
@@ -80,7 +80,7 @@ export default function TrainingAdmin() {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -162,8 +162,8 @@ export default function TrainingAdmin() {
     setLoading(true);
     try {
       const url = currentTraining
-        ? `${API_URL}/api/trainings/${currentTraining._id}`
-        : `${API_URL}/api/trainings`;
+        ? `/api/trainings/${currentTraining._id}`
+        : `/api/trainings`;
 
       const method = currentTraining ? "PUT" : "POST";
 
@@ -194,7 +194,7 @@ export default function TrainingAdmin() {
     if (window.confirm("Are you sure you want to delete this training?")) {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/trainings/${id}`, {
+        const res = await fetch(`/api/trainings/${id}`, {
           method: "DELETE",
         });
         if (res.ok) {
@@ -389,7 +389,7 @@ export default function TrainingAdmin() {
                     </div>
                   </div>
 
-                  {/* Tag Manager */}
+                  {}
                   <div className="bg-white rounded-[40px] p-10 shadow-2xl shadow-slate-100 space-y-8 border border-slate-50">
                     <h4 className="font-bold text-lg">Tags</h4>
                     <div className="flex flex-col sm:flex-row gap-4">

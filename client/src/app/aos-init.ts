@@ -11,7 +11,7 @@ export default function AosInit() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 
-    // CSS is imported globally via globals.css; remove dynamic CSS import to avoid build issues
+   
 
     let canceled = false;
 

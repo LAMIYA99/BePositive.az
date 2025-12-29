@@ -84,9 +84,9 @@ const StoryCard = ({ title, image, tags }: StoryCardProps) => {
           className="
         mt-1 font-medium
 
-        text-[16px] leading-5      /* iPhone 7 */
-        sm:text-[18px] sm:leading-[22px] /* 14 Pro */
-        lg:text-[22px] lg:leading-7 /* 14 Pro Max */
+        text-[16px] leading-5      
+        sm:text-[18px] sm:leading-[22px] 
+        lg:text-[22px] lg:leading-7 
       "
         >
           {t(title)}

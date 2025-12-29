@@ -58,7 +58,7 @@ export default function ServiceAdmin() {
   const fetchServices = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/services`);
+      const res = await fetch(`/api/services`);
       if (res.ok) {
         const data = await res.json();
         setServices(data);
@@ -68,7 +68,7 @@ export default function ServiceAdmin() {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
@@ -150,8 +150,8 @@ export default function ServiceAdmin() {
     setLoading(true);
     try {
       const url = currentService
-        ? `${API_URL}/api/services/${currentService._id}`
-        : `${API_URL}/api/services`;
+        ? `/api/services/${currentService._id}`
+        : `/api/services`;
 
       const method = currentService ? "PUT" : "POST";
 
@@ -182,7 +182,7 @@ export default function ServiceAdmin() {
     if (window.confirm("Are you sure you want to delete this service?")) {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/services/${id}`, {
+        const res = await fetch(`/api/services/${id}`, {
           method: "DELETE",
         });
         if (res.ok) {
@@ -377,7 +377,7 @@ export default function ServiceAdmin() {
                     </div>
                   </div>
 
-                  {/* Tag Manager */}
+                  {}
                   <div className="bg-white rounded-[40px] p-10 shadow-2xl shadow-slate-100 space-y-8 border border-slate-50">
                     <h4 className="font-bold text-lg">Tags</h4>
                     <div className="flex flex-col sm:flex-row gap-4">

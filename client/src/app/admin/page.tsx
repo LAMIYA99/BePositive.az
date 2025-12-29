@@ -63,8 +63,8 @@ export default function BePositiveAdmin() {
   const [notification, setNotification] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"en" | "az">("en");
   const { setLoading } = useAppLoading();
-  /* Removed unused router */
-  /* const router = useRouter(); */
+  
+  
 
   const withLoading = useCallback(
     async (fn: () => Promise<void>) => {
@@ -111,7 +111,7 @@ export default function BePositiveAdmin() {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {

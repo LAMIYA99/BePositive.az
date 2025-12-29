@@ -1,8 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
+import { getImageUrl } from "@/lib/utils";
 
 const ReviewCard = ({ review }: { review: any }) => {
   const { locale } = useLocale();
@@ -13,7 +12,7 @@ const ReviewCard = ({ review }: { review: any }) => {
     <div className="flex flex-col items-center justify-between rounded-3xl bg-white p-4 lg:p-6 min-h-[352px]">
       <div className="w-[76px] h-[76px] border-2 rounded-full overflow-hidden border-[#0808C1]">
         <Image
-          src={review.avatar}
+          src={getImageUrl(review.avatar)}
           alt={t(review.name)}
           width={76}
           height={76}

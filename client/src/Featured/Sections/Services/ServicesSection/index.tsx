@@ -31,7 +31,7 @@ const ServiceSection = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/services`);
+        const res = await fetch(`/api/services`);
         if (res.ok) {
           const data = await res.json();
           setServices(data);

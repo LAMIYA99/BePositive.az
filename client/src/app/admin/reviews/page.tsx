@@ -50,7 +50,7 @@ export default function ReviewAdmin() {
   const fetchReviews = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/reviews`);
+      const res = await fetch(`/api/reviews`);
       if (res.ok) {
         const data = await res.json();
         setReviews(data);
@@ -60,7 +60,7 @@ export default function ReviewAdmin() {
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+ 
   }, []);
 
   useEffect(() => {
@@ -127,8 +127,8 @@ export default function ReviewAdmin() {
     setLoading(true);
     try {
       const url = currentReview
-        ? `${API_URL}/api/reviews/${currentReview._id}`
-        : `${API_URL}/api/reviews`;
+        ? `/api/reviews/${currentReview._id}`
+        : `/api/reviews`;
 
       const method = currentReview ? "PUT" : "POST";
 
@@ -159,7 +159,7 @@ export default function ReviewAdmin() {
     if (window.confirm("Are you sure you want to delete this review?")) {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/reviews/${id}`, {
+        const res = await fetch(`/api/reviews/${id}`, {
           method: "DELETE",
         });
         if (res.ok) {
