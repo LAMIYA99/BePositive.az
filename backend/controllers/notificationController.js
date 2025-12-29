@@ -72,10 +72,56 @@ exports.deleteNotification = async (req, res) => {
 
 exports.saveResponse = async (req, res) => {
   try {
-    const { source } = req.body;
-    console.log("User came from:", source);
+    const { source, notificationId } = req.body;
+    if (!notificationId || !source) {
+      return res.status(400).json({ message: "notificationId and source are required" });
+    }
+
+    // push response into notification document
+    const updated = await Notification.findByIdAndUpdate(
+      notificationId,
+      { $push: { responses: { value: source } } },
+      { new: true }
+    );
+
+    if (!updated) return res.status(404).json({ message: "Notification not found" });
+
+    // Emit an update so admin clients can refresh stats in real-time
+    try {
+      // req.io set in server middleware
+      if (req && req.io) req.io.emit("notificationUpdated", updated);
+    } catch (emitErr) {
+      console.error("Failed to emit notificationUpdated after response:", emitErr);
+    }
+
     res.status(200).json({ message: "Response saved" });
   } catch (error) {
+    console.error("saveResponse error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Return aggregated counts per option for a notification
+exports.getNotificationStats = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const notification = await Notification.findById(id);
+    if (!notification) return res.status(404).json({ message: "Notification not found" });
+
+    const counts = {};
+    (notification.options || []).forEach((o) => {
+      counts[o.value] = 0;
+    });
+
+    (notification.responses || []).forEach((r) => {
+      counts[r.value] = (counts[r.value] || 0) + 1;
+    });
+
+    const total = (notification.responses || []).length;
+
+    res.status(200).json({ counts, total });
+  } catch (error) {
+    console.error("getNotificationStats error:", error);
     res.status(500).json({ message: error.message });
   }
 };

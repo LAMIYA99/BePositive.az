@@ -36,7 +36,7 @@ export default function PushNotification() {
   const t = (content: LocalizedString) => getTranslation(content, locale);
 
   useEffect(() => {
-    // store responded per-notification so new notifications can still be shown
+
     const respondedId = localStorage.getItem("notification_responded_id");
 
     const fetchNotification = async () => {
@@ -46,7 +46,7 @@ export default function PushNotification() {
           const data = await res.json();
           console.log("Fetched active notification:", data);
           if (data) {
-            // if user already responded to this exact notification, don't show it
+    
             if (respondedId && respondedId === data._id) {
               setHasResponded(true);
               return;
@@ -68,7 +68,7 @@ export default function PushNotification() {
 
     const onCreated = (e: any) => {
       const data = e.detail;
-      // only show if user hasn't responded to this notification id
+
       const resp = localStorage.getItem("notification_responded_id");
       if (!data) return;
       if (resp && resp === data._id) return;
@@ -78,7 +78,7 @@ export default function PushNotification() {
 
     const onUpdated = (e: any) => {
       const data = e.detail;
-      // if updated notification is same id and user hasn't responded, update content and show
+
       const resp = localStorage.getItem("notification_responded_id");
       if (!data) return;
       if (resp && resp === data._id) return;
@@ -100,7 +100,7 @@ export default function PushNotification() {
       await fetch(`${API_URL}/api/notifications/response`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source: value }),
+        body: JSON.stringify({ source: value, notificationId: notification?._id }),
       });
       if (notification && notification._id) {
         localStorage.setItem("notification_responded_id", notification._id);

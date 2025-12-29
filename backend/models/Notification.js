@@ -25,8 +25,15 @@ const notificationSchema = new mongoose.Schema(
     },
     showDelay: {
       type: Number,
-      default: 3000, 
+      default: 3000,
     },
+    // store user responses for analytics
+    responses: [
+      {
+        value: { type: String },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

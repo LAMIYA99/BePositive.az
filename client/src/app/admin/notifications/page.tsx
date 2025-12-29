@@ -16,6 +16,8 @@ import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL } from "@/lib/api";
 import { Sidebar } from "../components/Sidebar";
 import { Notification } from "../components/Notification";
+import dynamic from "next/dynamic";
+const NotificationCharts = dynamic(() => import("@/components/NotificationCharts").then(mod => mod.NotificationCharts), { ssr: false });
 
 interface LocalizedString {
   en: string;
@@ -34,6 +36,7 @@ interface NotificationData {
   options: NotificationOption[];
   isActive: boolean;
   showDelay: number;
+  stats?: { counts: Record<string, number>; total: number };
 }
 
 type NotificationFormData = Omit<NotificationData, "_id">;
@@ -69,7 +72,22 @@ export default function NotificationAdmin() {
       const res = await fetch(`${API_URL}/api/notifications`);
       if (res.ok) {
         const data = await res.json();
-        setNotifications(data);
+        // fetch stats for each notification in parallel
+        const withStats = await Promise.all(
+          data.map(async (n: NotificationData) => {
+            try {
+              const r = await fetch(`${API_URL}/api/notifications/${n._id}/stats`);
+              if (r.ok) {
+                const stats = await r.json();
+                return { ...n, stats };
+              }
+            } catch (e) {
+              console.error("Failed to fetch stats for", n._id, e);
+            }
+            return { ...n, stats: { counts: {}, total: 0 } };
+          })
+        );
+        setNotifications(withStats);
       }
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
@@ -81,6 +99,17 @@ export default function NotificationAdmin() {
 
   useEffect(() => {
     fetchNotifications();
+
+    const onCreated = () => fetchNotifications();
+    const onUpdated = () => fetchNotifications();
+
+    window.addEventListener("notification:created", onCreated as EventListener);
+    window.addEventListener("notification:updated", onUpdated as EventListener);
+
+    return () => {
+      window.removeEventListener("notification:created", onCreated as EventListener);
+      window.removeEventListener("notification:updated", onUpdated as EventListener);
+    };
   }, [fetchNotifications]);
 
   const showNotification = (msg: string) => {
@@ -257,6 +286,41 @@ export default function NotificationAdmin() {
                               {opt.label.en}
                             </span>
                           ))}
+                        </div>
+
+                        {/* Stats / Score bar */}
+                        <div className="mt-4">
+                          <label className="block text-sm font-bold text-slate-500">
+                            Responses ({notif.stats?.total ?? 0})
+                          </label>
+                          <div className="space-y-2 mt-2">
+                            {notif.options.map((opt) => {
+                              const count = notif.stats?.counts?.[opt.value] || 0;
+                              const total = notif.stats?.total || 0;
+                              const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+                              return (
+                                <div key={opt.value} className="flex items-center gap-3">
+                                  <div className="flex-1">
+                                    <div className="w-full bg-slate-100 h-3 rounded overflow-hidden">
+                                      <div
+                                        className="bg-violet-600 h-3"
+                                        style={{ width: `${percent}%` }}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="w-24 text-right text-sm text-slate-600">
+                                    {percent}% ({count})
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+
+                        {/* Charts */}
+                        <div className="mt-6">
+                          {/* @ts-ignore - dynamic import for chart components */}
+                          <NotificationCharts notification={notif as any} />
                         </div>
                       </div>
                       <div className="flex gap-2">

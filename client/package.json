@@ -19,6 +19,7 @@
     "@types/react-google-recaptcha": "^2.1.9",
     "aos": "^2.3.4",
     "axios": "^1.13.2",
+    "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.25",
@@ -27,6 +28,7 @@
     "next": "^16.0.10",
     "next-intlayer": "^7.3.13",
     "react": "19.2.0",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "19.2.0",
     "react-fast-marquee": "^1.6.5",
     "react-google-recaptcha": "^3.1.0",
@@ -36,6 +38,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/aos": "^3.0.7",
     "@types/node": "^20",
@@ -45,7 +48,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "@next/bundle-analyzer": "^14.0.0"
+    "typescript": "^5"
   }
 }
