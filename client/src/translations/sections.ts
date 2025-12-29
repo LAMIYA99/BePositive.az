@@ -214,7 +214,7 @@ export const meetSectionContent = {
   },
   roles: {
     ceo: { en: "CEO / Founder", az: "CEO / Təsisçi" },
-    uiux: { en: "UI/UX", az: "UI/UX" },
+    mernStack: { en: "MERN Stack Developer", az: "MERN Stack Developer" },
     marketing: { en: "Marketing", az: "Marketinq" },
   },
 } as const;

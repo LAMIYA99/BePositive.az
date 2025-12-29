@@ -20,13 +20,13 @@ const MeetSection = () => {
     },
     {
       img: "/Responsive.png",
-      name: "Aynur Abdullayeva",
-      title: t(meetSectionContent.roles.uiux),
+      name: "Lamiya Alizada",
+      title: t(meetSectionContent.roles.mernStack),
     },
     {
       img: "/Responsive.png",
-      name: "Darishova Shabnam",
-      title: t(meetSectionContent.roles.uiux),
+      name: "Marvan Mammadli",
+      title: t(meetSectionContent.roles.mernStack),
     },
     {
       img: "/Responsive.png",
