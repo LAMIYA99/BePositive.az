@@ -23,6 +23,8 @@ interface NotificationData {
   message: LocalizedString;
   options: NotificationOption[];
   showDelay: number;
+  type?: "survey" | "info";
+  link?: string;
 }
 
 export default function PushNotification() {
@@ -155,26 +157,48 @@ export default function PushNotification() {
               </h3>
             </div>
 
-            <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
+            <div
+              className={`p-4 sm:p-6 ${
+                notification.type === "info"
+                  ? "space-y-4"
+                  : "space-y-3 sm:space-y-4"
+              }`}
+            >
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                 {t(notification.message)}
               </p>
-              <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-1 sm:pt-2">
-                {notification.options.map((option, index) => (
-                  <motion.button
-                    key={option.value}
-                    onClick={() => handleResponse(option.value)}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="px-3 py-2.5 sm:px-4 sm:py-3 bg-slate-50 hover:bg-violet-50 text-slate-700 hover:text-violet-600 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all border border-slate-200 hover:border-violet-300 truncate"
-                  >
-                    {t(option.label)}
-                  </motion.button>
-                ))}
-              </div>
+
+              {notification.type !== "info" ? (
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-1 sm:pt-2">
+                  {notification.options.map((option, index) => (
+                    <motion.button
+                      key={option.value}
+                      onClick={() => handleResponse(option.value)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="px-3 py-2.5 sm:px-4 sm:py-3 bg-slate-50 hover:bg-violet-50 text-slate-700 hover:text-violet-600 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all border border-slate-200 hover:border-violet-300 truncate"
+                    >
+                      {t(option.label)}
+                    </motion.button>
+                  ))}
+                </div>
+              ) : (
+                notification.link && (
+                  <div className="pt-2">
+                    <a
+                      href={notification.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full text-center px-4 py-3 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-violet-200"
+                    >
+                      {locale === "az" ? "Ətraflı" : "Learn More"}
+                    </a>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </motion.div>

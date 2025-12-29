@@ -17,7 +17,13 @@ import { API_URL } from "@/lib/api";
 import { Sidebar } from "../components/Sidebar";
 import { Notification } from "../components/Notification";
 import dynamic from "next/dynamic";
-const NotificationCharts = dynamic(() => import("@/components/NotificationCharts").then(mod => mod.NotificationCharts), { ssr: false });
+const NotificationCharts = dynamic(
+  () =>
+    import("@/components/NotificationCharts").then(
+      (mod) => mod.NotificationCharts
+    ),
+  { ssr: false }
+);
 
 interface LocalizedString {
   en: string;
@@ -36,6 +42,8 @@ interface NotificationData {
   options: NotificationOption[];
   isActive: boolean;
   showDelay: number;
+  type: "survey" | "info";
+  link?: string;
   stats?: { counts: Record<string, number>; total: number };
 }
 
@@ -64,6 +72,8 @@ export default function NotificationAdmin() {
     options: defaultOptions,
     isActive: true,
     showDelay: 3000,
+    type: "survey",
+    link: "",
   });
 
   const fetchNotifications = useCallback(async () => {
@@ -76,7 +86,9 @@ export default function NotificationAdmin() {
         const withStats = await Promise.all(
           data.map(async (n: NotificationData) => {
             try {
-              const r = await fetch(`${API_URL}/api/notifications/${n._id}/stats`);
+              const r = await fetch(
+                `${API_URL}/api/notifications/${n._id}/stats`
+              );
               if (r.ok) {
                 const stats = await r.json();
                 return { ...n, stats };
@@ -94,7 +106,6 @@ export default function NotificationAdmin() {
     } finally {
       setLoading(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -107,8 +118,14 @@ export default function NotificationAdmin() {
     window.addEventListener("notification:updated", onUpdated as EventListener);
 
     return () => {
-      window.removeEventListener("notification:created", onCreated as EventListener);
-      window.removeEventListener("notification:updated", onUpdated as EventListener);
+      window.removeEventListener(
+        "notification:created",
+        onCreated as EventListener
+      );
+      window.removeEventListener(
+        "notification:updated",
+        onUpdated as EventListener
+      );
     };
   }, [fetchNotifications]);
 
@@ -124,6 +141,8 @@ export default function NotificationAdmin() {
       options: defaultOptions,
       isActive: true,
       showDelay: 3000,
+      type: "survey",
+      link: "",
     });
     setCurrentNotification(null);
     setIsEditing(true);
@@ -137,6 +156,8 @@ export default function NotificationAdmin() {
       options: notif.options,
       isActive: notif.isActive,
       showDelay: notif.showDelay,
+      type: notif.type || "survey",
+      link: notif.link || "",
     });
     setCurrentNotification(notif);
     setIsEditing(true);
@@ -295,11 +316,18 @@ export default function NotificationAdmin() {
                           </label>
                           <div className="space-y-2 mt-2">
                             {notif.options.map((opt) => {
-                              const count = notif.stats?.counts?.[opt.value] || 0;
+                              const count =
+                                notif.stats?.counts?.[opt.value] || 0;
                               const total = notif.stats?.total || 0;
-                              const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+                              const percent =
+                                total > 0
+                                  ? Math.round((count / total) * 100)
+                                  : 0;
                               return (
-                                <div key={opt.value} className="flex items-center gap-3">
+                                <div
+                                  key={opt.value}
+                                  className="flex items-center gap-3"
+                                >
                                   <div className="flex-1">
                                     <div className="w-full bg-slate-100 h-3 rounded overflow-hidden">
                                       <div
@@ -395,6 +423,55 @@ export default function NotificationAdmin() {
                 </div>
 
                 <div className="bg-white rounded-[40px] p-10 shadow-2xl shadow-slate-100 space-y-8 border border-slate-50">
+                  <div>
+                    <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
+                      Notification Type
+                    </label>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() =>
+                          setFormData({ ...formData, type: "survey" })
+                        }
+                        className={`px-6 py-3 rounded-xl border-2 font-bold transition-all ${
+                          formData.type === "survey"
+                            ? "border-violet-600 bg-violet-50 text-violet-600"
+                            : "border-transparent bg-slate-50 text-slate-500"
+                        }`}
+                      >
+                        Survey / Poll
+                      </button>
+                      <button
+                        onClick={() =>
+                          setFormData({ ...formData, type: "info" })
+                        }
+                        className={`px-6 py-3 rounded-xl border-2 font-bold transition-all ${
+                          formData.type === "info"
+                            ? "border-violet-600 bg-violet-50 text-violet-600"
+                            : "border-transparent bg-slate-50 text-slate-500"
+                        }`}
+                      >
+                        Info / Custom
+                      </button>
+                    </div>
+                  </div>
+
+                  {formData.type === "info" && (
+                    <div>
+                      <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
+                        Link URL (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.link || ""}
+                        onChange={(e) =>
+                          setFormData({ ...formData, link: e.target.value })
+                        }
+                        className="w-full text-base bg-slate-50 p-4 rounded-2xl outline-none placeholder:text-slate-300"
+                        placeholder="https://example.com/promo"
+                      />
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
                       Title ({activeTab.toUpperCase()})

@@ -10,6 +10,19 @@ const notificationSchema = new mongoose.Schema(
       en: { type: String, required: true },
       az: { type: String, required: true },
     },
+    type: {
+      type: String,
+      enum: ["survey", "info"],
+      default: "survey",
+    },
+    link: {
+      type: String,
+      default: null,
+    },
+    image: {
+      type: String,
+      default: null,
+    },
     options: [
       {
         label: {
