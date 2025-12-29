@@ -22,7 +22,7 @@ const ReviewCard = ({ review }: { review: any }) => {
       </div>
 
       <div className="flex-1 flex items-center">
-        <p className="text-[16px] text-[#364153] font-normal leading-[26px] tracking-[-0.312px] text-center px-4 whitespace-normal break-words">
+        <p className="text-[16px] text-[#364153] font-normal leading-[26px] tracking-[-0.312px] text-center px-4 whitespace-normal wrap-break-word">
           "{t(review.text)}"
         </p>
       </div>
