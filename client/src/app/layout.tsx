@@ -102,10 +102,12 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
             `}
         </Script>
 
+        {/*
         <Script
           defer
           src="https://widget.replyment.com/widget.js?id=X2Geud7Y"
         />
+        */}
 
         <Suspense fallback={null}>
           <AppLoaderProvider>
