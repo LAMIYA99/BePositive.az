@@ -63,8 +63,6 @@ export default function BePositiveAdmin() {
   const [notification, setNotification] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"en" | "az">("en");
   const { setLoading } = useAppLoading();
-  
-  
 
   const withLoading = useCallback(
     async (fn: () => Promise<void>) => {
@@ -111,7 +109,6 @@ export default function BePositiveAdmin() {
     } finally {
       setLoading(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -142,6 +139,34 @@ export default function BePositiveAdmin() {
   };
 
   const handleEdit = (blog: Blog) => {
+    // Auto-fix legacy localhost URLs for main images
+    let cleanImage = blog.image || "";
+    if (
+      cleanImage &&
+      cleanImage.includes("/uploads/") &&
+      cleanImage.startsWith("http")
+    ) {
+      cleanImage = `/uploads/${cleanImage.split("/uploads/")[1]}`;
+    }
+
+    let cleanImage2 = blog.image2 || "";
+    if (
+      cleanImage2 &&
+      cleanImage2.includes("/uploads/") &&
+      cleanImage2.startsWith("http")
+    ) {
+      cleanImage2 = `/uploads/${cleanImage2.split("/uploads/")[1]}`;
+    }
+
+    // Auto-fix legacy localhost URLs for section images
+    const cleanSections = (blog.sections || []).map((s) => {
+      let sImg = s.image;
+      if (sImg && sImg.includes("/uploads/") && sImg.startsWith("http")) {
+        sImg = `/uploads/${sImg.split("/uploads/")[1]}`;
+      }
+      return { ...s, image: sImg };
+    });
+
     setFormData({
       title:
         typeof blog.title === "string"
@@ -155,10 +180,10 @@ export default function BePositiveAdmin() {
         typeof blog.content === "string"
           ? { en: blog.content, az: "" }
           : { ...blog.content },
-      sections: blog.sections || [],
+      sections: cleanSections,
       author: blog.author,
-      image: blog.image || "",
-      image2: blog.image2 || "",
+      image: cleanImage,
+      image2: cleanImage2,
       category: blog.category,
       status: blog.status,
     });
@@ -166,8 +191,8 @@ export default function BePositiveAdmin() {
     setIsEditing(true);
     setActiveTab("en");
     setImageModes({
-      image: blog.image?.startsWith(UPLOADS_URL) ? "upload" : "url",
-      sections: (blog.sections || []).map((s) =>
+      image: cleanImage.startsWith(UPLOADS_URL) ? "upload" : "url",
+      sections: cleanSections.map((s) =>
         s.image?.startsWith(UPLOADS_URL) ? "upload" : "url"
       ),
     });

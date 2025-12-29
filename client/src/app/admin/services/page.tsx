@@ -68,7 +68,6 @@ export default function ServiceAdmin() {
     } finally {
       setLoading(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -93,15 +92,25 @@ export default function ServiceAdmin() {
   };
 
   const handleEdit = (service: Service) => {
+    // Auto-fix legacy localhost URLs to relative paths
+    let cleanImage = service.image;
+    if (
+      cleanImage &&
+      cleanImage.includes("/uploads/") &&
+      cleanImage.startsWith("http")
+    ) {
+      cleanImage = `/uploads/${cleanImage.split("/uploads/")[1]}`;
+    }
+
     setFormData({
       title: service.title,
-      image: service.image,
+      image: cleanImage,
       tags: service.tags,
     });
     setCurrentService(service);
     setIsEditing(true);
     setActiveTab("en");
-    setImageMode(service.image.startsWith(UPLOADS_URL) ? "upload" : "url");
+    setImageMode(cleanImage.startsWith("http") ? "url" : "upload");
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -80,7 +80,6 @@ export default function TrainingAdmin() {
     } finally {
       setLoading(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -105,15 +104,25 @@ export default function TrainingAdmin() {
   };
 
   const handleEdit = (training: Training) => {
+    // Auto-fix legacy localhost URLs to relative paths
+    let cleanImage = training.image;
+    if (
+      cleanImage &&
+      cleanImage.includes("/uploads/") &&
+      cleanImage.startsWith("http")
+    ) {
+      cleanImage = `/uploads/${cleanImage.split("/uploads/")[1]}`;
+    }
+
     setFormData({
       title: training.title,
-      image: training.image,
+      image: cleanImage,
       tags: training.tags,
     });
     setCurrentTraining(training);
     setIsEditing(true);
     setActiveTab("en");
-    setImageMode(training.image.startsWith(UPLOADS_URL) ? "upload" : "url");
+    setImageMode(cleanImage.startsWith("http") ? "url" : "upload");
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -60,7 +60,6 @@ export default function ReviewAdmin() {
     } finally {
       setLoading(false);
     }
- 
   }, []);
 
   useEffect(() => {
@@ -86,16 +85,26 @@ export default function ReviewAdmin() {
   };
 
   const handleEdit = (review: Review) => {
+    // Auto-fix legacy localhost URLs to relative paths
+    let cleanImage = review.avatar;
+    if (
+      cleanImage &&
+      cleanImage.includes("/uploads/") &&
+      cleanImage.startsWith("http")
+    ) {
+      cleanImage = `/uploads/${cleanImage.split("/uploads/")[1]}`;
+    }
+
     setFormData({
       name: review.name,
       role: review.role,
       text: review.text,
-      avatar: review.avatar,
+      avatar: cleanImage,
     });
     setCurrentReview(review);
     setIsEditing(true);
     setActiveTab("en");
-    setImageMode(review.avatar.startsWith(UPLOADS_URL) ? "upload" : "url");
+    setImageMode(cleanImage.startsWith("http") ? "url" : "upload");
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
