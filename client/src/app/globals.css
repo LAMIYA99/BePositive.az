@@ -4,8 +4,7 @@
 
 :root {
   --font-inter: var(--font-inter);
-  --font-poppins: var(--font-poppins);
-  --font-space-grotesk: var(--font-space-grotesk);
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -42,8 +41,6 @@
 
 @theme {
   --font-inter: var(--font-inter);
-  --font-poppins: var(--font-poppins);
-  --font-space: var(--font-space-grotesk);
 }
 
 .hide-scrollbar::-webkit-scrollbar {

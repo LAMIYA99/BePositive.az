@@ -4,14 +4,15 @@ import { useLocale } from "next-intlayer";
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
-import ReCAPTCHA from "react-google-recaptcha";
+import LazyReCAPTCHA from "@/components/LazyReCAPTCHA";
 
 const ContactSection = () => {
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) => content[locale];
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const recaptchaRef = useRef<any>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [loadCaptcha, setLoadCaptcha] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -175,6 +176,7 @@ const ContactSection = () => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
+                onFocus={() => setLoadCaptcha(true)}
                 placeholder={t(contactFormContent.placeholders.name)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
                 required
@@ -190,6 +192,7 @@ const ContactSection = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
+                onFocus={() => setLoadCaptcha(true)}
                 placeholder={t(contactFormContent.placeholders.email)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
                 required
@@ -204,6 +207,7 @@ const ContactSection = () => {
                 name="message"
                 value={form.message}
                 onChange={handleChange}
+                onFocus={() => setLoadCaptcha(true)}
                 placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
                 required
@@ -211,11 +215,15 @@ const ContactSection = () => {
             </div>
 
             <div className="w-full flex justify-center">
-              <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                onChange={(token: string | null) => setCaptchaToken(token)}
-                ref={recaptchaRef}
-              />
+              {loadCaptcha ? (
+                <LazyReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  onChange={(token: string | null) => setCaptchaToken(token)}
+                  ref={recaptchaRef}
+                />
+              ) : (
+                <div onMouseEnter={() => setLoadCaptcha(true)} style={{ minHeight: 78 }} />
+              )}
             </div>
 
             <button className="w-full h-[55px] bg-[#0707B0] text-white font-medium rounded-2xl hover:bg-[#FBE443] hover:text-black transition">

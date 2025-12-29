@@ -8,9 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         inter: ["var(--font-inter)"],
-        poppins: ["var(--font-poppins)"],
-        space: ["var(--font-space-grotesk)"],
       },
     },
   },

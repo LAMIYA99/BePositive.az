@@ -10,14 +10,23 @@ export default function AosInit() {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // Load AOS CSS on the client to avoid shipping it in server bundles
+    // @ts-ignore: dynamic CSS import
+    import("aos/dist/aos.css").catch(() => {});
+
     let canceled = false;
 
-    import("aos").then(({ default: AOS }) => {
-      if (canceled) return;
-      AOS.init({
-        duration: 800,
-        once: true,
-        disable: prefersReducedMotion,
+    requestAnimationFrame(() => {
+      import("aos").then(({ default: AOS }) => {
+        if (canceled) return;
+        AOS.init({
+          duration: 600,
+          once: true,
+          disable: prefersReducedMotion,
+          offset: 50, 
+          delay: 0,
+          easing: "ease-out",
+        });
       });
     });
 
@@ -27,9 +36,15 @@ export default function AosInit() {
   }, []);
 
   useEffect(() => {
-    import("aos").then(({ default: AOS }) => {
-      AOS.refresh();
-    });
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(() => {
+        import("aos").then(({ default: AOS }) => {
+          AOS.refresh();
+        });
+      });
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, [pathname]);
 
   return null;

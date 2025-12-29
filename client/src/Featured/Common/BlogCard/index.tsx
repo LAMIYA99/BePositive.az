@@ -21,7 +21,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
 
   return (
     <div
-      className="font-space group flex flex-col gap-[22px]
+      className="font-inter group flex flex-col gap-[22px]
       p-6 rounded-3xl shadow-md transition-all duration-300 cursor-pointer
       bg-white hover:bg-[#0808C1] hover:text-white"
     >

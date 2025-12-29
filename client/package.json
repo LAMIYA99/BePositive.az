@@ -6,6 +6,7 @@
     "dev": "intlayer watch --with \"next dev --turbo\"",
     "build": "next build",
     "start": "next start",
+    "analyze": "ANALYZE=true npm run build --prefix ./client",
     "lint": "eslint"
   },
   "dependencies": {
@@ -44,6 +45,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@next/bundle-analyzer": "^14.0.0"
   }
 }
