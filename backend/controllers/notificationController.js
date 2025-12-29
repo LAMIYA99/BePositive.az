@@ -25,6 +25,12 @@ exports.createNotification = async (req, res) => {
   const notification = new Notification(req.body);
   try {
     const newNotification = await notification.save();
+    // Emit real-time event to connected clients
+    try {
+      if (req && req.io) req.io.emit("notificationCreated", newNotification);
+    } catch (emitErr) {
+      console.error("Failed to emit notificationCreated:", emitErr);
+    }
     res.status(201).json(newNotification);
   } catch (error) {
     console.error("Notification creation error:", error.message);
@@ -43,6 +49,12 @@ exports.updateNotification = async (req, res) => {
       req.body,
       { new: true }
     );
+    // Emit real-time event to connected clients about the update
+    try {
+      if (req && req.io) req.io.emit("notificationUpdated", updatedNotification);
+    } catch (emitErr) {
+      console.error("Failed to emit notificationUpdated:", emitErr);
+    }
     res.status(200).json(updatedNotification);
   } catch (error) {
     res.status(400).json({ message: error.message });

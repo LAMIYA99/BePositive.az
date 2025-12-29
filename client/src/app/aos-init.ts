@@ -10,8 +10,7 @@ export default function AosInit() {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Load AOS CSS on the client to avoid shipping it in server bundles
-    // @ts-ignore: dynamic CSS import
+
     import("aos/dist/aos.css").catch(() => {});
 
     let canceled = false;

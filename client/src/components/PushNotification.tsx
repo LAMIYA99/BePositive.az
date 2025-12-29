@@ -36,23 +36,28 @@ export default function PushNotification() {
   const t = (content: LocalizedString) => getTranslation(content, locale);
 
   useEffect(() => {
-    const responded = localStorage.getItem("notification_responded");
-    if (responded) {
-      setHasResponded(true);
-      return;
-    }
+    // store responded per-notification so new notifications can still be shown
+    const respondedId = localStorage.getItem("notification_responded_id");
 
     const fetchNotification = async () => {
       try {
         const res = await fetch(`${API_URL}/api/notifications/active`);
         if (res.ok) {
           const data = await res.json();
+          console.log("Fetched active notification:", data);
           if (data) {
+            // if user already responded to this exact notification, don't show it
+            if (respondedId && respondedId === data._id) {
+              setHasResponded(true);
+              return;
+            }
             setNotification(data);
             setTimeout(() => {
               setIsVisible(true);
             }, data.showDelay || 3000);
           }
+        } else {
+          console.warn("Active notification fetch returned non-ok status", res.status);
         }
       } catch (error) {
         console.error("Failed to fetch notification:", error);
@@ -60,6 +65,34 @@ export default function PushNotification() {
     };
 
     fetchNotification();
+
+    const onCreated = (e: any) => {
+      const data = e.detail;
+      // only show if user hasn't responded to this notification id
+      const resp = localStorage.getItem("notification_responded_id");
+      if (!data) return;
+      if (resp && resp === data._id) return;
+      setNotification(data);
+      setTimeout(() => setIsVisible(true), data.showDelay || 3000);
+    };
+
+    const onUpdated = (e: any) => {
+      const data = e.detail;
+      // if updated notification is same id and user hasn't responded, update content and show
+      const resp = localStorage.getItem("notification_responded_id");
+      if (!data) return;
+      if (resp && resp === data._id) return;
+      setNotification(data);
+      setTimeout(() => setIsVisible(true), data.showDelay || 3000);
+    };
+
+    window.addEventListener("notification:created", onCreated as EventListener);
+    window.addEventListener("notification:updated", onUpdated as EventListener);
+
+    return () => {
+      window.removeEventListener("notification:created", onCreated as EventListener);
+      window.removeEventListener("notification:updated", onUpdated as EventListener);
+    };
   }, []);
 
   const handleResponse = async (value: string) => {
@@ -69,7 +102,9 @@ export default function PushNotification() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ source: value }),
       });
-      localStorage.setItem("notification_responded", "true");
+      if (notification && notification._id) {
+        localStorage.setItem("notification_responded_id", notification._id);
+      }
       setIsVisible(false);
       setHasResponded(true);
     } catch (error) {
@@ -79,7 +114,9 @@ export default function PushNotification() {
 
   const handleClose = () => {
     setIsVisible(false);
-    localStorage.setItem("notification_responded", "true");
+    if (notification && notification._id) {
+      localStorage.setItem("notification_responded_id", notification._id);
+    }
     setHasResponded(true);
   };
 

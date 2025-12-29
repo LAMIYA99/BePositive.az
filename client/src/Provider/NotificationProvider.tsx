@@ -45,6 +45,25 @@ export const NotificationProvider = ({
       });
     });
 
+    // Listen for notification events and dispatch a window event so other components (like PushNotification) can react
+    socket.on("notificationCreated", (data) => {
+      console.log("Socket: notificationCreated", data);
+      try {
+        window.dispatchEvent(new CustomEvent("notification:created", { detail: data }));
+      } catch (err) {
+        console.error("Failed to dispatch notification:created event", err);
+      }
+    });
+
+    socket.on("notificationUpdated", (data) => {
+      console.log("Socket: notificationUpdated", data);
+      try {
+        window.dispatchEvent(new CustomEvent("notification:updated", { detail: data }));
+      } catch (err) {
+        console.error("Failed to dispatch notification:updated event", err);
+      }
+    });
+
     return () => {
       socket.disconnect();
     };
