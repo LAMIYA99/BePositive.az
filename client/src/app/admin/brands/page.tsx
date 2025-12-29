@@ -9,6 +9,7 @@ import {
   Search,
   ArrowRight,
   Building2,
+  Upload,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -78,7 +79,6 @@ export default function BrandAdmin() {
   };
 
   const handleEdit = (brand: Brand) => {
-    // Auto-fix legacy localhost URLs to relative paths
     let cleanImage = brand.imageUrl;
     if (
       cleanImage &&
@@ -125,27 +125,10 @@ export default function BrandAdmin() {
     setLoading(true);
     try {
       const url = currentBrand
-        ? `${API_URL}/api/brands` // Note: Update probably not needed for brands, just delete/add generally, but keeping simplistic. Controller doesn't have update though, only create/delete.
+        ? `${API_URL}/api/brands`
         : `${API_URL}/api/brands`;
 
-      // Since the user only asked for create/delete essentially (because brands are just images), and my controller only has create/delete.
-      // But typically edit might be useful.
-      // Wait, my controller ONLY has `get`, `create`, `delete`.
-      // So if I am "editing", I should probably warn or just delete and re-create?
-      // Or I can add update to controller.
-      // For now let's stick to Create and Delete. If I edit, it might fail if I try to PUT.
-      // Let's check my controller code again.
-      // I only added create and delete.
-      // So for "Edit", I might need to implement update in controller OR just treat it as create new one.
-      // I'll stick to Create/Delete for now.
-
-      if (currentBrand) {
-        // If update is needed, I must add it to backend.
-        // For now, I will assume Delete then Create logic or just error.
-        // Let's add Update to backend to be safe.
-      }
-
-      const method = "POST"; // Only POST supported currently.
+      const method = "POST";
 
       const res = await fetch(url, {
         method,
@@ -165,9 +148,6 @@ export default function BrandAdmin() {
       setLoading(false);
     }
   };
-
-  // Re-thinking: If I want to support Edit, I need to add `updateBrand` to backend.
-  // It's better UX. I will add `updateBrand` to backend controller.
 
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this brand?")) {
@@ -307,23 +287,61 @@ export default function BrandAdmin() {
                     </button>
                   </div>
 
-                  <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200">
+                  <div
+                    className={`relative aspect-video rounded-3xl overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200 ${
+                      imageMode === "upload"
+                        ? "cursor-pointer hover:border-violet-500 hover:bg-slate-50 transition-all"
+                        : ""
+                    }`}
+                  >
                     {formData.imageUrl && isValidUrl(formData.imageUrl) ? (
-                      <Image
-                        src={getImageUrl(formData.imageUrl)}
-                        alt="Preview"
-                        fill
-                        className="object-contain p-4"
-                      />
+                      <>
+                        <Image
+                          src={getImageUrl(formData.imageUrl)}
+                          alt="Preview"
+                          fill
+                          className="object-contain p-4"
+                        />
+                        {imageMode === "upload" && (
+                          <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <p className="text-white font-bold">
+                              Click to Change
+                            </p>
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <div className="text-center p-4">
-                        <Plus className="w-6 h-6 text-slate-300 mx-auto mb-2" />
-                        <p className="text-xs text-slate-400">No Image</p>
+                        {imageMode === "upload" ? (
+                          <>
+                            <Upload className="w-8 h-8 text-violet-500 mx-auto mb-3" />
+                            <p className="text-sm font-bold text-slate-600">
+                              Click to upload
+                            </p>
+                            <p className="text-xs text-slate-400 mt-1">
+                              SVG, PNG, JPG
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="w-6 h-6 text-slate-300 mx-auto mb-2" />
+                            <p className="text-xs text-slate-400">No Image</p>
+                          </>
+                        )}
                       </div>
+                    )}
+
+                    {imageMode === "upload" && (
+                      <input
+                        type="file"
+                        onChange={handleFileUpload}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        accept="image/*"
+                      />
                     )}
                   </div>
 
-                  {imageMode === "url" ? (
+                  {imageMode === "url" && (
                     <input
                       type="text"
                       value={formData.imageUrl}
@@ -331,13 +349,7 @@ export default function BrandAdmin() {
                         setFormData({ ...formData, imageUrl: e.target.value })
                       }
                       placeholder="Image URL..."
-                      className="w-full px-4 py-3 bg-slate-50 rounded-xl text-xs"
-                    />
-                  ) : (
-                    <input
-                      type="file"
-                      onChange={handleFileUpload}
-                      className="w-full text-xs"
+                      className="w-full px-4 py-3 bg-slate-50 rounded-xl text-xs outline-none focus:ring-2 focus:ring-violet-500/20"
                     />
                   )}
                 </div>

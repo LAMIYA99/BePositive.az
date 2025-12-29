@@ -11,6 +11,7 @@ import {
   FileText,
   Briefcase,
   ArrowRight,
+  Upload,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -105,7 +106,6 @@ export default function TrainingAdmin() {
   };
 
   const handleEdit = (training: Training) => {
-    // Auto-fix legacy localhost URLs to relative paths
     let cleanImage = training.image;
     if (
       cleanImage &&
@@ -399,7 +399,6 @@ export default function TrainingAdmin() {
                     </div>
                   </div>
 
-                  {}
                   <div className="bg-white rounded-[40px] p-10 shadow-2xl shadow-slate-100 space-y-8 border border-slate-50">
                     <h4 className="font-bold text-lg">Tags</h4>
                     <div className="flex flex-col sm:flex-row gap-4">
@@ -473,23 +472,61 @@ export default function TrainingAdmin() {
                       </button>
                     </div>
 
-                    <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200">
+                    <div
+                      className={`relative aspect-video rounded-3xl overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200 ${
+                        imageMode === "upload"
+                          ? "cursor-pointer hover:border-violet-500 hover:bg-slate-50 transition-all"
+                          : ""
+                      }`}
+                    >
                       {formData.image && isValidUrl(formData.image) ? (
-                        <Image
-                          src={getImageUrl(formData.image)}
-                          alt="Preview"
-                          fill
-                          className="object-cover"
-                        />
+                        <>
+                          <Image
+                            src={getImageUrl(formData.image)}
+                            alt="Preview"
+                            fill
+                            className="object-cover"
+                          />
+                          {imageMode === "upload" && (
+                            <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <p className="text-white font-bold">
+                                Click to Change
+                              </p>
+                            </div>
+                          )}
+                        </>
                       ) : (
                         <div className="text-center p-4">
-                          <Plus className="w-6 h-6 text-slate-300 mx-auto mb-2" />
-                          <p className="text-xs text-slate-400">No Image</p>
+                          {imageMode === "upload" ? (
+                            <>
+                              <Upload className="w-8 h-8 text-violet-500 mx-auto mb-3" />
+                              <p className="text-sm font-bold text-slate-600">
+                                Click to upload
+                              </p>
+                              <p className="text-xs text-slate-400 mt-1">
+                                SVG, PNG, JPG
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="w-6 h-6 text-slate-300 mx-auto mb-2" />
+                              <p className="text-xs text-slate-400">No Image</p>
+                            </>
+                          )}
                         </div>
+                      )}
+
+                      {imageMode === "upload" && (
+                        <input
+                          type="file"
+                          onChange={handleFileUpload}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          accept="image/*"
+                        />
                       )}
                     </div>
 
-                    {imageMode === "url" ? (
+                    {imageMode === "url" && (
                       <input
                         type="text"
                         value={formData.image}
@@ -497,13 +534,7 @@ export default function TrainingAdmin() {
                           setFormData({ ...formData, image: e.target.value })
                         }
                         placeholder="Image URL..."
-                        className="w-full px-4 py-3 bg-slate-50 rounded-xl text-xs"
-                      />
-                    ) : (
-                      <input
-                        type="file"
-                        onChange={handleFileUpload}
-                        className="w-full text-xs"
+                        className="w-full px-4 py-3 bg-slate-50 rounded-xl text-xs outline-none focus:ring-2 focus:ring-violet-500/20"
                       />
                     )}
                   </div>
