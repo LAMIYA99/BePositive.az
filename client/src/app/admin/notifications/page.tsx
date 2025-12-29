@@ -138,10 +138,10 @@ export default function NotificationAdmin() {
     setFormData({
       title: { en: "", az: "" },
       message: { en: "", az: "" },
-      options: defaultOptions,
+      options: [],
       isActive: true,
       showDelay: 3000,
-      type: "survey",
+      type: "info",
       link: "",
     });
     setCurrentNotification(null);
@@ -430,7 +430,11 @@ export default function NotificationAdmin() {
                     <div className="flex gap-4">
                       <button
                         onClick={() =>
-                          setFormData({ ...formData, type: "survey" })
+                          setFormData({
+                            ...formData,
+                            type: "survey",
+                            options: defaultOptions,
+                          })
                         }
                         className={`px-6 py-3 rounded-xl border-2 font-bold transition-all ${
                           formData.type === "survey"

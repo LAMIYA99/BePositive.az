@@ -7,7 +7,32 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getImageUrl(path: string | undefined | null) {
-  if (!path) return "/placeholder-image.jpg"; // You might want a default placeholder
+  if (!path) return "/placeholder.svg";
+
+  // List of known static images in public folder to serve locally
+  // This bypasses the backend for these specific files, fixing Render ephemeral storage issues
+  const localImages = [
+    "seminar.png",
+    "adstraining.png",
+    "smmtraining.jpg",
+    "branding.png",
+    "marketing.png",
+    "studio.png",
+    "videoshoot.png",
+    "ads.png",
+    "clife.png",
+    "Logo.png",
+    "LogoFooter.png",
+    "Aze.png",
+    "en.png",
+    "FlagAzerbaijan.png",
+  ];
+
+  // Check if the path contains any of the local images
+  const foundLocal = localImages.find((img) => path.includes(img));
+  if (foundLocal) {
+    return `/${foundLocal}`;
+  }
 
   // Normalize path: replace backslashes with forward slashes
   let cleanPath = path.replace(/\\/g, "/");
@@ -20,6 +45,6 @@ export function getImageUrl(path: string | undefined | null) {
     cleanPath = `/${cleanPath}`;
   }
 
-  // Prepend API_URL
+  // Prepend API_URL for other uploaded files
   return `${API_URL}${cleanPath}`;
 }
