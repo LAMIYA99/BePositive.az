@@ -7,12 +7,24 @@ import { ServicesCard } from "@/Featured/Common/ServicesCard";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/lib/api";
 
+interface LocalizedString {
+  en: string;
+  az: string;
+}
+
+interface Training {
+  _id: string;
+  title: LocalizedString;
+  image: string;
+  tags: LocalizedString[];
+}
+
 const TrainingSection = () => {
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
 
-  const [trainings, setTrainings] = useState<any[]>([]);
+  const [trainings, setTrainings] = useState<Training[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

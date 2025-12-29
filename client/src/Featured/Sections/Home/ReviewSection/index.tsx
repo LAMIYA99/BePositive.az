@@ -8,11 +8,24 @@ import { getTranslation } from "intlayer";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/lib/api";
 
+interface LocalizedString {
+  en: string;
+  az: string;
+}
+
+interface Review {
+  _id: string;
+  name: LocalizedString;
+  role: LocalizedString;
+  text: LocalizedString;
+  avatar: string;
+}
+
 const ReviewSection = () => {
   const { locale } = useLocale();
   const t = (c: { en: string; az: string }) => getTranslation(c, locale);
 
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +49,7 @@ const ReviewSection = () => {
       <HeadingText title={t(HeadingTexts.reviewsTitle)} />
 
       <div className="flex flex-wrap  justify-center items-center gap-6 mt-5 lg:mt-10  ">
-        {reviews.map((item: any) => (
+        {reviews.map((item) => (
           <ReviewCard key={item._id} review={item} />
         ))}
       </div>

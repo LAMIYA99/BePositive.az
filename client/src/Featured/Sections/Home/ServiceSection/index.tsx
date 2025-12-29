@@ -7,13 +7,25 @@ import { HeadingTexts } from "@/translations/heading";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/lib/api";
 
+interface LocalizedString {
+  en: string;
+  az: string;
+}
+
+interface Service {
+  _id: string;
+  title: LocalizedString;
+  image: string;
+  tags: LocalizedString[];
+}
+
 const ServiceSection = () => {
   const { locale } = useLocale();
 
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
 
-  const [services, setServices] = useState<any[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

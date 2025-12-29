@@ -11,14 +11,11 @@ import {
   Search,
   CheckCircle2,
   FileText,
-  ChevronRight,
   ArrowRight,
-  LogOut,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL, UPLOADS_URL } from "@/lib/api";
 import { Sidebar } from "./components/Sidebar";
@@ -66,21 +63,20 @@ export default function BePositiveAdmin() {
   const [notification, setNotification] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"en" | "az">("en");
   const { setLoading } = useAppLoading();
-  const router = useRouter();
+  /* Removed unused router */
+  /* const router = useRouter(); */
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_auth");
-    router.push("/admin/login");
-  };
-
-  const withLoading = async (fn: () => Promise<any>) => {
-    setLoading(true);
-    try {
-      await fn();
-    } finally {
-      setLoading(false);
-    }
-  };
+  const withLoading = useCallback(
+    async (fn: () => Promise<void>) => {
+      setLoading(true);
+      try {
+        await fn();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [setLoading]
+  );
 
   const [formData, setFormData] = useState<BlogFormData>({
     title: { en: "", az: "" },
@@ -114,7 +110,7 @@ export default function BePositiveAdmin() {
         console.error("Failed to fetch blogs:", error);
       }
     });
-  }, []);
+  }, [withLoading]);
 
   useEffect(() => {
     fetchBlogs();
@@ -521,7 +517,7 @@ export default function BePositiveAdmin() {
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          status: e.target.value as any,
+                          status: e.target.value as "draft" | "published",
                         })
                       }
                       className="px-6 py-4 bg-white border border-slate-100 rounded-3xl font-bold text-sm outline-none focus:ring-2 ring-violet-500/20"
