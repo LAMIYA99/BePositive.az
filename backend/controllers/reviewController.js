@@ -1,6 +1,5 @@
 const Review = require("../models/Review");
 
-// Get all reviews
 exports.getReviews = async (req, res) => {
   try {
     const reviews = await Review.find().sort({ createdAt: -1 });
@@ -10,7 +9,6 @@ exports.getReviews = async (req, res) => {
   }
 };
 
-// Create a new review
 exports.createReview = async (req, res) => {
   const review = new Review(req.body);
   try {
@@ -21,7 +19,6 @@ exports.createReview = async (req, res) => {
   }
 };
 
-// Update a review
 exports.updateReview = async (req, res) => {
   try {
     const updatedReview = await Review.findByIdAndUpdate(
@@ -35,7 +32,6 @@ exports.updateReview = async (req, res) => {
   }
 };
 
-// Delete a review
 exports.deleteReview = async (req, res) => {
   try {
     await Review.findByIdAndDelete(req.params.id);

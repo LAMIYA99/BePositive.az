@@ -1,6 +1,5 @@
 const Service = require("../models/Service");
 
-// Get all services
 exports.getServices = async (req, res) => {
   try {
     const services = await Service.find().sort({ createdAt: -1 });
@@ -10,7 +9,6 @@ exports.getServices = async (req, res) => {
   }
 };
 
-// Create a new service
 exports.createService = async (req, res) => {
   const service = new Service(req.body);
   try {
@@ -21,7 +19,6 @@ exports.createService = async (req, res) => {
   }
 };
 
-// Update a service
 exports.updateService = async (req, res) => {
   try {
     const updatedService = await Service.findByIdAndUpdate(
@@ -35,7 +32,6 @@ exports.updateService = async (req, res) => {
   }
 };
 
-// Delete a service
 exports.deleteService = async (req, res) => {
   try {
     await Service.findByIdAndDelete(req.params.id);

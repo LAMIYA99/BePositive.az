@@ -25,7 +25,7 @@ const notificationSchema = new mongoose.Schema(
     },
     showDelay: {
       type: Number,
-      default: 3000, // 3 seconds delay
+      default: 3000, 
     },
   },
   { timestamps: true }

@@ -1,6 +1,5 @@
 const Notification = require("../models/Notification");
 
-// Get active notification
 exports.getActiveNotification = async (req, res) => {
   try {
     const notification = await Notification.findOne({ isActive: true }).sort({
@@ -12,7 +11,6 @@ exports.getActiveNotification = async (req, res) => {
   }
 };
 
-// Get all notifications
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = await Notification.find().sort({ createdAt: -1 });
@@ -22,7 +20,6 @@ exports.getNotifications = async (req, res) => {
   }
 };
 
-// Create a new notification
 exports.createNotification = async (req, res) => {
   console.log("Received notification data:", JSON.stringify(req.body, null, 2));
   const notification = new Notification(req.body);
@@ -39,7 +36,6 @@ exports.createNotification = async (req, res) => {
   }
 };
 
-// Update a notification
 exports.updateNotification = async (req, res) => {
   try {
     const updatedNotification = await Notification.findByIdAndUpdate(
@@ -53,7 +49,6 @@ exports.updateNotification = async (req, res) => {
   }
 };
 
-// Delete a notification
 exports.deleteNotification = async (req, res) => {
   try {
     await Notification.findByIdAndDelete(req.params.id);
@@ -63,11 +58,9 @@ exports.deleteNotification = async (req, res) => {
   }
 };
 
-// Save user response
 exports.saveResponse = async (req, res) => {
   try {
     const { source } = req.body;
-    // You can save this to a separate collection or analytics
     console.log("User came from:", source);
     res.status(200).json({ message: "Response saved" });
   } catch (error) {

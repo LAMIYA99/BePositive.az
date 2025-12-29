@@ -1,6 +1,5 @@
 const Training = require("../models/Training");
 
-// Get all trainings
 exports.getTrainings = async (req, res) => {
   try {
     const trainings = await Training.find().sort({ createdAt: -1 });
@@ -10,7 +9,6 @@ exports.getTrainings = async (req, res) => {
   }
 };
 
-// Create a new training
 exports.createTraining = async (req, res) => {
   const training = new Training(req.body);
   try {
@@ -21,7 +19,6 @@ exports.createTraining = async (req, res) => {
   }
 };
 
-// Update a training
 exports.updateTraining = async (req, res) => {
   try {
     const updatedTraining = await Training.findByIdAndUpdate(
@@ -35,7 +32,6 @@ exports.updateTraining = async (req, res) => {
   }
 };
 
-// Delete a training
 exports.deleteTraining = async (req, res) => {
   try {
     await Training.findByIdAndDelete(req.params.id);

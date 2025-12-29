@@ -36,14 +36,12 @@ export default function PushNotification() {
   const t = (content: LocalizedString) => getTranslation(content, locale);
 
   useEffect(() => {
-    // Check if user has already responded
     const responded = localStorage.getItem("notification_responded");
     if (responded) {
       setHasResponded(true);
       return;
     }
 
-    // Fetch active notification
     const fetchNotification = async () => {
       try {
         const res = await fetch(`${API_URL}/api/notifications/active`);
@@ -51,7 +49,6 @@ export default function PushNotification() {
           const data = await res.json();
           if (data) {
             setNotification(data);
-            // Show notification after delay
             setTimeout(() => {
               setIsVisible(true);
             }, data.showDelay || 3000);
@@ -96,11 +93,10 @@ export default function PushNotification() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, scale: 0.9 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed bottom-6 right-6 z-[9999] max-w-md w-full mx-4 sm:mx-0"
+          className="fixed bottom-6 right-6 z-9999 max-w-md w-full mx-4 sm:mx-0"
         >
           <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-violet-600 to-indigo-600 p-6 relative">
+            <div className="bg-linear-gradient-to-r from-violet-600 to-indigo-600 p-6 relative">
               <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-all"
@@ -112,13 +108,10 @@ export default function PushNotification() {
               </h3>
             </div>
 
-            {/* Content */}
             <div className="p-6 space-y-4">
               <p className="text-slate-600 text-base leading-relaxed">
                 {t(notification.message)}
               </p>
-
-              {/* Options */}
               <div className="grid grid-cols-2 gap-3 pt-2">
                 {notification.options.map((option, index) => (
                   <motion.button
