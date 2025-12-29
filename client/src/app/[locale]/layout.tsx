@@ -7,7 +7,7 @@ import AosInit from "../aos-init";
 import { QueryProviders } from "@/Provider/QueryProviders";
 
 const SITE_URL = "https://bepositive.az";
-const SITE_NAME = "Be Positive";
+const SITE_NAME = "Be Positive Advertising Agency";
 const DEFAULT_DESCRIPTION =
   "Be Positive Advertising Agency — We bring color, creativity, and strategy to your brand. From social media to branding, we craft stories that make you stand out globally.";
 const DEFAULT_KEYWORDS = [
@@ -27,7 +27,13 @@ export async function generateMetadata({
       template: `%s | ${SITE_NAME}`,
     },
     description: DEFAULT_DESCRIPTION,
+    keywords: DEFAULT_KEYWORDS.join(", "),
+    authors: [{ name: "CLife.az agency" }],
     metadataBase: new URL(SITE_URL),
+    other: {
+      "google-adsense-account": "ca-pub-9796293068418979",
+      "revisit-after": "1 days",
+    },
     alternates: {
       canonical,
       languages: {
