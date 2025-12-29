@@ -35,7 +35,7 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
           fill="none"
           className={`duration-300 ${
             open ? "rotate-180 fill-white" : "fill-black"
-          } lg:w-[19px] lg:h-3 w-[18px] h-[9px]`}
+          } lg:w-[19px] lg:h-3 w-[10px] h-[5px]`}
         >
           <path
             fillRule="evenodd"
