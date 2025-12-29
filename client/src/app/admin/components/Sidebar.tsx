@@ -10,6 +10,7 @@ import {
   Star,
   GraduationCap,
   Bell,
+  Building2,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -46,6 +47,11 @@ export function Sidebar() {
       label: "Notifications",
       icon: <Bell className="w-5 h-5" />,
       href: "/admin/notifications",
+    },
+    {
+      label: "Brands",
+      icon: <Building2 className="w-5 h-5" />,
+      href: "/admin/brands",
     },
   ];
 
