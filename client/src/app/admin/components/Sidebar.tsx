@@ -9,6 +9,7 @@ import {
   Briefcase,
   Star,
   GraduationCap,
+  Bell,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -40,6 +41,11 @@ export function Sidebar() {
       label: "Reviews",
       icon: <Star className="w-5 h-5" />,
       href: "/admin/reviews",
+    },
+    {
+      label: "Notifications",
+      icon: <Bell className="w-5 h-5" />,
+      href: "/admin/notifications",
     },
   ];
 

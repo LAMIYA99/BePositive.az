@@ -25,6 +25,7 @@ const spaceGrotesk = Space_Grotesk({
 
 import { Toaster } from "react-hot-toast";
 import { NotificationProvider } from "@/Provider/NotificationProvider";
+import PushNotification from "@/components/PushNotification";
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -38,6 +39,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
             <NotificationProvider>
               {children}
               <Toaster position="top-center" reverseOrder={false} />
+              <PushNotification />
             </NotificationProvider>
           </AppLoaderProvider>
         </Suspense>

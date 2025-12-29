@@ -68,6 +68,7 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/trainings", require("./routes/trainingRoutes"));
 app.use("/api/services", require("./routes/serviceRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/auth", authRoutes);
 
 const connectDB = async () => {
