@@ -32,6 +32,7 @@ interface Service {
   _id: string;
   title: LocalizedString;
   image: string;
+  link?: string;
   tags: Tag[];
 }
 
@@ -54,6 +55,7 @@ export default function ServiceAdmin() {
   const [formData, setFormData] = useState<ServiceFormData>({
     title: { en: "", az: "" },
     image: "",
+    link: "",
     tags: [],
   });
 
@@ -92,6 +94,7 @@ export default function ServiceAdmin() {
     setFormData({
       title: { en: "", az: "" },
       image: "",
+      link: "",
       tags: [],
     });
     setCurrentService(null);
@@ -113,6 +116,7 @@ export default function ServiceAdmin() {
     setFormData({
       title: service.title,
       image: cleanImage,
+      link: service.link || "",
       tags: service.tags,
     });
     setCurrentService(service);
@@ -390,6 +394,20 @@ export default function ServiceAdmin() {
                         }
                         className="w-full text-2xl font-bold border-b border-slate-100 pb-4 outline-none placeholder:text-slate-200"
                         placeholder="Service Title..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
+                        Redirect Link (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.link || ""}
+                        onChange={(e) =>
+                          setFormData({ ...formData, link: e.target.value })
+                        }
+                        className="w-full px-4 py-3 bg-slate-50 rounded-xl text-sm outline-none focus:ring-2 focus:ring-violet-500/20"
+                        placeholder="https://..."
                       />
                     </div>
                   </div>

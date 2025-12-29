@@ -16,6 +16,10 @@ const serviceSchema = new mongoose.Schema(
         az: { type: String, required: true },
       },
     ],
+    link: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );
