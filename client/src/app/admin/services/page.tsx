@@ -68,7 +68,8 @@ export default function ServiceAdmin() {
     } finally {
       setLoading(false);
     }
-  }, [setLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchServices();

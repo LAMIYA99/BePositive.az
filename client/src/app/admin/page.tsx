@@ -99,18 +99,20 @@ export default function BePositiveAdmin() {
   });
 
   const fetchBlogs = useCallback(async () => {
-    withLoading(async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/blogs`);
-        if (res.ok) {
-          const data = await res.json();
-          setBlogs(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error);
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/blogs`);
+      if (res.ok) {
+        const data = await res.json();
+        setBlogs(data);
       }
-    });
-  }, [withLoading]);
+    } catch (error) {
+      console.error("Failed to fetch blogs:", error);
+    } finally {
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchBlogs();

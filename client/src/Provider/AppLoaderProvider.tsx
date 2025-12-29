@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intlayer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,18 +69,20 @@ export const AppLoaderProvider = ({
     return () => clearTimeout(timer);
   }, [pathname, searchParams]);
 
-  const setLoading = (loading: boolean) => {
+  const setLoading = useCallback((loading: boolean) => {
     if (loading) {
       setIsLoading(true);
     } else {
       setTimeout(() => setIsLoading(false), 200);
     }
-  };
+  }, []);
 
   const show = isLoading || isNavigating;
 
+  const contextValue = React.useMemo(() => ({ setLoading }), [setLoading]);
+
   return (
-    <LoadingContext.Provider value={{ setLoading }}>
+    <LoadingContext.Provider value={contextValue}>
       <div
         className={`transition-all duration-700 ${
           show ? "blur-md scale-[0.98] pointer-events-none" : ""

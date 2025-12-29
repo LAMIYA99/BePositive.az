@@ -60,7 +60,8 @@ export default function ReviewAdmin() {
     } finally {
       setLoading(false);
     }
-  }, [setLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchReviews();
