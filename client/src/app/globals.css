@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "aos/dist/aos.css"; /* AOS animations CSS */
 
 @custom-variant dark (&:is(.dark *));
 
