@@ -266,7 +266,7 @@ export default function ServiceAdmin() {
                           src={service.image}
                           alt={service.title.en}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                          className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
                         />
                       )}
                       <div className="absolute top-4 right-4 flex gap-2">

@@ -1,13 +1,13 @@
 import { TrainingCardProps } from "@/Types/global";
 
-const TrainingCard = ({ title, image, tag }:TrainingCardProps) => {
+const TrainingCard = ({ title, image, tag }: TrainingCardProps) => {
   return (
     <div
       data-aos="zoom-in-left"
       className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200"
     >
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105 will-change-transform"
         style={{ backgroundImage: `url(${image})` }}
       />
 
@@ -15,24 +15,26 @@ const TrainingCard = ({ title, image, tag }:TrainingCardProps) => {
         className="absolute flex flex-col gap-4 bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 text-white 
         bg-linear-to-t from-black/80 to-transparent
         translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-        transition-all duration-500 space-y-3"
+        transition-all duration-300 space-y-3 will-change-transform"
       >
         <div className="flex gap-2 sm:gap-3 flex-wrap">
-        {tag&&Array.isArray(tag)&&tag.map((item: any) => (
-          <span
-            key={item?.id}
-            className="flex justify-center items-center gap-3.5 
+          {tag &&
+            Array.isArray(tag) &&
+            tag.map((item: any) => (
+              <span
+                key={item?.id}
+                className="flex justify-center items-center gap-3.5 
             w-[70px] sm:w-[85px] h-7 sm:h-8 
             px-5 sm:px-[35px] py-2 border leading-5 sm:leading-[26px] 
             border-white rounded-full text-[10px] sm:text-[12px] font-medium "
-          >
-            {item?.name}
-          </span>
-        ))}
+              >
+                {item?.name}
+              </span>
+            ))}
         </div>
 
         <p className="text-[18px] sm:text-[22px] md:text-[26px] font-medium leading-[22px] sm:leading-6 md:leading-[26px]">
-         {title}
+          {title}
         </p>
 
         <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 md:bottom-10 md:right-10">

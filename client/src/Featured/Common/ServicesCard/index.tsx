@@ -18,7 +18,7 @@ export const ServicesCard = ({ title, image, tags }: ServicesCardProps) => {
   return (
     <div className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105 will-change-transform"
         style={{ backgroundImage: `url(${image})` }}
       />
 
@@ -28,7 +28,7 @@ export const ServicesCard = ({ title, image, tags }: ServicesCardProps) => {
           text-white 
           bg-linear-to-t from-black/80 to-transparent
           translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-          transition-all duration-500 space-y-3"
+          transition-all duration-300 space-y-3 will-change-transform"
       >
         <div className="flex gap-2 sm:gap-3 flex-wrap">
           {tags.map((tag, i) => (
