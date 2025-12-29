@@ -21,6 +21,10 @@ interface Review {
   avatar: string;
 }
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+
 const ReviewSection = () => {
   const { locale } = useLocale();
   const t = (c: { en: string; az: string }) => getTranslation(c, locale);
@@ -48,10 +52,32 @@ const ReviewSection = () => {
     <div className="mt-[22px] lg:mt-[52px] container mx-auto px-6">
       <HeadingText title={t(HeadingTexts.reviewsTitle)} />
 
-      <div className="flex flex-wrap  justify-center items-center gap-6 mt-5 lg:mt-10  ">
-        {reviews.map((item) => (
-          <ReviewCard key={item._id} review={item} />
-        ))}
+      <div className="mt-5 lg:mt-10">
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={24}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
+          className="pb-10"
+        >
+          {reviews.map((item) => (
+            <SwiperSlide key={item._id} className="h-auto">
+              <ReviewCard review={item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );
