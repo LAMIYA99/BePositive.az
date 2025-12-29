@@ -9,7 +9,7 @@ const ReviewCard = ({ review }: { review: any }) => {
     getTranslation(content, locale);
 
   return (
-    <div className="flex flex-col items-center justify-between rounded-3xl bg-white p-4 lg:p-6 min-h-[352px]">
+    <div className="flex flex-col items-center justify-between rounded-3xl bg-white p-4 lg:p-6 min-h-[352px] h-full">
       <div className="w-[76px] h-[76px] border-2 rounded-full overflow-hidden border-[#0808C1]">
         <Image
           src={getImageUrl(review.avatar)}
