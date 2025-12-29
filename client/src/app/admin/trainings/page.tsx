@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL, UPLOADS_URL } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import { Sidebar } from "../components/Sidebar";
 import { Notification } from "../components/Notification";
 import { StatCard } from "../components/StatCard";
@@ -284,7 +285,7 @@ export default function TrainingAdmin() {
                     <div className="relative h-48 overflow-hidden">
                       {training.image && isValidUrl(training.image) && (
                         <Image
-                          src={training.image}
+                          src={getImageUrl(training.image)}
                           alt={training.title.en}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
@@ -475,7 +476,7 @@ export default function TrainingAdmin() {
                     <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200">
                       {formData.image && isValidUrl(formData.image) ? (
                         <Image
-                          src={formData.image}
+                          src={getImageUrl(formData.image)}
                           alt="Preview"
                           fill
                           className="object-cover"

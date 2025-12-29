@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL, UPLOADS_URL } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import { Sidebar } from "../components/Sidebar";
 import { Notification } from "../components/Notification";
 
@@ -272,7 +273,7 @@ export default function ServiceAdmin() {
                     <div className="relative h-48 overflow-hidden">
                       {service.image && isValidUrl(service.image) && (
                         <Image
-                          src={service.image}
+                          src={getImageUrl(service.image)}
                           alt={service.title.en}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
@@ -463,7 +464,7 @@ export default function ServiceAdmin() {
                     <div className="relative aspect-video rounded-3xl overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200">
                       {formData.image && isValidUrl(formData.image) ? (
                         <Image
-                          src={formData.image}
+                          src={getImageUrl(formData.image)}
                           alt="Preview"
                           fill
                           className="object-cover"
