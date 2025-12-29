@@ -21,6 +21,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL, UPLOADS_URL } from "@/lib/api";
+import { Sidebar } from "./components/Sidebar";
+import { Notification } from "./components/Notification";
+import { StatCard } from "./components/StatCard";
 
 interface LocalizedString {
   en: string;
@@ -49,35 +52,6 @@ interface Blog {
 }
 
 type BlogFormData = Omit<Blog, "_id" | "createdAt" | "views" | "likes">;
-
-const Notification = ({
-  message,
-  onClose,
-}: {
-  message: string;
-  onClose: () => void;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50, scale: 0.9 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    exit={{ opacity: 0, y: 20, scale: 0.9 }}
-    className="fixed bottom-8 right-8 z-50 bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl p-6 rounded-3xl flex items-center gap-4 min-w-[320px]"
-  >
-    <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center">
-      <CheckCircle2 className="w-6 h-6 text-emerald-500" />
-    </div>
-    <div className="flex-1">
-      <h4 className="font-bold text-slate-900">Success!</h4>
-      <p className="text-slate-600 text-sm">{message}</p>
-    </div>
-    <button
-      onClick={onClose}
-      className="p-2 hover:bg-slate-100 rounded-xl transition-all"
-    >
-      <X className="w-4 h-4 text-slate-400" />
-    </button>
-  </motion.div>
-);
 
 const isValidUrl = (url: string) => {
   if (!url) return false;
@@ -365,41 +339,7 @@ export default function BePositiveAdmin() {
       </AnimatePresence>
 
       <div className="flex">
-        <aside className="w-72 h-screen sticky top-0 bg-white border-r border-slate-100 p-8 hidden lg:flex flex-col">
-          <div className="flex items-center flex-col gap-3 mb-12">
-            <Link href={"/"}>
-              <Image
-                src="/Logo.png"
-                alt="Logo"
-                width={72}
-                height={72}
-                className="lg:w-[72px] lg:h-[72px] w-12 h-12 object-contain"
-                priority
-              />
-            </Link>
-            <h2 className="text-2xl font-semibold tracking-tight mb-2 text-[#171ACF]">
-              Dashboard
-            </h2>
-          </div>
-
-          <nav className="space-y-2 flex-1">
-            <SidebarItem
-              icon={<FileText className="w-5 h-5" />}
-              label="Blog Posts"
-              active
-            />
-          </nav>
-
-          <div className="mt-auto">
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-6 py-4 rounded-3xl text-rose-500 hover:bg-rose-50 transition-all font-bold"
-            >
-              <LogOut className="w-5 h-5" />
-              <span>Log Out</span>
-            </button>
-          </div>
-        </aside>
+        <Sidebar />
 
         <main className="flex-1 p-4 md:p-8 lg:p-12 max-w-7xl mx-auto w-full">
           <AnimatePresence mode="wait">
@@ -1036,63 +976,6 @@ export default function BePositiveAdmin() {
           </AnimatePresence>
         </main>
       </div>
-    </div>
-  );
-}
-
-function SidebarItem({
-  icon,
-  label,
-  active = false,
-}: {
-  icon: any;
-  label: string;
-  active?: boolean;
-}) {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 px-6 py-4 rounded-3xl transition-all ${
-        active
-          ? "bg-violet-600 text-white shadow-xl shadow-violet-200 font-bold"
-          : "text-slate-400 hover:text-slate-900 hover:bg-slate-50 font-medium"
-      }`}
-    >
-      {icon}
-      <span>{label}</span>
-      {active && <ChevronRight className="ml-auto w-4 h-4" />}
-    </button>
-  );
-}
-
-function StatCard({
-  icon,
-  label,
-  value,
-  color,
-}: {
-  icon: any;
-  label: string;
-  value: number | string;
-  color: string;
-}) {
-  const colors: Record<string, string> = {
-    violet: "bg-violet-50 text-violet-600",
-    emerald: "bg-emerald-50 text-emerald-600",
-    amber: "bg-amber-50 text-amber-600",
-    rose: "bg-rose-50 text-rose-600",
-  };
-
-  return (
-    <div className="bg-white p-8 rounded-[40px] shadow-2xl shadow-slate-100 border border-slate-50">
-      <div
-        className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${colors[color]}`}
-      >
-        {icon}
-      </div>
-      <p className="text-4xl font-black mb-1 leading-none">{value}</p>
-      <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">
-        {label}
-      </p>
     </div>
   );
 }
