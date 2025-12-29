@@ -9,22 +9,17 @@ export function cn(...inputs: ClassValue[]) {
 export function getImageUrl(path: string | undefined | null) {
   if (!path) return "/placeholder-image.jpg"; // You might want a default placeholder
 
-  // If it's already an external https link, return it
-  if (path.startsWith("https://")) return path;
+  // Normalize path: replace backslashes with forward slashes
+  let cleanPath = path.replace(/\\/g, "/");
 
-  // If it's a relative path, prepend API_URL
-  if (path.startsWith("/")) {
-    return `${API_URL}${path}`;
+  // If it's already an external https link (or http), return it
+  if (cleanPath.startsWith("http")) return cleanPath;
+
+  // Ensure it starts with / if it doesn't
+  if (!cleanPath.startsWith("/")) {
+    cleanPath = `/${cleanPath}`;
   }
 
-  // Handle legacy localhost links in production
-  if (path.startsWith("http://localhost") && !API_URL.includes("localhost")) {
-    // Replace localhost base with actual API_URL
-    const relativePath = path.split("/uploads/")[1];
-    if (relativePath) {
-      return `${API_URL}/uploads/${relativePath}`;
-    }
-  }
-
-  return path;
+  // Prepend API_URL
+  return `${API_URL}${cleanPath}`;
 }

@@ -2,19 +2,27 @@ import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
 import { getImageUrl } from "@/lib/utils";
 
+import Link from "next/link";
+
 interface ServicesCardProps {
   title: { en: string; az: string };
   image: string;
   tags: { en: string; az: string }[];
+  link?: string;
 }
 
-export const ServicesCard = ({ title, image, tags }: ServicesCardProps) => {
+export const ServicesCard = ({
+  title,
+  image,
+  tags,
+  link,
+}: ServicesCardProps) => {
   const { locale } = useLocale();
 
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
 
-  return (
+  const CardContent = (
     <div className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105 will-change-transform"
@@ -79,4 +87,18 @@ export const ServicesCard = ({ title, image, tags }: ServicesCardProps) => {
       </div>
     </div>
   );
+
+  if (link) {
+    return (
+      <Link
+        href={link}
+        passHref
+        target={link.startsWith("http") ? "_blank" : "_self"}
+      >
+        {CardContent}
+      </Link>
+    );
+  }
+
+  return CardContent;
 };

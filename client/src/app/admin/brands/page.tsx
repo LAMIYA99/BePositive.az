@@ -27,8 +27,7 @@ interface Brand {
 type BrandFormData = Omit<Brand, "_id">;
 
 const isValidUrl = (url: string) => {
-  if (!url) return false;
-  return url.startsWith("http") || url.startsWith("/");
+  return !!url && url.trim().length > 0;
 };
 
 export default function BrandAdmin() {

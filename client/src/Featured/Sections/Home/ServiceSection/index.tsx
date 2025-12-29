@@ -16,6 +16,7 @@ interface Service {
   _id: string;
   title: LocalizedString;
   image: string;
+  link?: string;
   tags: LocalizedString[];
 }
 
@@ -55,6 +56,7 @@ const ServiceSection = () => {
             title={service.title}
             image={service.image}
             tags={service.tags}
+            link={service.link}
           />
         ))}
       </div>
