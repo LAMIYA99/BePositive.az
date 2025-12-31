@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { useState, useEffect } from "react";
-import { API_URL } from "@/lib/api";
 import { getImageUrl } from "@/lib/utils";
 
 interface Brand {
@@ -17,10 +16,18 @@ const BrandSection = () => {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/brands`);
+        const res = await fetch(`/api/brands`);
         if (res.ok) {
           const data = await res.json();
           setBrands(data);
+
+      
+          if (typeof window !== "undefined") {
+            const AOS = (await import("aos")).default;
+            setTimeout(() => {
+              AOS.refresh();
+            }, 100);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch brands", error);
@@ -34,22 +41,26 @@ const BrandSection = () => {
   }
 
   return (
-    <section data-aos="zoom-in-down" className="my-[5px] lg:my-[62px] pt-4 ">
-      <Marquee speed={50} gradient={false} pauseOnHover={false}>
+    <section
+      data-aos="zoom-in-down"
+      className="my-[10px] lg:my-[62px] pt-4 overflow-hidden"
+    >
+      <Marquee speed={50} gradient={false} pauseOnHover={false} autoFill={true}>
         {brands.map((brand, index) => (
           <div
             key={brand._id || index}
-            className="bg-white rounded-[99px] mx-4 w-[130px] h-[130px]  flex items-center   justify-center"
+            className="bg-white rounded-[99px] mx-4 w-[110px] h-[110px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-sm"
           >
-            <Image
-              src={getImageUrl(brand.imageUrl)}
-              alt="brand logo"
-              width={130}
-              height={130}
-              className="w-[100px] h-[100px] lg:w-[110px] lg:h-[110px] object-cover rounded-full"
-              sizes="130px"
-              loading="lazy"
-            />
+            <div className="relative w-[80px] h-[80px] lg:w-[100px] lg:h-[100px]">
+              <Image
+                src={getImageUrl(brand.imageUrl)}
+                alt="brand logo"
+                fill
+                className="object-contain rounded-full"
+                sizes="(max-width: 768px) 80px, 100px"
+                loading="eager"
+              />
+            </div>
           </div>
         ))}
       </Marquee>
