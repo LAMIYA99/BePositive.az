@@ -4,13 +4,12 @@ import { revalidateTag } from "next/cache";
 
 const CACHE_TAG = "brands";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const res = await fetch(`${API_URL}/api/brands`, {
-      next: {
-        revalidate: 3600,
-        tags: [CACHE_TAG],
-      },
+      cache: "no-store",
     });
 
     if (!res.ok) return NextResponse.json([], { status: res.status });
