@@ -39,14 +39,14 @@ const BrandSection = () => {
         {brands.map((brand, index) => (
           <div
             key={brand._id || index}
-            className="bg-[#F5F7FA] rounded-[99px] mx-4 w-[150px] h-[150px]  flex items-center   justify-center"
+            className="bg-white rounded-[99px] mx-4 w-[130px] h-[130px]  flex items-center   justify-center"
           >
             <Image
               src={getImageUrl(brand.imageUrl)}
               alt="brand logo"
               width={130}
               height={130}
-              className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] object-cover rounded-full"
+              className="w-[100px] h-[100px] lg:w-[110px] lg:h-[110px] object-cover rounded-full"
               sizes="130px"
               loading="lazy"
             />
