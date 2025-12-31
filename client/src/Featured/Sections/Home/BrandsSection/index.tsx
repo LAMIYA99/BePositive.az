@@ -60,7 +60,7 @@ const BrandSection = () => {
             key={`${brand._id}-${index}`}
             className="bg-white rounded-full mx-4 w-[110px] h-[110px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-sm shrink-0"
           >
-            <div className="relative w-[80px] h-[80px] lg:w-[100px] lg:h-[100px]">
+            <div className="relative w-[80px] h-[80px] lg:w-[100px] lg:h-[100px] flex items-center justify-center">
               <Image
                 src={getImageUrl(brand.imageUrl)}
                 alt="brand logo"
