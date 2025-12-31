@@ -40,11 +40,19 @@ export function getImageUrl(path: string | undefined | null) {
   // If it's already an external https link (or http), return it
   if (cleanPath.startsWith("http")) return cleanPath;
 
-  // Ensure it starts with / if it doesn't
+  // Add leading slash if missing
   if (!cleanPath.startsWith("/")) {
     cleanPath = `/${cleanPath}`;
   }
 
-  // Prepend API_URL for other uploaded files
+  // If it's from the uploads folder, use the relative api proxy
+  // This allows mobile devices on the same network to see images
+  // without needing to know the server's IP address.
+  if (cleanPath.startsWith("/uploads/")) {
+    return `/api${cleanPath}`;
+  }
+
+  // Prepend API_URL for other uploaded files (if any)
+  // or return as is if it's already a relative path for public folder
   return `${API_URL}${cleanPath}`;
 }
