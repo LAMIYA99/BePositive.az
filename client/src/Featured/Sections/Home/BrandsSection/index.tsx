@@ -43,11 +43,8 @@ const BrandSection = () => {
   return (
     <section
       data-aos="zoom-in-down"
-      className="my-[20px] lg:my-[60px] py-6 w-full overflow-hidden relative flex flex-col items-center min-h-[140px] lg:min-h-[180px]"
+      className="my-[20px] lg:my-[60px] py-6 w-full overflow-hidden relative flex items-center min-h-[140px] lg:min-h-[180px]"
     >
- 
-      <span className="sr-only">Brands found: {brands.length}</span>
-
       <Marquee
         speed={40}
         gradient={false}
@@ -57,18 +54,19 @@ const BrandSection = () => {
       >
         {brands.map((brand, index) => (
           <div
-            key={`${brand._id || index}-${index}`}
-            className="bg-white rounded-full mx-6 w-[100px] h-[100px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-md shrink-0"
+            key={`${brand._id}-${index}`}
+            className="bg-white rounded-full mx-6 w-[100px] h-[100px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-md shrink-0 overflow-hidden"
           >
-            <div className="relative w-[70px] h-[70px] lg:w-[100px] lg:h-[100px]">
+            <div className="relative w-[70px] h-[70px] lg:w-[95px] lg:h-[95px] flex items-center justify-center">
               <Image
                 src={getImageUrl(brand.imageUrl)}
                 alt="brand logo"
-                fill
-                className="object-contain p-2"
-                sizes="(max-width: 1024px) 70px, 130px"
-                unoptimized
-                priority={index < 8}
+                width={100}
+                height={100}
+                className="object-contain"
+                loading="eager"
+                unoptimized={brand.imageUrl?.endsWith(".svg")}
+                sizes="(max-width: 1024px) 70px, 100px"
               />
             </div>
           </div>
