@@ -64,8 +64,9 @@ const BrandSection = () => {
               <Image
                 src={getImageUrl(brand.imageUrl)}
                 alt="brand logo"
-                fill
-                className="object-contain"
+                width={130}
+                height={130}
+                className="object-contain rounded-full"
                 loading="eager"
                 unoptimized={brand.imageUrl?.endsWith(".svg")}
                 sizes="130px"
