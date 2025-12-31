@@ -46,7 +46,7 @@ export const ServicesCard = ({
                 w-auto min-w-[65px] h-7 text-[10px] 
                 sm:min-w-[75px] sm:h-7 sm:text-[11px]
                 md:min-w-[85px] md:h-8 md:text-[12px]
-                px-3 sm:px-4 md:px-5
+                px-3 sm:px-4 md:px-5 capitalize
                 leading-5 sm:leading-[22px] md:leading-[26px]
                 border border-white rounded-full font-medium backdrop-blur-sm
               "
