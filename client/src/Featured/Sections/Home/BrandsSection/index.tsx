@@ -55,18 +55,17 @@ const BrandSection = () => {
         {brands.map((brand, index) => (
           <div
             key={`${brand._id}-${index}`}
-            className="bg-white rounded-full mx-6 w-[100px] h-[100px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-md shrink-0 overflow-hidden"
+            className="bg-white rounded-full mx-6 w-[100px] h-[100px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-md shrink-0"
           >
-            <div className="relative w-[70px] h-[70px] lg:w-[95px] lg:h-[95px] flex items-center justify-center">
+            <div className="relative w-[70px] h-[70px] lg:w-[100px] lg:h-[100px]">
               <Image
                 src={getImageUrl(brand.imageUrl)}
-                alt="brand logo"
-                width={100}
-                height={100}
-                className="object-contain"
-                loading="eager"
-                unoptimized={brand.imageUrl?.endsWith(".svg")}
+                alt={`brand-${index}`}
+                fill
+                className="object-contain p-2"
                 sizes="(max-width: 1024px) 70px, 100px"
+                unoptimized
+                priority={index < 5}
               />
             </div>
           </div>
