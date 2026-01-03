@@ -2,20 +2,18 @@
 
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
-import { storyCardContent } from "@/translations/sections";
 
-const StoryCard = () => {
+interface StoryCardProps {
+  title: { en: string; az: string };
+  image: string;
+  tags: { en: string; az: string }[];
+}
+
+const StoryCard = ({ title, image, tags }: StoryCardProps) => {
   const { locale } = useLocale();
 
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
-
-  const img = "/Frame1984078262.png";
-  const tags = [
-    t(storyCardContent.tags.dashboard),
-    t(storyCardContent.tags.saas),
-    t(storyCardContent.tags.product),
-  ];
 
   return (
     <div
@@ -33,7 +31,7 @@ const StoryCard = () => {
     sm:h-[280px]    
     lg:h-80     
   "
-   >
+    >
       <div
         className="
       absolute inset-0 
@@ -41,7 +39,7 @@ const StoryCard = () => {
       transition-transform duration-500 
       group-hover:scale-110
     "
-        style={{ backgroundImage: `url(${img})` }}
+        style={{ backgroundImage: `url(${image})` }}
       />
 
       <div
@@ -77,7 +75,7 @@ const StoryCard = () => {
             leading-none
           "
             >
-              {tag}
+              {t(tag)}
             </span>
           ))}
         </div>
@@ -86,12 +84,12 @@ const StoryCard = () => {
           className="
         mt-1 font-medium
 
-        text-[16px] leading-5      /* iPhone 7 */
-        sm:text-[18px] sm:leading-[22px] /* 14 Pro */
-        lg:text-[22px] lg:leading-7 /* 14 Pro Max */
+        text-[16px] leading-5      
+        sm:text-[18px] sm:leading-[22px] 
+        lg:text-[22px] lg:leading-7 
       "
         >
-          {t(storyCardContent.title)}
+          {t(title)}
         </p>
 
         <div

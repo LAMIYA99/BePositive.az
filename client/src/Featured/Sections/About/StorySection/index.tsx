@@ -1,7 +1,6 @@
 "use client";
 
 import HeadingText from "@/Featured/Common/HeadingText";
-import StoryCard from "@/Featured/Common/StoryCard";
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
 import { storySectionContent } from "@/translations/sections";
@@ -28,12 +27,6 @@ const StorySection = () => {
         <p className="font-inter text-[16px] md:text-[24px] font-medium leading-[24px] md:leading-[34px] text-[#414141] text-center">
           {t(storySectionContent.storyDescription)}
         </p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-10 px-0 md:px-4">
-        <StoryCard />
-        <StoryCard />
-        <StoryCard />
-        <StoryCard />
       </div>
     </section>
   );

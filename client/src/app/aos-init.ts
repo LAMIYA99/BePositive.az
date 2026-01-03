@@ -1,24 +1,31 @@
 "use client";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function AosInit() {
+  const pathname = usePathname();
+
   useEffect(() => {
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isSmallScreen =
-      typeof window !== "undefined" && window.innerWidth < 768;
+
+
+   
 
     let canceled = false;
 
-    // Lazy-load AOS to keep it out of the critical path
-    import("aos").then(({ default: AOS }) => {
-      if (canceled) return;
-      AOS.init({
-        duration: 800,
-        once: true,
-        // Disable animations for users who prefer reduced motion or on small screens
-        disable: prefersReducedMotion || isSmallScreen,
+    requestAnimationFrame(() => {
+      import("aos").then(({ default: AOS }) => {
+        if (canceled) return;
+        AOS.init({
+          duration: 600,
+          once: true,
+          disable: prefersReducedMotion,
+          offset: 50, 
+          delay: 0,
+          easing: "ease-out",
+        });
       });
     });
 
@@ -26,6 +33,18 @@ export default function AosInit() {
       canceled = true;
     };
   }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(() => {
+        import("aos").then(({ default: AOS }) => {
+          AOS.refresh();
+        });
+      });
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [pathname]);
 
   return null;
 }

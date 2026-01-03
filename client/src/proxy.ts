@@ -1,9 +1,12 @@
-import { intlayerProxy } from "next-intlayer/proxy";
+import { intlayerMiddleware } from "next-intlayer/middleware";
+import { NextRequest } from "next/server";
 
-export default intlayerProxy;
+export function proxy(request: NextRequest) {
+  return intlayerMiddleware(request);
+}
 
 export const config = {
   matcher: [
-    "/((?!api|static|assets|robots|sitemap|sw|service-worker|manifest|.*\\..*|_next|admin).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|Logo.png|admin|.*\\.svg|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.gif|.*\\.webp).*)",
   ],
 };

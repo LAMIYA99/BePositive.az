@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale } from "next-intlayer";
+import { getImageUrl } from "@/lib/utils";
 
 interface BlogCardProps {
   blog: {
@@ -21,18 +22,13 @@ const BlogCard = ({ blog }: BlogCardProps) => {
 
   return (
     <div
-      className="font-space group flex flex-col gap-[22px]
+      className="font-inter group flex flex-col gap-[22px]
       p-6 rounded-3xl shadow-md transition-all duration-300 cursor-pointer
       bg-white hover:bg-[#0808C1] hover:text-white"
     >
       <div className="flex items-center mb-4">
         <Image
-          src={
-            blog.image &&
-            (blog.image.startsWith("http") || blog.image.startsWith("/"))
-              ? blog.image
-              : "/Ellipse50.png"
-          }
+          src={getImageUrl(blog.image)}
           alt={displayTitle}
           width={68}
           height={68}

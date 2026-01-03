@@ -1,35 +1,63 @@
 "use client";
 import HeadingText from "@/Featured/Common/HeadingText";
-import TrainingCard from "@/Featured/Common/TrainingCard";
 import { useLocale } from "next-intlayer";
 import { getTranslation } from "intlayer";
 import { HeadingTexts } from "@/translations/heading";
-import ApiServices from "@/Services/api";
-import { useQuery } from "@tanstack/react-query";
 import { ServicesCard } from "@/Featured/Common/ServicesCard";
+import { useEffect, useState } from "react";
+import { API_URL } from "@/lib/api";
+
+interface LocalizedString {
+  en: string;
+  az: string;
+}
+
+interface Training {
+  _id: string;
+  title: LocalizedString;
+  image: string;
+  link?: string;
+  tags: LocalizedString[];
+}
 
 const TrainingSection = () => {
-  const STRAPI_BASE_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-
-  const api = new ApiServices(`${STRAPI_BASE_URL}/api/`);
-
-  const { data } = useQuery({
-    queryKey: ["trainingBlog"],
-    queryFn: () => api.getData("blogs?populate=*"),
-  });
-
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
-  console.log(data);
+
+  const [trainings, setTrainings] = useState<Training[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`/api/trainings`);
+        if (res.ok) {
+          const data = await res.json();
+          setTrainings(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch trainings", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (trainings.length === 0) return null;
+
   return (
-    <section className="container mx-auto py-10 px-6">
+    <section className="container mx-auto py-2 lg:py-10   px-6">
       <HeadingText title={t(HeadingTexts.trainingsTitle)} />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-10">
-        <ServicesCard />
-        <ServicesCard />
-        <ServicesCard />
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-5 lg:mt-10">
+        {trainings.map((training) => (
+          <ServicesCard
+            key={training._id}
+            title={training.title}
+            image={training.image}
+            tags={training.tags}
+            link={training.link}
+          />
+        ))}
       </div>
     </section>
   );

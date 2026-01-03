@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "@/Featured/Common/BlogCard";
 import HeadingText from "@/Featured/Common/HeadingText";
+import { API_URL } from "@/lib/api";
 
 interface Blog {
   _id: string;
@@ -15,13 +16,13 @@ const BlogScTCard = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/blogs")
+    fetch(`${API_URL}/api/blogs`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();
       })
       .then((data) => {
-        if (Array.isArray(data)) setBlogs(data);
+        if (Array.isArray(data)) setBlogs(data.slice(0, 8));
         else setError(true);
       })
       .catch((err) => {

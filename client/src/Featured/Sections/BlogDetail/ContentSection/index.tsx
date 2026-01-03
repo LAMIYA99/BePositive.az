@@ -6,6 +6,7 @@ import { Calendar, Clock } from "lucide-react";
 import { useLocale } from "next-intlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
+import { API_URL } from "@/lib/api";
 
 interface LocalizedString {
   en: string;
@@ -40,7 +41,7 @@ const ContentSection = ({ id }: { id: string }) => {
 
     setLoading(true);
 
-    fetch(`http://localhost:5001/api/blogs/${id}`)
+    fetch(`${API_URL}/api/blogs/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();
@@ -186,10 +187,7 @@ const ContentSection = ({ id }: { id: string }) => {
         )}
       </article>
       <p className="mt-10 text-[#414141] font-normal text-[18px] md:text-[20px] lg:text-[24px] leading-8 md:leading-9">
-        Therefore, if someone asks why social networks are needed, they are
-        simply not an innovative person and after a while their work or business
-        will collapse. If you have any questions, you can write to me on
-        Instagram <br /> @alamdarmanafov. Ələmdar Manafov
+        Author <br /> @alamdarmanafov. Ələmdar Manafov
       </p>
     </section>
   );

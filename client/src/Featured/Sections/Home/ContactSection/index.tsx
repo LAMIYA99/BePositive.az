@@ -1,13 +1,18 @@
 "use client";
 import { contactFormContent } from "@/translations/sections";
 import { useLocale } from "next-intlayer";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
+import LazyReCAPTCHA from "@/components/LazyReCAPTCHA";
 
 const ContactSection = () => {
   const { locale } = useLocale();
   const t = (content: { en: string; az: string }) => content[locale];
+
+  const recaptchaRef = useRef<any>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [loadCaptcha, setLoadCaptcha] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -22,23 +27,49 @@ const ContactSection = () => {
   const sendEmail = async (e: any) => {
     e.preventDefault();
 
+    if (!captchaToken) {
+      toast.error(
+        locale === "az"
+          ? "Zəhmət olmasa robot olmadığınızı təsdiqləyin."
+          : "Please verify that you are not a robot."
+      );
+      return;
+    }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS environment variables are missing!");
+      toast.error(
+        locale === "az"
+          ? "Sistem xətası: Email parametrləri tapılmadı."
+          : "System error: Email parameters not found."
+      );
+      return;
+    }
+
     try {
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        serviceId,
+        templateId,
         {
           from_name: form.name,
           from_email: form.email,
           message: form.message,
+          "g-recaptcha-response": captchaToken,
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        publicKey
       );
 
       toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
       setForm({ name: "", email: "", message: "" });
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
     } catch (err) {
+      console.error("EmailJS Error:", err);
       toast.error(locale === "az" ? "Xəta baş verdi!" : "An error occurred!");
-      console.log(err);
     }
   };
 
@@ -159,6 +190,7 @@ const ContactSection = () => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
+                onFocus={() => setLoadCaptcha(true)}
                 placeholder={t(contactFormContent.placeholders.name)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
                 required
@@ -174,6 +206,7 @@ const ContactSection = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
+                onFocus={() => setLoadCaptcha(true)}
                 placeholder={t(contactFormContent.placeholders.email)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
                 required
@@ -188,10 +221,23 @@ const ContactSection = () => {
                 name="message"
                 value={form.message}
                 onChange={handleChange}
+                onFocus={() => setLoadCaptcha(true)}
                 placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
                 required
               />
+            </div>
+
+            <div className="w-full flex justify-center">
+              {loadCaptcha ? (
+                <LazyReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  onChange={(token: string | null) => setCaptchaToken(token)}
+                  ref={recaptchaRef}
+                />
+              ) : (
+                <div onMouseEnter={() => setLoadCaptcha(true)} style={{ minHeight: 78 }} />
+              )}
             </div>
 
             <button className="w-full h-[55px] bg-[#0707B0] text-white font-medium rounded-2xl hover:bg-[#FBE443] hover:text-black transition">

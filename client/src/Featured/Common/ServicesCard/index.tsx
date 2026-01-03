@@ -1,27 +1,32 @@
-"use client";
-
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
-import { serviceSectionContent } from "@/translations/sections";
+import { getImageUrl } from "@/lib/utils";
 
-export const ServicesCard = () => {
+import Link from "next/link";
+
+interface ServicesCardProps {
+  title: { en: string; az: string };
+  image: string;
+  tags: { en: string; az: string }[];
+  link?: string;
+}
+
+export const ServicesCard = ({
+  title,
+  image,
+  tags,
+  link,
+}: ServicesCardProps) => {
   const { locale } = useLocale();
 
   const t = (content: { en: string; az: string }) =>
     getTranslation(content, locale);
 
-  const img = "/cart.png";
-  const tags = [
-    t(serviceSectionContent.card.tags.dashboard),
-    t(serviceSectionContent.card.tags.saas),
-    t(serviceSectionContent.card.tags.product),
-  ];
-
-  return (
+  const CardContent = (
     <div className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-        style={{ backgroundImage: `url(${img})` }}
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105 will-change-transform"
+        style={{ backgroundImage: `url(${getImageUrl(image)})` }}
       />
 
       <div
@@ -30,23 +35,23 @@ export const ServicesCard = () => {
           text-white 
           bg-linear-to-t from-black/80 to-transparent
           translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
-          transition-all duration-500 space-y-3"
+          transition-all duration-300 space-y-3 will-change-transform"
       >
-        <div className="flex gap-2 sm:gap-3">
+        <div className="flex gap-2 sm:gap-3 flex-wrap">
           {tags.map((tag, i) => (
             <span
               key={i}
               className="
                 flex justify-center items-center 
-                w-[65px] h-7 text-[10px] 
-                sm:w-[75px] sm:h-7 sm:text-[11px]
-                md:w-[85px] md:h-8 md:text-[12px]
-                px-5 sm:px-7 md:px-[35px]
+                w-auto min-w-[65px] h-7 text-[10px] 
+                sm:min-w-[75px] sm:h-7 sm:text-[11px]
+                md:min-w-[85px] md:h-8 md:text-[12px]
+                px-3 sm:px-4 md:px-5 capitalize
                 leading-5 sm:leading-[22px] md:leading-[26px]
                 border border-white rounded-full font-medium backdrop-blur-sm
               "
             >
-              {tag}
+              {t(tag)}
             </span>
           ))}
         </div>
@@ -55,11 +60,11 @@ export const ServicesCard = () => {
             className="
           text-[16px] leading-5
           sm:text-[20px] sm:leading-[22px]
-          md:text-[26px] md:leading-[34px]
-          font-medium
+          md:text-[26px] md:leading-[26px]
+          font-medium pr-10
         "
           >
-            {t(serviceSectionContent.card.title)}
+            {t(title)}
           </p>
           <div className="absolute top-0 right-0">
             <svg
@@ -82,4 +87,18 @@ export const ServicesCard = () => {
       </div>
     </div>
   );
+
+  if (link) {
+    return (
+      <Link
+        href={link}
+        passHref
+        target={link.startsWith("http") ? "_blank" : "_self"}
+      >
+        {CardContent}
+      </Link>
+    );
+  }
+
+  return CardContent;
 };

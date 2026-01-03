@@ -14,19 +14,19 @@ const MeetSection = () => {
 
   const team = [
     {
-      img: "/Responsive.png",
+      img: "/alamdarmanafov.png",
       name: "Alamdar Manafov",
       title: t(meetSectionContent.roles.ceo),
     },
     {
       img: "/Responsive.png",
-      name: "Aynur Abdullayeva",
-      title: t(meetSectionContent.roles.uiux),
+      name: "Lamiya Alizada",
+      title: t(meetSectionContent.roles.mernStack),
     },
     {
       img: "/Responsive.png",
-      name: "Darishova Shabnam",
-      title: t(meetSectionContent.roles.uiux),
+      name: "Marvan Mammadli",
+      title: t(meetSectionContent.roles.mernStack),
     },
     {
       img: "/Responsive.png",

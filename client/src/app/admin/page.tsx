@@ -11,15 +11,16 @@ import {
   Search,
   CheckCircle2,
   FileText,
-  ChevronRight,
   ArrowRight,
-  LogOut,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
+import { API_URL, UPLOADS_URL } from "@/lib/api";
+import { Sidebar } from "./components/Sidebar";
+import { Notification } from "./components/Notification";
+import { StatCard } from "./components/StatCard";
 
 interface LocalizedString {
   en: string;
@@ -49,35 +50,6 @@ interface Blog {
 
 type BlogFormData = Omit<Blog, "_id" | "createdAt" | "views" | "likes">;
 
-const Notification = ({
-  message,
-  onClose,
-}: {
-  message: string;
-  onClose: () => void;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50, scale: 0.9 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    exit={{ opacity: 0, y: 20, scale: 0.9 }}
-    className="fixed bottom-8 right-8 z-50 bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl p-6 rounded-3xl flex items-center gap-4 min-w-[320px]"
-  >
-    <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center">
-      <CheckCircle2 className="w-6 h-6 text-emerald-500" />
-    </div>
-    <div className="flex-1">
-      <h4 className="font-bold text-slate-900">Success!</h4>
-      <p className="text-slate-600 text-sm">{message}</p>
-    </div>
-    <button
-      onClick={onClose}
-      className="p-2 hover:bg-slate-100 rounded-xl transition-all"
-    >
-      <X className="w-4 h-4 text-slate-400" />
-    </button>
-  </motion.div>
-);
-
 const isValidUrl = (url: string) => {
   if (!url) return false;
   return url.startsWith("http") || url.startsWith("/");
@@ -91,21 +63,18 @@ export default function BePositiveAdmin() {
   const [notification, setNotification] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"en" | "az">("en");
   const { setLoading } = useAppLoading();
-  const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_auth");
-    router.push("/admin/login");
-  };
-
-  const withLoading = async (fn: () => Promise<any>) => {
-    setLoading(true);
-    try {
-      await fn();
-    } finally {
-      setLoading(false);
-    }
-  };
+  const withLoading = useCallback(
+    async (fn: () => Promise<void>) => {
+      setLoading(true);
+      try {
+        await fn();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [setLoading]
+  );
 
   const [formData, setFormData] = useState<BlogFormData>({
     title: { en: "", az: "" },
@@ -128,17 +97,18 @@ export default function BePositiveAdmin() {
   });
 
   const fetchBlogs = useCallback(async () => {
-    withLoading(async () => {
-      try {
-        const res = await fetch("http://localhost:5001/api/blogs");
-        if (res.ok) {
-          const data = await res.json();
-          setBlogs(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error);
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/blogs`);
+      if (res.ok) {
+        const data = await res.json();
+        setBlogs(data);
       }
-    });
+    } catch (error) {
+      console.error("Failed to fetch blogs:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -169,6 +139,34 @@ export default function BePositiveAdmin() {
   };
 
   const handleEdit = (blog: Blog) => {
+    // Auto-fix legacy localhost URLs for main images
+    let cleanImage = blog.image || "";
+    if (
+      cleanImage &&
+      cleanImage.includes("/uploads/") &&
+      cleanImage.startsWith("http")
+    ) {
+      cleanImage = `/uploads/${cleanImage.split("/uploads/")[1]}`;
+    }
+
+    let cleanImage2 = blog.image2 || "";
+    if (
+      cleanImage2 &&
+      cleanImage2.includes("/uploads/") &&
+      cleanImage2.startsWith("http")
+    ) {
+      cleanImage2 = `/uploads/${cleanImage2.split("/uploads/")[1]}`;
+    }
+
+    // Auto-fix legacy localhost URLs for section images
+    const cleanSections = (blog.sections || []).map((s) => {
+      let sImg = s.image;
+      if (sImg && sImg.includes("/uploads/") && sImg.startsWith("http")) {
+        sImg = `/uploads/${sImg.split("/uploads/")[1]}`;
+      }
+      return { ...s, image: sImg };
+    });
+
     setFormData({
       title:
         typeof blog.title === "string"
@@ -182,10 +180,10 @@ export default function BePositiveAdmin() {
         typeof blog.content === "string"
           ? { en: blog.content, az: "" }
           : { ...blog.content },
-      sections: blog.sections || [],
+      sections: cleanSections,
       author: blog.author,
-      image: blog.image || "",
-      image2: blog.image2 || "",
+      image: cleanImage,
+      image2: cleanImage2,
       category: blog.category,
       status: blog.status,
     });
@@ -193,11 +191,9 @@ export default function BePositiveAdmin() {
     setIsEditing(true);
     setActiveTab("en");
     setImageModes({
-      image: blog.image?.startsWith("http://localhost:5001/uploads")
-        ? "upload"
-        : "url",
-      sections: (blog.sections || []).map((s) =>
-        s.image?.startsWith("http://localhost:5001/uploads") ? "upload" : "url"
+      image: cleanImage.startsWith(UPLOADS_URL) ? "upload" : "url",
+      sections: cleanSections.map((s) =>
+        s.image?.startsWith(UPLOADS_URL) ? "upload" : "url"
       ),
     });
   };
@@ -214,7 +210,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch("http://localhost:5001/api/upload", {
+        const res = await fetch(`${API_URL}/api/upload`, {
           method: "POST",
           body: formDataUpload,
         });
@@ -241,7 +237,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch("http://localhost:5001/api/upload", {
+        const res = await fetch(`${API_URL}/api/upload`, {
           method: "POST",
           body: formDataUpload,
         });
@@ -287,8 +283,8 @@ export default function BePositiveAdmin() {
     withLoading(async () => {
       try {
         const url = currentBlog
-          ? `http://localhost:5001/api/blogs/${currentBlog._id}`
-          : "http://localhost:5001/api/blogs";
+          ? `${API_URL}/api/blogs/${currentBlog._id}`
+          : `${API_URL}/api/blogs`;
 
         const method = currentBlog ? "PUT" : "POST";
 
@@ -318,7 +314,7 @@ export default function BePositiveAdmin() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       withLoading(async () => {
         try {
-          const res = await fetch(`http://localhost:5001/api/blogs/${id}`, {
+          const res = await fetch(`${API_URL}/api/blogs/${id}`, {
             method: "DELETE",
           });
           if (res.ok) {
@@ -366,41 +362,7 @@ export default function BePositiveAdmin() {
       </AnimatePresence>
 
       <div className="flex">
-        <aside className="w-72 h-screen sticky top-0 bg-white border-r border-slate-100 p-8 hidden lg:flex flex-col">
-          <div className="flex items-center flex-col gap-3 mb-12">
-            <Link href={"/"}>
-              <Image
-                src="/Logo.png"
-                alt="Logo"
-                width={72}
-                height={72}
-                className="lg:w-[72px] lg:h-[72px] w-12 h-12 object-contain"
-                priority
-              />
-            </Link>
-            <h2 className="text-2xl font-semibold tracking-tight mb-2 text-[#171ACF]">
-              Dashboard
-            </h2>
-          </div>
-
-          <nav className="space-y-2 flex-1">
-            <SidebarItem
-              icon={<FileText className="w-5 h-5" />}
-              label="Blog Posts"
-              active
-            />
-          </nav>
-
-          <div className="mt-auto">
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-6 py-4 rounded-3xl text-rose-500 hover:bg-rose-50 transition-all font-bold"
-            >
-              <LogOut className="w-5 h-5" />
-              <span>Log Out</span>
-            </button>
-          </div>
-        </aside>
+        <Sidebar />
 
         <main className="flex-1 p-4 md:p-8 lg:p-12 max-w-7xl mx-auto w-full">
           <AnimatePresence mode="wait">
@@ -441,7 +403,7 @@ export default function BePositiveAdmin() {
                   />
                 </div>
 
-                <div className="bg-white rounded-[32px] p-6 shadow-2xl shadow-slate-100 mb-8 flex flex-col md:flex-row gap-4">
+                <div className="bg-white rounded-4xl p-6 shadow-2xl shadow-slate-100 mb-8 flex flex-col md:flex-row gap-4">
                   <div className="relative flex-1">
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                     <input
@@ -474,7 +436,7 @@ export default function BePositiveAdmin() {
                                   : blog.title.en
                               }
                               fill
-                              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                              className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
@@ -582,7 +544,7 @@ export default function BePositiveAdmin() {
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          status: e.target.value as any,
+                          status: e.target.value as "draft" | "published",
                         })
                       }
                       className="px-6 py-4 bg-white border border-slate-100 rounded-3xl font-bold text-sm outline-none focus:ring-2 ring-violet-500/20"
@@ -1037,63 +999,6 @@ export default function BePositiveAdmin() {
           </AnimatePresence>
         </main>
       </div>
-    </div>
-  );
-}
-
-function SidebarItem({
-  icon,
-  label,
-  active = false,
-}: {
-  icon: any;
-  label: string;
-  active?: boolean;
-}) {
-  return (
-    <button
-      className={`w-full flex items-center gap-3 px-6 py-4 rounded-3xl transition-all ${
-        active
-          ? "bg-violet-600 text-white shadow-xl shadow-violet-200 font-bold"
-          : "text-slate-400 hover:text-slate-900 hover:bg-slate-50 font-medium"
-      }`}
-    >
-      {icon}
-      <span>{label}</span>
-      {active && <ChevronRight className="ml-auto w-4 h-4" />}
-    </button>
-  );
-}
-
-function StatCard({
-  icon,
-  label,
-  value,
-  color,
-}: {
-  icon: any;
-  label: string;
-  value: number | string;
-  color: string;
-}) {
-  const colors: Record<string, string> = {
-    violet: "bg-violet-50 text-violet-600",
-    emerald: "bg-emerald-50 text-emerald-600",
-    amber: "bg-amber-50 text-amber-600",
-    rose: "bg-rose-50 text-rose-600",
-  };
-
-  return (
-    <div className="bg-white p-8 rounded-[40px] shadow-2xl shadow-slate-100 border border-slate-50">
-      <div
-        className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${colors[color]}`}
-      >
-        {icon}
-      </div>
-      <p className="text-4xl font-black mb-1 leading-none">{value}</p>
-      <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">
-        {label}
-      </p>
     </div>
   );
 }

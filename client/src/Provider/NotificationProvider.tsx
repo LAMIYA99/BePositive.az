@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
+import { API_URL } from "@/lib/api";
 
 export const NotificationProvider = ({
   children,
@@ -10,7 +11,7 @@ export const NotificationProvider = ({
   children: React.ReactNode;
 }) => {
   useEffect(() => {
-    const socket = io("http://localhost:5001");
+    const socket = io(API_URL);
 
     socket.on("connect", () => {
       console.log("Connected to notification server");
@@ -42,6 +43,25 @@ export const NotificationProvider = ({
           fontWeight: "bold",
         },
       });
+    });
+
+    // Listen for notification events and dispatch a window event so other components (like PushNotification) can react
+    socket.on("notificationCreated", (data) => {
+      console.log("Socket: notificationCreated", data);
+      try {
+        window.dispatchEvent(new CustomEvent("notification:created", { detail: data }));
+      } catch (err) {
+        console.error("Failed to dispatch notification:created event", err);
+      }
+    });
+
+    socket.on("notificationUpdated", (data) => {
+      console.log("Socket: notificationUpdated", data);
+      try {
+        window.dispatchEvent(new CustomEvent("notification:updated", { detail: data }));
+      } catch (err) {
+        console.error("Failed to dispatch notification:updated event", err);
+      }
     });
 
     return () => {

@@ -1,13 +1,11 @@
 @import "tailwindcss";
-
-
+@import "aos/dist/aos.css"; /* AOS animations CSS */
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --font-inter: var(--font-inter);
-  --font-poppins: var(--font-poppins);
-  --font-space-grotesk: var(--font-space-grotesk);
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -44,8 +42,6 @@
 
 @theme {
   --font-inter: var(--font-inter);
-  --font-poppins: var(--font-poppins);
-  --font-space: var(--font-space-grotesk);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -131,9 +127,25 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+
+  *:not(input):not(textarea):not([contenteditable="true"]) {
+    caret-color: transparent;
+  }
+
+
+  *:focus-visible {
+    @apply outline-2 outline-ring/50 outline-offset-2;
+  }
+
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
   body {
     @apply bg-background text-foreground;
+    -webkit-tap-highlight-color: transparent;
   }
 }
