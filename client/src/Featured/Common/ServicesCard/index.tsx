@@ -55,7 +55,7 @@ export const ServicesCard = () => {
             className="
           text-[16px] leading-5
           sm:text-[20px] sm:leading-[22px]
-          md:text-[26px] md:leading-[26px]
+          md:text-[26px] md:leading-[34px]
           font-medium
         "
           >
