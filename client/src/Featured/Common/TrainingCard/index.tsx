@@ -15,7 +15,7 @@ const TrainingCard = ({ title, image, tag }: TrainingCardProps) => {
       <div
         className="absolute flex flex-col gap-4 bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 text-white 
         bg-linear-to-t from-black/80 to-transparent
-        translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100
+        translate-y-10 lg:opacity-0 opacity-100 group-hover:translate-y-0 group-hover:opacity-100
         transition-all duration-300 space-y-3 will-change-transform"
       >
         <div className="flex gap-2 sm:gap-3 flex-wrap">
