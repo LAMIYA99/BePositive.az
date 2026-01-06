@@ -33,6 +33,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
           width={68}
           height={68}
           className="w-[68px] h-[68px] rounded-full object-cover"
+          unoptimized={true}
         />
       </div>
 

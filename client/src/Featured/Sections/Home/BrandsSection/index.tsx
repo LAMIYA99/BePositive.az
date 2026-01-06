@@ -19,7 +19,7 @@ const BrandSection = () => {
         const res = await fetch(`/api/brands`);
         if (res.ok) {
           const data = await res.json();
-          console.log("Fetched brands:", data.length); 
+          console.log("Fetched brands:", data.length);
           setBrands(data);
         } else {
           console.error("Failed to fetch brands, status:", res.status);
@@ -53,7 +53,7 @@ const BrandSection = () => {
         gradient={false}
         pauseOnHover={false}
         autoFill={true}
-        key={brands.length} 
+        key={brands.length}
       >
         {brands.map((brand, index) => (
           <div
@@ -68,7 +68,7 @@ const BrandSection = () => {
                 height={130}
                 className="object-contain rounded-full"
                 loading="eager"
-                unoptimized={brand.imageUrl?.endsWith(".svg")}
+                unoptimized={true}
                 sizes="130px"
               />
             </div>

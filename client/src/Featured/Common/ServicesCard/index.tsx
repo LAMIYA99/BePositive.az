@@ -26,7 +26,7 @@ export const ServicesCard = ({
     <div className="relative h-[280px] sm:h-[300px] md:h-[334px] rounded-2xl overflow-hidden group cursor-pointer shadow-md bg-gray-200">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105 will-change-transform"
-        style={{ backgroundImage: `url(${getImageUrl(image)})` }}
+        style={{ backgroundImage: `url("${getImageUrl(image)}")` }}
       />
 
       <div

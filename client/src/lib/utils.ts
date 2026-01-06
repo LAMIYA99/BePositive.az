@@ -29,7 +29,10 @@ export function getImageUrl(path: string | undefined | null) {
   ];
 
   // Check if the path contains any of the local images
-  const foundLocal = localImages.find((img) => path.includes(img));
+  const foundLocal = localImages.find((img) =>
+    path.toLowerCase().includes(img.toLowerCase())
+  );
+
   if (foundLocal) {
     return `/${foundLocal}`;
   }
@@ -37,22 +40,33 @@ export function getImageUrl(path: string | undefined | null) {
   // Normalize path: replace backslashes with forward slashes
   let cleanPath = path.replace(/\\/g, "/");
 
-  // If it's already an external https link (or http), return it
+  // If it's already an external link, return as is
   if (cleanPath.startsWith("http")) return cleanPath;
 
-  // Add leading slash if missing
+  // Ensure it starts with / for relative paths
   if (!cleanPath.startsWith("/")) {
     cleanPath = `/${cleanPath}`;
   }
 
-  // If it's from the uploads folder, use the relative api proxy
-  // This allows mobile devices on the same network to see images
-  // without needing to know the server's IP address.
+  // Determine the base URL
+  let baseUrl = API_URL;
+
+  // Special handling for local development with mobile devices
+  // We use the relative /api proxy only when on localhost to avoid IP issues
   if (cleanPath.startsWith("/uploads/")) {
-    return `/api${cleanPath}`;
+    const isLocalhost =
+      typeof window !== "undefined" &&
+      (window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1");
+
+    if (isLocalhost) {
+      baseUrl = "/api";
+    }
   }
 
-  // Prepend API_URL for other uploaded files (if any)
-  // or return as is if it's already a relative path for public folder
-  return `${API_URL}${cleanPath}`;
+  // Encode the path part to handle spaces and special characters
+  // We use encodeURI to keep slashes intact
+  const encodedPath = encodeURI(cleanPath);
+
+  return `${baseUrl}${encodedPath}`;
 }

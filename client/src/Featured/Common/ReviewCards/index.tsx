@@ -17,6 +17,7 @@ const ReviewCard = ({ review }: { review: any }) => {
           width={76}
           height={76}
           className="w-full h-full object-cover"
+          unoptimized={true}
         />
       </div>
 
