@@ -11,6 +11,7 @@ import {
   GraduationCap,
   Bell,
   Building2,
+  Users,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -52,6 +53,11 @@ export function Sidebar() {
       label: "Brands",
       icon: <Building2 className="w-5 h-5" />,
       href: "/admin/brands",
+    },
+    {
+      label: "Team",
+      icon: <Users className="w-5 h-5" />,
+      href: "/admin/team",
     },
   ];
 
