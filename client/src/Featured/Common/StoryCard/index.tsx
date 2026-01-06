@@ -2,6 +2,7 @@
 
 import { getTranslation } from "intlayer";
 import { useLocale } from "next-intlayer";
+import { getImageUrl } from "@/lib/utils";
 
 interface StoryCardProps {
   title: { en: string; az: string };
@@ -39,7 +40,7 @@ const StoryCard = ({ title, image, tags }: StoryCardProps) => {
       transition-transform duration-500 
       group-hover:scale-110
     "
-        style={{ backgroundImage: `url(${image})` }}
+        style={{ backgroundImage: `url("${getImageUrl(image)}")` }}
       />
 
       <div

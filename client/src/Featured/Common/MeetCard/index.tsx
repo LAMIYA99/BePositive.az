@@ -1,26 +1,18 @@
 import Image from "next/image";
-
 import { MeetCardProps } from "@/Types/global";
-
-const resolveSrc = (src: string) => {
-  if (!src) return "/avatar1.jpg";
-  if (src.startsWith("http://") || src.startsWith("https://")) return src;
-  if (src.startsWith("/")) return src;
-  return `/${src}`;
-};
+import { getImageUrl } from "@/lib/utils";
 
 const MeetCard = ({ img, name, title }: MeetCardProps) => {
-  const safeSrc = resolveSrc(img);
-
   return (
     <div className="bg-white p-7 rounded-2xl flex flex-col items-center justify-center gap-6">
       <div className="w-[140px] h-[140px] rounded-full overflow-hidden">
         <Image
-          src={safeSrc}
+          src={getImageUrl(img)}
           alt={name}
           width={140}
           height={140}
           className="w-full h-full object-cover"
+          unoptimized={true}
         />
       </div>
 

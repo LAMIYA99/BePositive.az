@@ -9,6 +9,7 @@ interface BlogCardProps {
     title: { en: string; az: string };
     excerpt: { en: string; az: string };
     image: string;
+    tags?: { en: string; az: string }[];
   };
 }
 
@@ -33,7 +34,19 @@ const BlogCard = ({ blog }: BlogCardProps) => {
           width={68}
           height={68}
           className="w-[68px] h-[68px] rounded-full object-cover"
+          unoptimized={true}
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {blog.tags?.map((tag, i) => (
+          <span
+            key={i}
+            className="px-3 py-1 bg-violet-50 text-[#0808C1] text-[10px] font-bold rounded-full uppercase tracking-wider group-hover:bg-white/20 group-hover:text-white transition-colors"
+          >
+            {(tag as any)[locale] || tag.en}
+          </span>
+        ))}
       </div>
 
       <div className="flex flex-col gap-3">

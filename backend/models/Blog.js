@@ -18,10 +18,13 @@ const blogSchema = new mongoose.Schema(
       type: String,
       default: "Admin",
     },
-    category: {
-      type: [String],
-      default: ["Marketing"],
-    },
+    tags: [
+      {
+        en: { type: String, required: true },
+        az: { type: String, required: true },
+      },
+    ],
+
     status: {
       type: String,
       enum: ["draft", "published"],

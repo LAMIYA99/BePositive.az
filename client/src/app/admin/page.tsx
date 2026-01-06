@@ -22,6 +22,11 @@ import { Sidebar } from "./components/Sidebar";
 import { Notification } from "./components/Notification";
 import { StatCard } from "./components/StatCard";
 
+interface Tag {
+  en: string;
+  az: string;
+}
+
 interface LocalizedString {
   en: string;
   az: string;
@@ -43,8 +48,9 @@ interface Blog {
   status: "draft" | "published";
   views: number;
   likes: number;
-  category: string[];
+  tags: Tag[];
   image: string;
+
   image2: string;
 }
 
@@ -63,6 +69,11 @@ export default function BePositiveAdmin() {
   const [notification, setNotification] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"en" | "az">("en");
   const { setLoading } = useAppLoading();
+
+  const [tagInput, setTagInput] = useState<Tag>({
+    en: "",
+    az: "",
+  });
 
   const withLoading = useCallback(
     async (fn: () => Promise<void>) => {
@@ -84,7 +95,7 @@ export default function BePositiveAdmin() {
     author: "",
     image: "",
     image2: "",
-    category: ["Marketing"],
+    tags: [],
     status: "draft",
   });
 
@@ -129,9 +140,10 @@ export default function BePositiveAdmin() {
       author: "",
       image: "",
       image2: "",
-      category: ["Marketing"],
+      tags: [],
       status: "draft",
     });
+
     setCurrentBlog(null);
     setIsEditing(true);
     setActiveTab("en");
@@ -139,7 +151,6 @@ export default function BePositiveAdmin() {
   };
 
   const handleEdit = (blog: Blog) => {
-    // Auto-fix legacy localhost URLs for main images
     let cleanImage = blog.image || "";
     if (
       cleanImage &&
@@ -158,7 +169,6 @@ export default function BePositiveAdmin() {
       cleanImage2 = `/uploads/${cleanImage2.split("/uploads/")[1]}`;
     }
 
-    // Auto-fix legacy localhost URLs for section images
     const cleanSections = (blog.sections || []).map((s) => {
       let sImg = s.image;
       if (sImg && sImg.includes("/uploads/") && sImg.startsWith("http")) {
@@ -184,9 +194,10 @@ export default function BePositiveAdmin() {
       author: blog.author,
       image: cleanImage,
       image2: cleanImage2,
-      category: blog.category,
+      tags: blog.tags || [],
       status: blog.status,
     });
+
     setCurrentBlog(blog);
     setIsEditing(true);
     setActiveTab("en");
@@ -252,6 +263,23 @@ export default function BePositiveAdmin() {
         console.error("Upload failed:", error);
       }
     });
+  };
+
+  const addTag = () => {
+    if (tagInput.en && tagInput.az) {
+      setFormData((prev) => ({
+        ...prev,
+        tags: [...(prev.tags || []), { ...tagInput }],
+      }));
+      setTagInput({ en: "", az: "" });
+    }
+  };
+
+  const removeTag = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((_, i) => i !== index),
+    }));
   };
 
   const addSection = () => {
@@ -341,12 +369,15 @@ export default function BePositiveAdmin() {
     const titleEn =
       typeof blog.title === "string" ? blog.title : blog.title?.en || "";
     const titleAz = typeof blog.title === "string" ? "" : blog.title?.az || "";
-    const categories = Array.isArray(blog.category) ? blog.category : [];
+    const tags = Array.isArray(blog.tags) ? blog.tags : [];
 
     return (
       titleEn.toLowerCase().includes(s) ||
       titleAz.toLowerCase().includes(s) ||
-      categories.some((cat) => cat.toLowerCase().includes(s))
+      tags.some(
+        (tag) =>
+          tag.en.toLowerCase().includes(s) || tag.az.toLowerCase().includes(s)
+      )
     );
   });
 
@@ -444,14 +475,15 @@ export default function BePositiveAdmin() {
                         <div className="flex-1 p-8 flex flex-col">
                           <div className="flex justify-between items-start mb-4">
                             <div className="flex flex-wrap gap-2">
-                              {blog.category?.map((cat) => (
+                              {blog.tags?.map((tag, i) => (
                                 <span
-                                  key={cat}
+                                  key={i}
                                   className="px-4 py-1.5 bg-violet-50 text-violet-600 text-[10px] font-bold rounded-full uppercase tracking-wider"
                                 >
-                                  {cat}
+                                  {tag.en}
                                 </span>
                               ))}
+
                               <span
                                 className={`px-4 py-1.5 text-[10px] font-bold rounded-full uppercase tracking-wider ${
                                   blog.status === "published"
@@ -858,33 +890,48 @@ export default function BePositiveAdmin() {
                         />
                       </div>
 
-                      <div>
-                        <div className="grid grid-cols-2 gap-3">
-                          {[
-                            "Marketing",
-                            "Design",
-                            "Business",
-                            "Branding",
-                            "Strategy",
-                            "Development",
-                          ].map((cat) => (
-                            <button
-                              key={cat}
-                              onClick={() => {
-                                const currentCats = formData.category || [];
-                                const newCats = currentCats.includes(cat)
-                                  ? currentCats.filter((c) => c !== cat)
-                                  : [...currentCats, cat];
-                                setFormData({ ...formData, category: newCats });
-                              }}
-                              className={`px-4 py-3 rounded-xl border transition-all text-xs font-bold ${
-                                formData.category?.includes(cat)
-                                  ? "bg-violet-600 border-violet-600 text-white"
-                                  : "bg-slate-50 border-slate-100 text-slate-600 hover:border-violet-200"
-                              }`}
+                      <div className="bg-white rounded-[40px] p-8 shadow-2xl shadow-slate-100 border border-slate-50 space-y-6">
+                        <h4 className="font-bold text-lg">Tags</h4>
+                        <div className="flex flex-col gap-4">
+                          <input
+                            value={tagInput.en}
+                            onChange={(e) =>
+                              setTagInput((p) => ({ ...p, en: e.target.value }))
+                            }
+                            placeholder="Tag (EN)"
+                            className="w-full px-4 py-3 bg-slate-50 rounded-xl"
+                          />
+                          <input
+                            value={tagInput.az}
+                            onChange={(e) =>
+                              setTagInput((p) => ({ ...p, az: e.target.value }))
+                            }
+                            placeholder="Tag (AZ)"
+                            className="w-full px-4 py-3 bg-slate-50 rounded-xl"
+                          />
+                          <button
+                            onClick={addTag}
+                            className="bg-violet-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-violet-700 transition-all"
+                          >
+                            Add Tag
+                          </button>
+                        </div>
+                        <div className="flex flex-wrap gap-2 pt-4">
+                          {formData.tags?.map((tag, i) => (
+                            <div
+                              key={i}
+                              className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg text-sm"
                             >
-                              {cat}
-                            </button>
+                              <span className="font-medium text-slate-700">
+                                {tag[activeTab]}
+                              </span>
+                              <button
+                                onClick={() => removeTag(i)}
+                                className="text-slate-400 hover:text-rose-500"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
                           ))}
                         </div>
                       </div>

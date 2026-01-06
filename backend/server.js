@@ -42,26 +42,51 @@ io.on("connection", (socket) => {
   });
 });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+let storage;
+if (process.env.CLOUDINARY_CLOUD_NAME) {
+  console.log("Using Cloudinary for storage");
+  storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: "bepositive_uploads",
+      allowed_formats: ["jpg", "png", "jpeg", "webp", "svg"],
+    },
+  });
+} else {
+  console.warn("Cloudinary not configured, falling back to local storage");
+  storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      const uploadDir = path.join(__dirname, "uploads");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + "-" + file.originalname);
+    },
+  });
+}
 
 const upload = multer({ storage });
 
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-  // Return relative path instead of absolute URL
-  console.log(`Image uploaded: ${req.file.filename}`);
-  res.json({ url: `/uploads/${req.file.filename}` });
+
+  const imageUrl =
+    req.file.path || req.file.secure_url || `/uploads/${req.file.filename}`;
+
+  console.log(`Image uploaded: ${imageUrl}`);
+  res.json({ url: imageUrl });
 });
 
 app.use("/api/blogs", blogRoutes);
@@ -70,6 +95,7 @@ app.use("/api/services", require("./routes/serviceRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/brands", require("./routes/brandRoutes"));
+app.use("/api/team", require("./routes/teamRoutes"));
 app.use("/api/auth", authRoutes);
 
 const connectDB = async () => {
