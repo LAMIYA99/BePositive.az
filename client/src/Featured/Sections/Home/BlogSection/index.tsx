@@ -41,10 +41,10 @@ const BlogSection = () => {
   if (error) return null;
 
   return (
-    <section className="container mx-auto py-2 lg:py-10  px-6">
+    <section className="container mx-auto mt-8 lg:py-10  px-6">
       <HeadingText title={t(HeadingTexts.blogTitle)} />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-5 lg:mt-10  ">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto mt-4 lg:mt-10  ">
         {blogs.map((blog) => (
           <BlogCard key={blog._id} blog={blog} />
         ))}
