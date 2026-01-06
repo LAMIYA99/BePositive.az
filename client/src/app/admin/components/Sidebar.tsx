@@ -12,6 +12,7 @@ import {
   Bell,
   Building2,
   Users,
+  HelpCircle,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -58,6 +59,11 @@ export function Sidebar() {
       label: "Team",
       icon: <Users className="w-5 h-5" />,
       href: "/admin/team",
+    },
+    {
+      label: "FAQ",
+      icon: <HelpCircle className="w-5 h-5" />,
+      href: "/admin/faq",
     },
   ];
 

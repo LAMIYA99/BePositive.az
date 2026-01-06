@@ -87,7 +87,6 @@ export default function NotificationAdmin() {
       const res = await fetch(`${API_URL}/api/notifications`);
       if (res.ok) {
         const data = await res.json();
-        // fetch stats for each notification in parallel
         const withStats = await Promise.all(
           data.map(async (n: NotificationData) => {
             try {
@@ -589,8 +588,9 @@ export default function NotificationAdmin() {
                           />
                           <button
                             onClick={addOption}
-                            className="w-full py-3 bg-violet-600 text-white font-bold rounded-xl"
+                            className="w-full py-3 bg-violet-600 hover:bg-violet-700 text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95 flex items-center justify-center gap-2"
                           >
+                            <Plus className="w-4 h-4" />
                             Add Option
                           </button>
                         </div>

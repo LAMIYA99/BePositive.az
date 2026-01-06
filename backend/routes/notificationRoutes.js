@@ -7,7 +7,6 @@ router.get("/", notificationController.getNotifications);
 router.post("/", notificationController.createNotification);
 router.put("/:id", notificationController.updateNotification);
 router.delete("/:id", notificationController.deleteNotification);
-// stats for a specific notification
 router.get("/:id/stats", notificationController.getNotificationStats);
 router.post("/response", notificationController.saveResponse);
 
