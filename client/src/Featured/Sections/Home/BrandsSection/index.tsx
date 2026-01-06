@@ -58,9 +58,9 @@ const BrandSection = () => {
         {brands.map((brand, index) => (
           <div
             key={`${brand._id}-${index}`}
-            className="bg-white rounded-full mx-4 w-[110px] h-[110px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-md hover:shadow-lg transition-shadow shrink-0 overflow-hidden border border-slate-50"
+            className="bg-white rounded-full mx-4 w-[130px] h-[130px] flex items-center justify-center shadow-md hover:shadow-lg transition-shadow shrink-0 overflow-hidden border border-slate-50"
           >
-            <div className="relative w-[70px] h-[70px] lg:w-[90px] lg:h-[90px]">
+            <div className="relative w-[90px] h-[90px]">
               <Image
                 src={getImageUrl(brand.imageUrl)}
                 alt="brand logo"
