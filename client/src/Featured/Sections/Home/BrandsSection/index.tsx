@@ -46,7 +46,7 @@ const BrandSection = () => {
   return (
     <section
       data-aos="zoom-in-down"
-      className="my-[10px] lg:my-[32px] py-4 w-full overflow-hidden"
+      className="my-[10px] lg:my-[32px] py-4 w-full"
     >
       <Marquee
         speed={50}
