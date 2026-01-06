@@ -111,17 +111,30 @@ exports.getNotificationStats = async (req, res) => {
       return res.status(404).json({ message: "Notification not found" });
 
     const counts = {};
+    const optionValues = new Set(
+      (notification.options || []).map((o) => o.value)
+    );
+    const customs = {};
+
     (notification.options || []).forEach((o) => {
       counts[o.value] = 0;
     });
 
     (notification.responses || []).forEach((r) => {
-      counts[r.value] = (counts[r.value] || 0) + 1;
+      if (optionValues.has(r.value)) {
+        counts[r.value] = (counts[r.value] || 0) + 1;
+      } else {
+        customs[r.value] = (customs[r.value] || 0) + 1;
+      }
     });
 
     const total = (notification.responses || []).length;
+    const customResponses = Object.entries(customs).map(([value, count]) => ({
+      value,
+      count,
+    }));
 
-    res.status(200).json({ counts, total });
+    res.status(200).json({ counts, total, customResponses });
   } catch (error) {
     console.error("getNotificationStats error:", error);
     res.status(500).json({ message: error.message });

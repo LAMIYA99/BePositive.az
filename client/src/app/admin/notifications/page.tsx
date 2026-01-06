@@ -44,7 +44,11 @@ interface NotificationData {
   showDelay: number;
   type: "survey" | "info";
   link?: string;
-  stats?: { counts: Record<string, number>; total: number };
+  stats?: {
+    counts: Record<string, number>;
+    total: number;
+    customResponses?: Array<{ value: string; count: number }>;
+  };
 }
 
 type NotificationFormData = Omit<NotificationData, "_id">;
@@ -372,6 +376,30 @@ export default function NotificationAdmin() {
                               );
                             })}
                           </div>
+
+                          {notif.stats?.customResponses &&
+                            notif.stats.customResponses.length > 0 && (
+                              <div className="mt-8">
+                                <label className="block text-sm font-bold text-slate-500 mb-3">
+                                  Custom User Responses
+                                </label>
+                                <div className="flex flex-wrap gap-2">
+                                  {notif.stats.customResponses.map((cr, i) => (
+                                    <div
+                                      key={i}
+                                      className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-xl text-sm"
+                                    >
+                                      <span className="font-bold text-violet-600">
+                                        "{cr.value}"
+                                      </span>
+                                      <span className="text-xs text-slate-400 font-medium">
+                                        ({cr.count})
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                         </div>
 
                         <div className="mt-6">

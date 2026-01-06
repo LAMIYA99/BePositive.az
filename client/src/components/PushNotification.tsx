@@ -34,6 +34,7 @@ export default function PushNotification() {
   );
   const [isVisible, setIsVisible] = useState(false);
   const [hasResponded, setHasResponded] = useState(false);
+  const [customResponse, setCustomResponse] = useState("");
 
   const t = (content: LocalizedString) => getTranslation(content, locale);
 
@@ -212,6 +213,35 @@ export default function PushNotification() {
                       </div>
                     </motion.button>
                   ))}
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="sm:col-span-2 mt-4"
+                  >
+                    <input
+                      type="text"
+                      value={customResponse}
+                      onChange={(e) => setCustomResponse(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && customResponse.trim()) {
+                          handleResponse(customResponse.trim());
+                        }
+                      }}
+                      placeholder={
+                        locale === "az"
+                          ? "Öz cavabınızı yazın..."
+                          : "Type your own response..."
+                      }
+                      className="w-full px-8 py-5 bg-slate-50 border border-slate-100 rounded-3xl text-slate-700 font-medium placeholder:text-slate-400 outline-none focus:border-[#0808C1]/30 focus:bg-white transition-all shadow-sm"
+                    />
+                    <p className="mt-3 text-center text-xs text-slate-400 font-medium">
+                      {locale === "az"
+                        ? "Cavab vermək üçün Enter düyməsini basın"
+                        : "Press Enter to submit your response"}
+                    </p>
+                  </motion.div>
                 </div>
               ) : (
                 notification.link && (
