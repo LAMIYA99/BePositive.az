@@ -15,6 +15,7 @@ const Accordions = ({ title, desc }: AccordionsProps) => {
             : "h-[54px] sm:h-[58px] md:h-[78px] bg-white hover:bg-[#F6F6E8]"
         }
       `}
+      
     >
       <li
         className={`flex items-center w-full pl-9 lg:pr-[61px] pr-[20px] 
