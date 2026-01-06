@@ -12,24 +12,19 @@ export function getImageUrl(path: string | undefined | null) {
   // Normalize path: replace backslashes with forward slashes
   let cleanPath = path.replace(/\\/g, "/");
 
-  // If it's already an external link, return as is
+  // 1. If it's already an external link (Cloudinary or others), return as is
   if (cleanPath.startsWith("http")) return cleanPath;
 
-  // 1. Handle uploaded files
+  // 2. Handle uploaded files (Legacy local uploads)
   // We check if "uploads/" is in the string.
-  // This handles both "/uploads/img.jpg" and "uploads/img.jpg"
   if (cleanPath.includes("uploads/")) {
     const uploadIndex = cleanPath.indexOf("uploads/");
-    // Extract everything after "uploads/"
     const fileName = cleanPath.substring(uploadIndex + "uploads/".length);
-    // Use the relative proxy. This is safer for CORS and mobile device Access.
-    // The proxy is at /api/uploads/[...path]
+    // Use the relative proxy for local uploads
     return `/api/uploads/${encodeURI(fileName)}`;
   }
 
-  // 2. Handle local public files
-  // If it doesn't contain "uploads/", it's almost certainly in the public folder.
-  // We just ensure it starts with a leading slash.
+  // 3. Handle local public files (Logo, Banner, etc.)
   if (!cleanPath.startsWith("/")) {
     cleanPath = `/${cleanPath}`;
   }
