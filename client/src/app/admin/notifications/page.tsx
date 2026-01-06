@@ -66,6 +66,11 @@ export default function NotificationAdmin() {
   const [activeTab, setActiveTab] = useState<"en" | "az">("en");
   const { setLoading } = useAppLoading();
 
+  const [optionInput, setOptionInput] = useState<NotificationOption>({
+    label: { en: "", az: "" },
+    value: "",
+  });
+
   const [formData, setFormData] = useState<NotificationFormData>({
     title: { en: "", az: "" },
     message: { en: "", az: "" },
@@ -162,6 +167,27 @@ export default function NotificationAdmin() {
     setCurrentNotification(notif);
     setIsEditing(true);
     setActiveTab("en");
+  };
+
+  const addOption = () => {
+    if (optionInput.label.en && optionInput.label.az && optionInput.value) {
+      setFormData((prev) => ({
+        ...prev,
+        options: [...prev.options, { ...optionInput }],
+      }));
+      setOptionInput({ label: { en: "", az: "" }, value: "" });
+    }
+  };
+
+  const removeOption = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      options: prev.options.filter((_, i) => i !== index),
+    }));
+  };
+
+  const loadDefaults = () => {
+    setFormData((prev) => ({ ...prev, options: defaultOptions }));
   };
 
   const handleSave = async () => {
@@ -514,6 +540,82 @@ export default function NotificationAdmin() {
                       placeholder="Notification message..."
                     />
                   </div>
+
+                  {formData.type === "survey" && (
+                    <div className="bg-slate-50 p-8 rounded-[30px] space-y-6">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-bold text-lg">Survey Options</h4>
+                        <button
+                          onClick={loadDefaults}
+                          className="text-xs font-bold text-violet-600 hover:underline"
+                        >
+                          Load Defaults
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-4">
+                          <input
+                            type="text"
+                            value={optionInput.label[activeTab]}
+                            onChange={(e) =>
+                              setOptionInput({
+                                ...optionInput,
+                                label: {
+                                  ...optionInput.label,
+                                  [activeTab]: e.target.value,
+                                },
+                              })
+                            }
+                            className="w-full px-4 py-3 bg-white rounded-xl border border-slate-100 outline-none"
+                            placeholder={`Option Label (${activeTab.toUpperCase()})`}
+                          />
+                          <input
+                            type="text"
+                            value={optionInput.value}
+                            onChange={(e) =>
+                              setOptionInput({
+                                ...optionInput,
+                                value: e.target.value,
+                              })
+                            }
+                            className="w-full px-4 py-3 bg-white rounded-xl border border-slate-100 outline-none"
+                            placeholder="Option Value (e.g. google)"
+                          />
+                          <button
+                            onClick={addOption}
+                            className="w-full py-3 bg-violet-600 text-white font-bold rounded-xl"
+                          >
+                            Add Option
+                          </button>
+                        </div>
+
+                        <div className="space-y-2">
+                          {formData.options.map((opt, i) => (
+                            <div
+                              key={i}
+                              className="flex items-center justify-between bg-white px-4 py-3 rounded-xl border border-slate-100"
+                            >
+                              <div className="flex flex-col">
+                                <span className="font-bold text-sm">
+                                  {opt.label[activeTab]}
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-mono">
+                                  ID: {opt.value}
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => removeOption(i)}
+                                className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between p-6 bg-slate-50 rounded-2xl">
                     <div>
