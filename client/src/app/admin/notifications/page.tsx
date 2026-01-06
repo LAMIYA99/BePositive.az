@@ -309,7 +309,6 @@ export default function NotificationAdmin() {
                           ))}
                         </div>
 
-                        {}
                         <div className="mt-4">
                           <label className="block text-sm font-bold text-slate-500">
                             Responses ({notif.stats?.total ?? 0})
@@ -345,9 +344,7 @@ export default function NotificationAdmin() {
                           </div>
                         </div>
 
-                        {}
                         <div className="mt-6">
-                          {}
                           <NotificationCharts notification={notif as any} />
                         </div>
                       </div>

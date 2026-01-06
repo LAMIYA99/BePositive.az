@@ -131,13 +131,10 @@ export default function TeamAdmin() {
     setLoading(true);
     try {
       const url = currentMember
-        ? `/api/team/${currentMember._id}` // Note: This needs a PUT proxy or direct access
+        ? `/api/team/${currentMember._id}`
         : `/api/team`;
 
       const method = currentMember ? "PUT" : "POST";
-
-      // Since we don't have a PUT proxy yet, let's just use the direct API_URL if needed
-      // Actually, it's better to create the PUT proxy in app/api/team/[id]/route.ts
 
       const res = await fetch(url, {
         method,

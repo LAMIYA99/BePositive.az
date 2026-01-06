@@ -45,14 +45,12 @@ io.on("connection", (socket) => {
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
-// Cloudinary configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Setup storage based on whether Cloudinary is configured
 let storage;
 if (process.env.CLOUDINARY_CLOUD_NAME) {
   console.log("Using Cloudinary for storage");
@@ -84,7 +82,6 @@ const upload = multer({ storage });
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
 
-  // Cloudinary returns 'path' or 'secure_url', local multer returns 'filename'
   const imageUrl =
     req.file.path || req.file.secure_url || `/uploads/${req.file.filename}`;
 

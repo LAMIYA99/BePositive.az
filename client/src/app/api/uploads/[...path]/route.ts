@@ -9,8 +9,6 @@ export async function GET(
 ) {
   const { path } = await params;
 
-  // Reconstruct the file path and encode each segment properly
-  // This is crucial because 'path' segments are already decoded by Next.js
   const filePath = path.join("/");
   const encodedPath = path
     .map((segment) => encodeURIComponent(segment))
@@ -19,8 +17,7 @@ export async function GET(
   try {
     const targetUrl = `${API_URL}/uploads/${encodedPath}`;
     const res = await fetch(targetUrl, {
-      // Add a small timeout or cache headers if needed
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      next: { revalidate: 3600 },
     });
 
     if (!res.ok) {
@@ -33,7 +30,6 @@ export async function GET(
     const blob = await res.blob();
     const contentType = res.headers.get("Content-Type");
 
-    // Validate that we actually got an image
     if (contentType && !contentType.startsWith("image/")) {
       console.warn(
         `[Image Proxy] Decoded content is not an image: ${contentType} for ${targetUrl}`
