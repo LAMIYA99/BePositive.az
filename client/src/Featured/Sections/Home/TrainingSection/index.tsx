@@ -45,10 +45,10 @@ const TrainingSection = () => {
   if (trainings.length === 0) return null;
 
   return (
-    <section className="container mx-auto py-2 lg:py-10   px-6">
+    <section className="container mx-auto py-2 lg:py-10 mt-10  px-6">
       <HeadingText title={t(HeadingTexts.trainingsTitle)} />
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-5 lg:mt-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto mt-4 lg:mt-10">
         {trainings.map((training) => (
           <ServicesCard
             key={training._id}

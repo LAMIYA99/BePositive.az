@@ -49,10 +49,10 @@ const ReviewSection = () => {
   if (reviews.length === 0) return null;
 
   return (
-    <div className="mt-[22px] lg:mt-[52px] container mx-auto px-6">
+    <div className="mt-10 lg:mt-[52px] container mx-auto px-6">
       <HeadingText title={t(HeadingTexts.reviewsTitle)} />
 
-      <div className="mt-5 lg:mt-10">
+      <div className="mt-4 lg:mt-10">
         <Swiper
           modules={[Autoplay]}
           spaceBetween={24}
