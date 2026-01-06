@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const faqSchema = new mongoose.Schema(
   {
     question: {
-      en: { type: String, required: true },
-      az: { type: String, required: true },
+      en: { type: String, default: "" },
+      az: { type: String, default: "" },
     },
     answer: {
-      en: { type: String, required: true },
-      az: { type: String, required: true },
+      en: { type: String, default: "" },
+      az: { type: String, default: "" },
     },
     order: {
       type: Number,

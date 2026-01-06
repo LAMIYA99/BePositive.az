@@ -10,11 +10,17 @@ exports.getFaqs = async (req, res) => {
 };
 
 exports.createFaq = async (req, res) => {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ message: "Request body is empty" });
+  }
+  console.log("Creating FAQ with body:", JSON.stringify(req.body, null, 2));
   const faq = new Faq(req.body);
   try {
     const newFaq = await faq.save();
+    console.log("FAQ created successfully:", newFaq._id);
     res.status(201).json(newFaq);
   } catch (error) {
+    console.error("FAQ creation error:", error);
     res.status(400).json({ message: error.message });
   }
 };
