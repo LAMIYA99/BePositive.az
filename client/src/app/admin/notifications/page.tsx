@@ -170,10 +170,15 @@ export default function NotificationAdmin() {
   };
 
   const addOption = () => {
-    if (optionInput.label.en && optionInput.label.az && optionInput.value) {
+    const en = optionInput.label.en || optionInput.label.az;
+    const az = optionInput.label.az || optionInput.label.en;
+    const value =
+      optionInput.value || en?.toLowerCase().trim().replace(/\s+/g, "_");
+
+    if ((en || az) && value) {
       setFormData((prev) => ({
         ...prev,
-        options: [...prev.options, { ...optionInput }],
+        options: [...prev.options, { label: { en, az }, value }],
       }));
       setOptionInput({ label: { en: "", az: "" }, value: "" });
     }
