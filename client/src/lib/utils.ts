@@ -9,64 +9,30 @@ export function cn(...inputs: ClassValue[]) {
 export function getImageUrl(path: string | undefined | null) {
   if (!path) return "/placeholder.svg";
 
-  // List of known static images in public folder to serve locally
-  // This bypasses the backend for these specific files, fixing Render ephemeral storage issues
-  const localImages = [
-    "seminar.png",
-    "adstraining.png",
-    "smmtraining.jpg",
-    "branding.png",
-    "marketing.png",
-    "studio.png",
-    "videoshoot.png",
-    "ads.png",
-    "clife.png",
-    "Logo.png",
-    "LogoFooter.png",
-    "Aze.png",
-    "en.png",
-    "FlagAzerbaijan.png",
-  ];
-
-  // Check if the path contains any of the local images
-  const foundLocal = localImages.find((img) =>
-    path.toLowerCase().includes(img.toLowerCase())
-  );
-
-  if (foundLocal) {
-    return `/${foundLocal}`;
-  }
-
   // Normalize path: replace backslashes with forward slashes
   let cleanPath = path.replace(/\\/g, "/");
 
   // If it's already an external link, return as is
   if (cleanPath.startsWith("http")) return cleanPath;
 
-  // Ensure it starts with / for relative paths
+  // 1. Handle uploaded files
+  // We check if "uploads/" is in the string.
+  // This handles both "/uploads/img.jpg" and "uploads/img.jpg"
+  if (cleanPath.includes("uploads/")) {
+    const uploadIndex = cleanPath.indexOf("uploads/");
+    // Extract everything after "uploads/"
+    const fileName = cleanPath.substring(uploadIndex + "uploads/".length);
+    // Use the relative proxy. This is safer for CORS and mobile device Access.
+    // The proxy is at /api/uploads/[...path]
+    return `/api/uploads/${encodeURI(fileName)}`;
+  }
+
+  // 2. Handle local public files
+  // If it doesn't contain "uploads/", it's almost certainly in the public folder.
+  // We just ensure it starts with a leading slash.
   if (!cleanPath.startsWith("/")) {
     cleanPath = `/${cleanPath}`;
   }
 
-  // Determine the base URL
-  let baseUrl = API_URL;
-
-  // Special handling for local development with mobile devices
-  // We use the relative /api proxy only when on localhost to avoid IP issues
-  if (cleanPath.startsWith("/uploads/")) {
-    const isLocalhost =
-      typeof window !== "undefined" &&
-      (window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1");
-
-    if (isLocalhost) {
-      baseUrl = "/api";
-    }
-  }
-
-  // Encode the path part to handle spaces and special characters
-  // We use encodeURI to keep slashes intact
-  const encodedPath = encodeURI(cleanPath);
-
-  return `${baseUrl}${encodedPath}`;
+  return cleanPath;
 }
