@@ -46,7 +46,7 @@ const BrandSection = () => {
   return (
     <section
       data-aos="zoom-in-down"
-      className="my-[10px] lg:my-[62px] pt-4 w-full overflow-hidden"
+      className="my-[10px] lg:my-[62px] py-8 w-full overflow-hidden"
     >
       <Marquee
         speed={50}
@@ -58,18 +58,17 @@ const BrandSection = () => {
         {brands.map((brand, index) => (
           <div
             key={`${brand._id}-${index}`}
-            className="bg-white rounded-full mx-4 w-[110px] h-[110px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-sm shrink-0"
+            className="bg-white rounded-full mx-4 w-[110px] h-[110px] lg:w-[130px] lg:h-[130px] flex items-center justify-center shadow-md hover:shadow-lg transition-shadow shrink-0 overflow-hidden border border-slate-50"
           >
-            <div className="relative w-[80px] h-[80px] lg:w-[100px] lg:h-[100px] flex items-center justify-center">
+            <div className="relative w-[70px] h-[70px] lg:w-[90px] lg:h-[90px]">
               <Image
                 src={getImageUrl(brand.imageUrl)}
                 alt="brand logo"
-                width={130}
-                height={130}
-                className="object-contain rounded-full"
+                fill
+                className="object-contain"
                 loading="eager"
                 unoptimized={true}
-                sizes="130px"
+                sizes="(max-width: 1024px) 70px, 90px"
               />
             </div>
           </div>
