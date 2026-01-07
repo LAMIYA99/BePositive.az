@@ -1,0 +1,231 @@
+"use client";
+import { contactFormContent } from "@/translations/sections";
+import { useLocale } from "next-intlayer";
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+import toast from "react-hot-toast";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const ContactSection = () => {
+  const { locale } = useLocale();
+  const t = (content: { en: string; az: string }) => content[locale];
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: any) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const sendEmail = async (e: any) => {
+    e.preventDefault();
+
+    if (!captchaToken) {
+      toast.error(
+        locale === "az"
+          ? "Zəhmət olmasa robot olmadığınızı təsdiqləyin."
+          : "Please verify that you are not a robot."
+      );
+      return;
+    }
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+          "g-recaptcha-response": captchaToken,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
+      setForm({ name: "", email: "", message: "" });
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
+    } catch (err) {
+      console.error("EmailJS Error:", err);
+      toast.error(locale === "az" ? "Xəta baş verdi!" : "An error occurred!");
+    }
+  };
+
+  const contacts = [
+    {
+      id: 1,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="26"
+          height="26"
+          viewBox="0 0 32 32"
+          fill="none"
+        >
+          <path
+            d="M4.25 0.75H11.25L14.75 9.5L10.375 12.125C12.2492 15.9252 15.3248 19.0008 19.125 20.875L21.75 16.5L30.5 20V27C30.5 27.9283 30.1313 28.8185 29.4749 29.4749C28.8185 30.1313 27.9283 30.5 27 30.5C20.1737 30.0852 13.7353 27.1864 8.89945 22.3506C4.06363 17.5147 1.16484 11.0763 0.75 4.25C0.75 3.32174 1.11875 2.4315 1.77513 1.77513C2.4315 1.11875 3.32174 0.75 4.25 0.75Z"
+            stroke="black"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+      type: { en: "Phone", az: "Telefon" },
+      address: { en: "+994 10 533 01 29", az: "+994 10 533 01 29" },
+    },
+    {
+      id: 2,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="20"
+          viewBox="0 0 33 26"
+          fill="none"
+        >
+          <path
+            d="M0.75 4.25C0.75 3.32174 1.11875 2.4315 1.77513 1.77513C2.4315 1.11875 3.32174 0.75 4.25 0.75H28.75C29.6783 0.75 30.5685 1.11875 31.2249 1.77513C31.8813 2.4315 32.25 3.32174 32.25 4.25M0.75 4.25V21.75C0.75 22.6783 1.11875 23.5685 1.77513 24.2249C2.4315 24.8813 3.32174 25.25 4.25 25.25H28.75C29.6783 25.25 30.5685 24.8813 31.2249 24.2249C31.8813 23.5685 32.25 22.6783 32.25 21.75V4.25M0.75 4.25L16.5 14.75L32.25 4.25"
+            stroke="black"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+      type: { en: "Gmail", az: "Gmail" },
+      address: { en: "info@bepositive.az", az: "info@bepositive.az" },
+    },
+    {
+      id: 3,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="30"
+          height="34"
+          viewBox="0 0 34 39"
+          fill="none"
+        >
+          <path
+            d="M10.75 16.7494C10.75 18.3407 11.3821 19.8668 12.5074 20.9921C13.6326 22.1173 15.1587 22.7494 16.75 22.7494C18.3413 22.7494 19.8674 22.1173 20.9926 20.9921C22.1179 19.8668 22.75 18.3407 22.75 16.7494C22.75 15.1581 22.1179 13.632 20.9926 12.5068C19.8674 11.3816 18.3413 10.7494 16.75 10.7494C15.1587 10.7494 13.6326 11.3816 12.5074 12.5068C11.3821 13.632 10.75 15.1581 10.75 16.7494Z"
+            stroke="black"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M28.064 28.0634L19.578 36.5494C18.828 37.2987 17.8112 37.7196 16.751 37.7196C15.6908 37.7196 14.674 37.2987 13.924 36.5494L5.43601 28.0634C3.19845 25.8257 1.67468 22.9748 1.05738 19.8711C0.440086 16.7675 0.756987 13.5504 1.96801 10.6269C3.17904 7.70331 5.2298 5.20449 7.86097 3.44643C10.4921 1.68836 13.5855 0.75 16.75 0.75C19.9145 0.75 23.0079 1.68836 25.639 3.44643C28.2702 5.20449 30.321 7.70331 31.532 10.6269C32.743 13.5504 33.0599 16.7675 32.4426 19.8711C31.8253 22.9748 30.3016 25.8257 28.064 28.0634Z"
+            stroke="black"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+      type: { en: "Address", az: "Ünvan" },
+      address: {
+        en: "Azerbaijan, Baku, Fuad Ibrahimbayov 13.",
+        az: "Azərbaycan, Bakı, Fuad İbrahimbayov 13.",
+      },
+    },
+  ];
+
+  return (
+    <div className="mt-[72px] container mx-auto px-6">
+      <div className="lg:bg-white py-10 px-3 lg:px-[46px] lg:py-[54px] rounded-3xl lg:shadow-[0_2px_12px_rgba(7,7,176,0.12)] shadow-none">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="flex flex-col gap-10">
+            <div>
+              <h2 className="text-[40px] sm:text-[48px] font-medium text-[#0808C1] leading-tight">
+                {contactFormContent.title[locale][0]}
+              </h2>
+              <h3 className="text-[32px] sm:text-[40px] font-medium text-[#0808C1]">
+                {contactFormContent.title[locale][1]}
+              </h3>
+            </div>
+
+            {contacts.map((item) => (
+              <div key={item.id} className="flex items-center gap-3">
+                {item.icon}
+                <div className="flex flex-col">
+                  <h4 className="text-[16px] font-semibold">{t(item.type)}</h4>
+                  <p className="text-[15px] leading-6">{t(item.address)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <form
+            onSubmit={sendEmail}
+            className="flex bg-white p-4 rounded-2xl flex-col gap-6"
+          >
+            <div className="flex flex-col gap-2">
+              <label className="font-bold text-[16px]">
+                {t(contactFormContent.fields.name)}
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder={t(contactFormContent.placeholders.name)}
+                className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="font-bold text-[16px]">
+                {t(contactFormContent.fields.email)}
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder={t(contactFormContent.placeholders.email)}
+                className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
+                required
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="font-bold text-[16px]">
+                {t(contactFormContent.fields.message)}
+              </label>
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder={t(contactFormContent.placeholders.message)}
+                className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
+                required
+              />
+            </div>
+
+            <div className="w-full flex justify-center">
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={(token: string | null) => setCaptchaToken(token)}
+                ref={recaptchaRef}
+              />
+            </div>
+
+            <button className="w-full h-[55px] bg-[#0707B0] text-white font-medium rounded-2xl hover:bg-[#FBE443] hover:text-black transition">
+              {t(contactFormContent.button)}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactSection;
