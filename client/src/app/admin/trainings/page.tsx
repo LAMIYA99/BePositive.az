@@ -292,6 +292,7 @@ export default function TrainingAdmin() {
                           alt={training.title.en}
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1215px) 50vw, 384px"
                         />
                       )}
                       <div className="absolute top-4 right-4 flex gap-2">
@@ -503,6 +504,7 @@ export default function TrainingAdmin() {
                             alt="Preview"
                             fill
                             className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 400px"
                           />
                           {imageMode === "upload" && (
                             <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">

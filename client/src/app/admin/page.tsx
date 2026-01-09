@@ -468,6 +468,7 @@ export default function BePositiveAdmin() {
                               }
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
+                              sizes="(max-width: 768px) 100vw, 224px"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           </div>
