@@ -1,5 +1,14 @@
 require("dotenv").config();
 const express = require("express");
+
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection:", err.message);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err.message);
+  process.exit(1);
+});
 const mongoose = require("mongoose");
 const cors = require("cors");
 const blogRoutes = require("./routes/blogRoutes");
@@ -14,14 +23,28 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: [
+      "https://bepositive.az",
+      "https://www.bepositive.az",
+      "http://localhost:3000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   },
 });
 
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://bepositive.az",
+      "https://www.bepositive.az",
+      "http://localhost:3000",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => {
