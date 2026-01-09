@@ -45,7 +45,6 @@ export const NotificationProvider = ({
       });
     });
 
-    // Listen for notification events and dispatch a window event so other components (like PushNotification) can react
     socket.on("notificationCreated", (data) => {
       console.log("Socket: notificationCreated", data);
       try {
