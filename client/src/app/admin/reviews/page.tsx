@@ -254,6 +254,8 @@ export default function ReviewAdmin() {
                             alt="Avatar"
                             fill
                             className="object-cover"
+                            sizes="80px"
+                            priority={idx < 4}
                           />
                         ) : (
                           <div className="w-full h-full bg-slate-50" />
@@ -437,6 +439,7 @@ export default function ReviewAdmin() {
                           alt="Preview"
                           fill
                           className="object-cover"
+                          sizes="128px"
                         />
                       ) : (
                         <div className="text-center p-4">

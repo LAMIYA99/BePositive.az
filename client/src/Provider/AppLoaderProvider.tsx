@@ -40,7 +40,7 @@ const LoadingScreen = ({ locale }: { locale: string }) => (
           fill
           className="object-contain"
           priority
-          sizes="(max-width: 768px) 160px, 160px"
+          sizes="96px"
         />
       </motion.div>
       <div className="flex flex-col items-center">

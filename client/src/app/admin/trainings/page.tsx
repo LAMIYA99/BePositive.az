@@ -293,6 +293,7 @@ export default function TrainingAdmin() {
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out will-change-transform"
                           sizes="(max-width: 768px) 100vw, (max-width: 1215px) 50vw, 384px"
+                          priority={idx < 4}
                         />
                       )}
                       <div className="absolute top-4 right-4 flex gap-2">

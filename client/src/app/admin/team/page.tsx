@@ -250,6 +250,8 @@ export default function TeamAdmin() {
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                           unoptimized={true}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1215px) 50vw, 384px"
+                          priority={idx < 4}
                         />
                       )}
                       <div className="absolute top-4 right-4 flex gap-2">
@@ -425,6 +427,7 @@ export default function TeamAdmin() {
                             fill
                             className="object-cover"
                             unoptimized={true}
+                            sizes="(max-width: 768px) 100vw, 400px"
                           />
                           {imageMode === "upload" && (
                             <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">

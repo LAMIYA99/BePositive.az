@@ -220,6 +220,8 @@ export default function BrandAdmin() {
                           alt="Brand Logo"
                           fill
                           className="object-contain p-2 group-hover:scale-110 transition-transform duration-300 ease-out will-change-transform"
+                          sizes="(max-width: 768px) 50vw, 160px"
+                          priority={idx < 12}
                         />
                       )}
 
@@ -300,6 +302,7 @@ export default function BrandAdmin() {
                           alt="Preview"
                           fill
                           className="object-contain p-4"
+                          sizes="(max-width: 768px) 100vw, 400px"
                         />
                         {imageMode === "upload" && (
                           <div className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
