@@ -146,6 +146,7 @@ const ContentSection = ({ id }: { id: string }) => {
                       alt={`Section ${idx + 1}`}
                       fill
                       className="rounded-3xl object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 620px"
                     />
                   </div>
                 )}
@@ -163,6 +164,7 @@ const ContentSection = ({ id }: { id: string }) => {
                 fill
                 className="rounded-3xl object-cover shadow-lg"
                 priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 620px"
               />
             </div>
             <p className="antialiased">
@@ -178,6 +180,7 @@ const ContentSection = ({ id }: { id: string }) => {
                     alt={title}
                     fill
                     className="rounded-3xl object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 620px"
                   />
                 </div>
                 <div className="clear-both" />
