@@ -9,6 +9,7 @@ const getApiUrl = () => {
   }
 
   return envUrl || "https://api.bepositive.az";
+  
 };
 
 export const API_URL = getApiUrl().trim().replace(/\/$/, "");
