@@ -47,7 +47,7 @@ export default function BrandAdmin() {
   const fetchBrands = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/brands`);
+      const res = await fetch("/api/brands");
       if (res.ok) {
         const data = await res.json();
         setBrands(data);
@@ -104,7 +104,7 @@ export default function BrandAdmin() {
     formDataUpload.append("image", file);
 
     try {
-      const res = await fetch(`${API_URL}/api/upload`, {
+      const res = await fetch("/api/upload", {
         method: "POST",
         body: formDataUpload,
       });
@@ -123,9 +123,7 @@ export default function BrandAdmin() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      const url = currentBrand
-        ? `${API_URL}/api/brands`
-        : `${API_URL}/api/brands`;
+      const url = "/api/brands";
 
       const method = "POST";
 
@@ -152,7 +150,7 @@ export default function BrandAdmin() {
     if (window.confirm("Are you sure you want to delete this brand?")) {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/brands/${id}`, {
+        const res = await fetch(`/api/brands/${id}`, {
           method: "DELETE",
         });
         if (res.ok) {

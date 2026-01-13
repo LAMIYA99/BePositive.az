@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL, UPLOADS_URL } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import { Sidebar } from "../components/Sidebar";
 import { Notification } from "../components/Notification";
 
@@ -116,7 +117,7 @@ export default function ReviewAdmin() {
     formDataUpload.append("image", file);
 
     try {
-      const res = await fetch(`${API_URL}/api/upload`, {
+      const res = await fetch("/api/upload", {
         method: "POST",
         body: formDataUpload,
       });
@@ -250,7 +251,7 @@ export default function ReviewAdmin() {
                       <div className="w-20 h-20 rounded-full border-2 border-slate-100 overflow-hidden mb-4 relative">
                         {review.avatar && isValidUrl(review.avatar) ? (
                           <Image
-                            src={review.avatar}
+                            src={getImageUrl(review.avatar)}
                             alt="Avatar"
                             fill
                             className="object-cover"
@@ -435,7 +436,7 @@ export default function ReviewAdmin() {
                     <div className="relative w-32 h-32 mx-auto rounded-full overflow-hidden bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-200">
                       {formData.avatar && isValidUrl(formData.avatar) ? (
                         <Image
-                          src={formData.avatar}
+                          src={getImageUrl(formData.avatar)}
                           alt="Preview"
                           fill
                           className="object-cover"

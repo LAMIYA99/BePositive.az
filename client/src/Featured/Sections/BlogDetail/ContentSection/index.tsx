@@ -41,7 +41,7 @@ const ContentSection = ({ id }: { id: string }) => {
 
     setLoading(true);
 
-    fetch(`${API_URL}/api/blogs/${id}`)
+    fetch(`/api/blogs/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();

@@ -88,15 +88,13 @@ export default function NotificationAdmin() {
   const fetchNotifications = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/notifications`);
+      const res = await fetch("/api/notifications");
       if (res.ok) {
         const data = await res.json();
         const withStats = await Promise.all(
           data.map(async (n: NotificationData) => {
             try {
-              const r = await fetch(
-                `${API_URL}/api/notifications/${n._id}/stats`
-              );
+              const r = await fetch(`/api/notifications/${n._id}/stats`);
               if (r.ok) {
                 const stats = await r.json();
                 return { ...n, stats };
@@ -202,8 +200,8 @@ export default function NotificationAdmin() {
     setLoading(true);
     try {
       const url = currentNotification
-        ? `${API_URL}/api/notifications/${currentNotification._id}`
-        : `${API_URL}/api/notifications`;
+        ? `/api/notifications/${currentNotification._id}`
+        : "/api/notifications";
 
       const method = currentNotification ? "PUT" : "POST";
 
@@ -234,7 +232,7 @@ export default function NotificationAdmin() {
     if (window.confirm("Are you sure you want to delete this notification?")) {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/notifications/${id}`, {
+        const res = await fetch(`/api/notifications/${id}`, {
           method: "DELETE",
         });
         if (res.ok) {

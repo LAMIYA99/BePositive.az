@@ -43,7 +43,7 @@ export default function PushNotification() {
 
     const fetchNotification = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/notifications/active`);
+        const res = await fetch("/api/notifications/active");
         if (res.ok) {
           const data = await res.json();
           console.log("Fetched active notification:", data);
@@ -107,7 +107,7 @@ export default function PushNotification() {
 
   const handleResponse = async (value: string) => {
     try {
-      await fetch(`${API_URL}/api/notifications/response`, {
+      await fetch("/api/notifications/response", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

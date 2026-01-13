@@ -18,6 +18,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL, UPLOADS_URL } from "@/lib/api";
+import { getImageUrl } from "@/lib/utils";
 import { Sidebar } from "./components/Sidebar";
 import { Notification } from "./components/Notification";
 import { StatCard } from "./components/StatCard";
@@ -110,7 +111,7 @@ export default function BePositiveAdmin() {
   const fetchBlogs = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/blogs`);
+      const res = await fetch("/api/blogs");
       if (res.ok) {
         const data = await res.json();
         setBlogs(data);
@@ -221,7 +222,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch(`${API_URL}/api/upload`, {
+        const res = await fetch("/api/upload", {
           method: "POST",
           body: formDataUpload,
         });
@@ -248,7 +249,7 @@ export default function BePositiveAdmin() {
       formDataUpload.append("image", file);
 
       try {
-        const res = await fetch(`${API_URL}/api/upload`, {
+        const res = await fetch("/api/upload", {
           method: "POST",
           body: formDataUpload,
         });
@@ -311,8 +312,8 @@ export default function BePositiveAdmin() {
     withLoading(async () => {
       try {
         const url = currentBlog
-          ? `${API_URL}/api/blogs/${currentBlog._id}`
-          : `${API_URL}/api/blogs`;
+          ? `/api/blogs/${currentBlog._id}`
+          : "/api/blogs";
 
         const method = currentBlog ? "PUT" : "POST";
 
@@ -342,7 +343,7 @@ export default function BePositiveAdmin() {
     if (window.confirm("Are you sure you want to delete this post?")) {
       withLoading(async () => {
         try {
-          const res = await fetch(`${API_URL}/api/blogs/${id}`, {
+          const res = await fetch(`/api/blogs/${id}`, {
             method: "DELETE",
           });
           if (res.ok) {
@@ -460,7 +461,7 @@ export default function BePositiveAdmin() {
                         {blog.image && isValidUrl(blog.image) && (
                           <div className="md:w-56 relative h-56 md:h-auto overflow-hidden">
                             <Image
-                              src={blog.image}
+                              src={getImageUrl(blog.image)}
                               alt={
                                 typeof blog.title === "string"
                                   ? blog.title
@@ -771,7 +772,7 @@ export default function BePositiveAdmin() {
                                     isValidUrl(section.image) ? (
                                       <>
                                         <Image
-                                          src={section.image}
+                                          src={getImageUrl(section.image)}
                                           alt={`Section ${idx + 1}`}
                                           fill
                                           className="object-cover"

@@ -23,7 +23,7 @@ const BlogSection = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/blogs`)
+    fetch("/api/blogs")
       .then((res) => {
         if (!res.ok) throw new Error("Failed");
         return res.json();

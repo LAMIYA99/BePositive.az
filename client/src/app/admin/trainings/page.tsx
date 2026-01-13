@@ -138,7 +138,7 @@ export default function TrainingAdmin() {
     formDataUpload.append("image", file);
 
     try {
-      const res = await fetch(`${API_URL}/api/upload`, {
+      const res = await fetch("/api/upload", {
         method: "POST",
         body: formDataUpload,
       });
