@@ -11,10 +11,23 @@ export const NotificationProvider = ({
   children: React.ReactNode;
 }) => {
   useEffect(() => {
-    const socket = io(API_URL);
+    const socket = io(API_URL, {
+      reconnectionAttempts: 3, // Sürekli deneyip hata fırtınası çıkarma
+      timeout: 5000,
+      transports: ["websocket", "polling"], // Önce websocket dene
+    });
 
     socket.on("connect", () => {
       console.log("Connected to notification server");
+    });
+
+    socket.on("connect_error", (err) => {
+      // Konsolu kırmızı hatalarla doldurmamak için sessizce logla
+      console.warn("Socket connection warning: Check SSL for api subdomain.");
+      const attempts = socket.io.opts.reconnectionAttempts;
+      if (attempts !== undefined && attempts <= 0) {
+        socket.disconnect();
+      }
     });
 
     socket.on("blogCreated", (data) => {
@@ -48,7 +61,9 @@ export const NotificationProvider = ({
     socket.on("notificationCreated", (data) => {
       console.log("Socket: notificationCreated", data);
       try {
-        window.dispatchEvent(new CustomEvent("notification:created", { detail: data }));
+        window.dispatchEvent(
+          new CustomEvent("notification:created", { detail: data })
+        );
       } catch (err) {
         console.error("Failed to dispatch notification:created event", err);
       }
@@ -57,7 +72,9 @@ export const NotificationProvider = ({
     socket.on("notificationUpdated", (data) => {
       console.log("Socket: notificationUpdated", data);
       try {
-        window.dispatchEvent(new CustomEvent("notification:updated", { detail: data }));
+        window.dispatchEvent(
+          new CustomEvent("notification:updated", { detail: data })
+        );
       } catch (err) {
         console.error("Failed to dispatch notification:updated event", err);
       }
