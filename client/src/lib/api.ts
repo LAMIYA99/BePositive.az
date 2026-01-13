@@ -1,15 +1,18 @@
 const getApiUrl = () => {
-  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  // Sunucu tarafında (Proxy rotalarında) her zaman yerel backend'e (5001) bağlan.
+  // Bu, VPS içindeki 500 hatalarını ve SSL problemlerini çözer.
+  if (typeof window === "undefined") {
+    return process.env.INTERNAL_API_URL || "http://127.0.0.1:5001";
+  }
 
-  if (typeof window !== "undefined") {
-    const hostname = window.location.hostname;
-    if (hostname === "bepositive.az" || hostname === "www.bepositive.az") {
-      return "https://api.bepositive.az";
-    }
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  const hostname = window.location.hostname;
+
+  if (hostname === "bepositive.az" || hostname === "www.bepositive.az") {
+    return "https://api.bepositive.az";
   }
 
   return envUrl || "https://api.bepositive.az";
-  
 };
 
 export const API_URL = getApiUrl().trim().replace(/\/$/, "");
