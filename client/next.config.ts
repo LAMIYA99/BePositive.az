@@ -1,16 +1,16 @@
 import type { NextConfig } from "next";
 import { withIntlayer } from "next-intlayer/server";
 
-// Bundle analyzer (enabled with ANALYZE=true)
-const withBundleAnalyzer = require('@next/bundle-analyzer')({ enabled: process.env.ANALYZE === 'true' });
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const nextConfig: NextConfig = {
-  // Image optimization
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 31536000, // 1 year cache for optimized images
+    minimumCacheTTL: 31536000,
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     remotePatterns: [
@@ -29,15 +29,12 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Compression
   compress: true,
 
-  // Modern JavaScript compilation
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
 
-  // Headers for caching
   async headers() {
     return [
       {

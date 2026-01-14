@@ -3,7 +3,6 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
-// storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "../uploads"));
@@ -14,12 +13,10 @@ const storage = multer.diskStorage({
   },
 });
 
-// MULTER
 const upload = multer({
   storage,
 });
 
-// ⚠️ DİQQƏT: field name = "file"
 router.post("/", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "File not received" });

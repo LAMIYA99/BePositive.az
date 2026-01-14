@@ -42,9 +42,13 @@ interface NotificationWithStats {
   responses?: ResponseEntry[];
 }
 
-export const NotificationCharts: React.FC<{ notification: NotificationWithStats }> = ({ notification }) => {
+export const NotificationCharts: React.FC<{
+  notification: NotificationWithStats;
+}> = ({ notification }) => {
   const labels = notification.options.map((o) => o.label.en);
-  const counts = notification.options.map((o) => notification.stats?.counts?.[o.value] || 0);
+  const counts = notification.options.map(
+    (o) => notification.stats?.counts?.[o.value] || 0
+  );
 
   // prepare sparkline data for last 7 days
   const sparkData = useMemo(() => {
@@ -55,7 +59,9 @@ export const NotificationCharts: React.FC<{ notification: NotificationWithStats 
       notification.responses.forEach((r) => {
         const date = new Date(r.createdAt);
         // compute day index from now back to 6 days ago (0 => 6 days ago, days-1 => today)
-        const diff = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+        const diff = Math.floor(
+          (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+        );
         if (diff >= 0 && diff < days) {
           const idx = days - 1 - diff;
           buckets[idx] += 1;
@@ -118,7 +124,9 @@ export const NotificationCharts: React.FC<{ notification: NotificationWithStats 
   return (
     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="bg-white p-4 rounded-2xl border border-slate-50 shadow-sm h-40">
-        <div className="text-sm font-bold text-slate-600 mb-2">Distribution</div>
+        <div className="text-sm font-bold text-slate-600 mb-2">
+          Distribution
+        </div>
         <div className="h-28">
           <Bar data={barData} options={barOptions} />
         </div>
@@ -129,7 +137,9 @@ export const NotificationCharts: React.FC<{ notification: NotificationWithStats 
         <div className="h-24">
           <Line data={lineData} options={lineOptions} />
         </div>
-        <div className="text-xs text-slate-500 mt-2">Total responses: {notification.stats?.total ?? 0}</div>
+        <div className="text-xs text-slate-500 mt-2">
+          Total responses: {notification.stats?.total ?? 0}
+        </div>
       </div>
     </div>
   );

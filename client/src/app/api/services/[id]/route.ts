@@ -20,7 +20,6 @@ export async function PUT(
 
     if (res.ok) {
       // @ts-ignore
-      // @ts-ignore
       revalidateTag(CACHE_TAG);
       const data = await res.json();
       return NextResponse.json(data);
@@ -49,7 +48,6 @@ export async function DELETE(
     });
 
     if (res.ok) {
-      // @ts-ignore
       // @ts-ignore
       revalidateTag(CACHE_TAG);
       const data = await res.json();

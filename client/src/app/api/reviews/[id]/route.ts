@@ -12,7 +12,7 @@ export async function PUT(
     const { id } = await params;
     const body = await req.json();
 
-    // Explicitly using the full backend URL for the ID
+    // Explicitly using the full backend URL for the id
     const res = await fetch(`${API_URL}/api/reviews/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -20,7 +20,6 @@ export async function PUT(
     });
 
     if (res.ok) {
-      // @ts-ignore
       // @ts-ignore
       revalidateTag(CACHE_TAG);
       const data = await res.json();
@@ -50,7 +49,6 @@ export async function DELETE(
     });
 
     if (res.ok) {
-      // @ts-ignore
       // @ts-ignore
       revalidateTag(CACHE_TAG);
       const data = await res.json(); // Usually message

@@ -40,7 +40,7 @@ const notificationSchema = new mongoose.Schema(
       type: Number,
       default: 3000,
     },
-    // store user responses for analytics
+
     responses: [
       {
         value: { type: String },

@@ -72,7 +72,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
         `}
         </Script>
 
-        {/* Google Ads */}
+        {}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-16879322799"
           strategy="afterInteractive"
@@ -87,7 +87,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
             `}
         </Script>
 
-        {/* Google Analytics */}
+        {}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-6Q30W25W0C"
           strategy="afterInteractive"
@@ -102,12 +102,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
             `}
         </Script>
 
-        {/*
-        <Script
-          defer
-          src="https://widget.replyment.com/widget.js?id=X2Geud7Y"
-        />
-        */}
+        {}
 
         <Suspense fallback={null}>
           <AppLoaderProvider>

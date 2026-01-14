@@ -12,9 +12,9 @@ export const NotificationProvider = ({
 }) => {
   useEffect(() => {
     const socket = io(API_URL, {
-      reconnectionAttempts: 3, // Sürekli deneyip hata fırtınası çıkarma
+      reconnectionAttempts: 3,
       timeout: 5000,
-      transports: ["websocket", "polling"], // Önce websocket dene
+      transports: ["websocket", "polling"],
     });
 
     socket.on("connect", () => {
@@ -22,7 +22,6 @@ export const NotificationProvider = ({
     });
 
     socket.on("connect_error", (err) => {
-      // Konsolu kırmızı hatalarla doldurmamak için sessizce logla
       console.warn("Socket connection warning: Check SSL for api subdomain.");
       const attempts = socket.io.opts.reconnectionAttempts;
       if (attempts !== undefined && attempts <= 0) {

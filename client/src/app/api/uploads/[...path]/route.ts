@@ -16,36 +16,29 @@ export async function GET(
 
   try {
     const targetUrl = `${API_URL}/uploads/${encodedPath}`;
-    const res = await fetch(targetUrl, {
-      next: { revalidate: 3600 },
-    });
+    console.log(`[Image Proxy] Fetching from: ${targetUrl}`);
+
+    const res = await fetch(targetUrl);
 
     if (!res.ok) {
-      console.warn(
-        `[Image Proxy] Failed to fetch image: ${targetUrl} (Status: ${res.status})`
+      console.error(
+        `[Image Proxy] Backend error: ${res.status} for ${targetUrl}`
       );
       return new NextResponse(null, { status: res.status });
     }
 
     const blob = await res.blob();
-    const contentType = res.headers.get("Content-Type");
-
-    if (contentType && !contentType.startsWith("image/")) {
-      console.warn(
-        `[Image Proxy] Decoded content is not an image: ${contentType} for ${targetUrl}`
-      );
-    }
-
-    const headers = new Headers();
-    headers.set("Content-Type", contentType || "image/jpeg");
-    headers.set("Cache-Control", "public, max-age=31536000, immutable");
+    const contentType = res.headers.get("Content-Type") || "image/jpeg";
 
     return new NextResponse(blob, {
       status: 200,
-      headers,
+      headers: {
+        "Content-Type": contentType,
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
     });
   } catch (error) {
-    console.error(`[Image Proxy] Error fetching ${filePath}:`, error);
+    console.error(`[Image Proxy] Catch error:`, error);
     return new NextResponse(null, { status: 500 });
   }
 }
