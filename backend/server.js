@@ -57,6 +57,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/service", express.static(path.join(__dirname, "service")));
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
@@ -130,6 +131,9 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 5000,
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
+
+    const serviceUploadRoutes = require("./routes/serviceUploadRoutes");
+    app.use("/api/service-upload", serviceUploadRoutes);
 
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
