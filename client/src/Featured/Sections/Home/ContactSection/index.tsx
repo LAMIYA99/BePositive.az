@@ -2,17 +2,16 @@
 import { contactFormContent } from "@/translations/sections";
 import { useLocale } from "next-intlayer";
 import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
-import LazyReCAPTCHA from "@/components/LazyReCAPTCHA";
 
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
 const ContactSection = () => {
-  const { locale } = useLocale();
+  const { locale } = useLocale() as { locale: "en" | "az" };
   const t = (content: { en: string; az: string }) => content[locale];
-
-  const recaptchaRef = useRef<any>(null);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [loadCaptcha, setLoadCaptcha] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -27,48 +26,59 @@ const ContactSection = () => {
   const sendEmail = async (e: any) => {
     e.preventDefault();
 
-    if (!captchaToken) {
-      toast.error(
-        locale === "az"
-          ? "Zəhmət olmasa robot olmadığınızı təsdiqləyin."
-          : "Please verify that you are not a robot."
-      );
-      return;
-    }
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      console.error("EmailJS environment variables are missing!");
-      toast.error(
-        locale === "az"
-          ? "Sistem xətası: Email parametrləri tapılmadı."
-          : "System error: Email parameters not found."
-      );
+    if (!siteKey) {
+      console.error("reCAPTCHA Site Key is missing!");
       return;
     }
 
     try {
-      await emailjs.send(
-        serviceId,
-        templateId,
+      // reCAPTCHA Enterprise Execution
+      const token = await new Promise<string>((resolve, reject) => {
+        if (typeof window !== "undefined" && window.grecaptcha?.enterprise) {
+          window.grecaptcha.enterprise.ready(async () => {
+            try {
+              const res = await window.grecaptcha.enterprise.execute(siteKey, {
+                action: "contact",
+              });
+              resolve(res);
+            } catch (err) {
+              reject(err);
+            }
+          });
+        } else {
+          reject("reCAPTCHA not loaded");
+        }
+      });
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
         {
-          from_name: form.name,
-          from_email: form.email,
-          message: form.message,
-          "g-recaptcha-response": captchaToken,
-        },
-        publicKey
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            message: form.message,
+            token: token,
+          }),
+        }
       );
 
-      toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
-      setForm({ name: "", email: "", message: "" });
-      recaptchaRef.current?.reset();
-      setCaptchaToken(null);
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(locale === "az" ? "Mesaj göndərildi!" : "Message sent!");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        toast.error(
+          result.message ||
+            (locale === "az" ? "Xəta baş verdi!" : "An error occurred!")
+        );
+      }
     } catch (err) {
-      console.error("EmailJS Error:", err);
+      console.error("Contact Error:", err);
       toast.error(locale === "az" ? "Xəta baş verdi!" : "An error occurred!");
     }
   };
@@ -190,7 +200,7 @@ const ContactSection = () => {
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                onFocus={() => setLoadCaptcha(true)}
+                onFocus={() => {}}
                 placeholder={t(contactFormContent.placeholders.name)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
                 required
@@ -206,7 +216,7 @@ const ContactSection = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                onFocus={() => setLoadCaptcha(true)}
+                onFocus={() => {}}
                 placeholder={t(contactFormContent.placeholders.email)}
                 className="w-full h-[55px] border border-[#0808C1] rounded-2xl px-4"
                 required
@@ -221,7 +231,7 @@ const ContactSection = () => {
                 name="message"
                 value={form.message}
                 onChange={handleChange}
-                onFocus={() => setLoadCaptcha(true)}
+                onFocus={() => {}}
                 placeholder={t(contactFormContent.placeholders.message)}
                 className="w-full h-[120px] border border-[#0808C1] rounded-2xl p-4"
                 required
@@ -229,15 +239,7 @@ const ContactSection = () => {
             </div>
 
             <div className="w-full flex justify-center">
-              {loadCaptcha ? (
-                <LazyReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                  onChange={(token: string | null) => setCaptchaToken(token)}
-                  ref={recaptchaRef}
-                />
-              ) : (
-                <div onMouseEnter={() => setLoadCaptcha(true)} style={{ minHeight: 78 }} />
-              )}
+              {/* reCAPTCHA Enterprise is invisible */}
             </div>
 
             <button className="w-full h-[55px] bg-[#0707B0] text-white font-medium rounded-2xl hover:bg-[#FBE443] hover:text-black transition">

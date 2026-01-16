@@ -122,6 +122,7 @@ app.use("/api/brands", require("./routes/brandRoutes"));
 app.use("/api/team", require("./routes/teamRoutes"));
 app.use("/api/faqs", require("./routes/faqRoutes"));
 app.use("/api/auth", authRoutes);
+app.use("/api/contact", require("./routes/contactRoutes"));
 
 const connectDB = async () => {
   try {
