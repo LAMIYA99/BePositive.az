@@ -22,7 +22,7 @@ const BlogScTCard = () => {
         return res.json();
       })
       .then((data) => {
-        if (Array.isArray(data)) setBlogs(data.slice(0, 8));
+        if (Array.isArray(data)) setBlogs(data);
         else setError(true);
       })
       .catch((err) => {
