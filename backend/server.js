@@ -35,6 +35,7 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 5001;
 
+// CORS middleware - must be before express.json()
 app.use((req, res, next) => {
   const allowedOrigins = [
     "https://bepositive.az",
@@ -42,16 +43,27 @@ app.use((req, res, next) => {
     "http://localhost:3000",
   ];
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
+  // Always set CORS headers for allowed origins
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization, X-Requested-With, Accept",
+    );
+    res.setHeader("Access-Control-Max-Age", "86400"); // 24 hours
   }
+
+  // Handle preflight OPTIONS request
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   next();
 });
 
