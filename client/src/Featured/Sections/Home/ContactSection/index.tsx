@@ -34,12 +34,12 @@ const ContactSection = () => {
     }
 
     try {
-      // reCAPTCHA Enterprise Execution
+      // reCAPTCHA v3 Execution
       const token = await new Promise<string>((resolve, reject) => {
-        if (typeof window !== "undefined" && window.grecaptcha?.enterprise) {
-          window.grecaptcha.enterprise.ready(async () => {
+        if (typeof window !== "undefined" && window.grecaptcha?.ready) {
+          window.grecaptcha.ready(async () => {
             try {
-              const res = await window.grecaptcha.enterprise.execute(siteKey, {
+              const res = await window.grecaptcha.execute(siteKey, {
                 action: "contact",
               });
               resolve(res);
@@ -63,7 +63,7 @@ const ContactSection = () => {
             message: form.message,
             token: token,
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -74,7 +74,7 @@ const ContactSection = () => {
       } else {
         toast.error(
           result.message ||
-            (locale === "az" ? "Xəta baş verdi!" : "An error occurred!")
+            (locale === "az" ? "Xəta baş verdi!" : "An error occurred!"),
         );
       }
     } catch (err) {
@@ -239,7 +239,7 @@ const ContactSection = () => {
             </div>
 
             <div className="w-full flex justify-center">
-              {/* reCAPTCHA Enterprise is invisible */}
+              {/* reCAPTCHA v3 is invisible */}
             </div>
 
             <button className="w-full h-[55px] bg-[#0707B0] text-white font-medium rounded-2xl hover:bg-[#FBE443] hover:text-black transition">

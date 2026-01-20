@@ -102,10 +102,10 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
             `}
         </Script>
 
-        {}
+        {/* reCAPTCHA v3 */}
 
         <Script
-          src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
           strategy="afterInteractive"
         />
 

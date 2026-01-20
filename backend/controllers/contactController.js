@@ -1,51 +1,41 @@
-const {
-  RecaptchaEnterpriseServiceClient,
-} = require("@google-cloud/recaptcha-enterprise");
-
 /**
- * Create an assessment to analyze the risk of a UI action.
+ * Verify reCAPTCHA v3 token using Google's REST API
  */
-async function createAssessment({
-  projectID = process.env.RECAPTCHA_PROJECT_ID,
-  recaptchaKey = process.env.RECAPTCHA_SITE_KEY,
-  token,
-  recaptchaAction,
-}) {
-  const client = new RecaptchaEnterpriseServiceClient();
-  const projectPath = client.projectPath(projectID);
+async function verifyRecaptcha(token) {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
-  const request = {
-    assessment: {
-      event: {
-        token: token,
-        siteKey: recaptchaKey,
-      },
-    },
-    parent: projectPath,
-  };
+  if (!secretKey) {
+    console.error("RECAPTCHA_SECRET_KEY is not set in environment variables");
+    return { success: false, score: 0 };
+  }
 
   try {
-    const [response] = await client.createAssessment(request);
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${secretKey}&response=${token}`,
+      },
+    );
 
-    if (!response.tokenProperties.valid) {
-      console.log(
-        `The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`
-      );
-      return null;
-    }
+    const data = await response.json();
 
-    if (response.tokenProperties.action === recaptchaAction) {
-      console.log(`The reCAPTCHA score is: ${response.riskAnalysis.score}`);
-      return response.riskAnalysis.score;
-    } else {
-      console.log(
-        "The action attribute in your reCAPTCHA tag does not match the action you are expecting to score"
-      );
-      return null;
-    }
+    console.log("reCAPTCHA verification result:", data);
+
+    return {
+      success: data.success,
+      score: data.score || 0,
+      action: data.action,
+      challengeTs: data.challenge_ts,
+      hostname: data.hostname,
+      errorCodes: data["error-codes"],
+    };
   } catch (error) {
-    console.error("Error creating assessment:", error);
-    return null;
+    console.error("Error verifying reCAPTCHA:", error);
+    return { success: false, score: 0 };
   }
 }
 
@@ -57,12 +47,10 @@ exports.sendContactEmail = async (req, res) => {
   }
 
   // Verify reCAPTCHA
-  const score = await createAssessment({
-    token: token,
-    recaptchaAction: "contact",
-  });
+  const recaptchaResult = await verifyRecaptcha(token);
 
-  if (score === null || score < 0.5) {
+  if (!recaptchaResult.success || recaptchaResult.score < 0.5) {
+    console.log("reCAPTCHA verification failed:", recaptchaResult);
     return res.status(400).json({
       message: "reCAPTCHA doğrulaması uğursuz oldu. Yenidən cəhd edin.",
     });
@@ -92,7 +80,7 @@ exports.sendContactEmail = async (req, res) => {
             message: message,
           },
         }),
-      }
+      },
     );
 
     if (emailRes.ok) {
