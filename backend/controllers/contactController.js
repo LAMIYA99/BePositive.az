@@ -137,7 +137,6 @@ exports.sendContactEmail = async (req, res) => {
       .json({ message: "Mesajınızda qadağan olunmuş məzmun aşkar edildi." });
   }
 
-  // 7. Length validation
   if (name.length > 100 || message.length > 1000) {
     return res.status(400).json({ message: "Mətn çox uzundur." });
   }
@@ -146,10 +145,9 @@ exports.sendContactEmail = async (req, res) => {
     return res.status(400).json({ message: "Mətn çox qısadır." });
   }
 
-  // All validations passed - send email
-  const serviceId = process.env.EMAILJS_SERVICE_ID || "service_sduolbk";
-  const templateId = process.env.EMAILJS_TEMPLATE_ID || "template_nwl3cgt";
-  const userId = process.env.EMAILJS_PUBLIC_KEY || "VbbuEz_PnOeCy2Qgo";
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_louv4fl";
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_nwl3cgt";
+  const userId = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY|| "VbbuEz_PnOeCy2Qgo";
 
   try {
     const emailRes = await fetch(
