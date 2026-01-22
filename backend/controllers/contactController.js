@@ -1,5 +1,3 @@
-const fetch = require("node-fetch");
-
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW = 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 3;
@@ -116,6 +114,7 @@ exports.sendContactEmail = async (req, res) => {
     return res.status(400).json({ message: "Mətn çox qısadır." });
   }
 
+  // All validations passed - send email
   const serviceId =
     process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_louv4fl";
   const templateId =
@@ -123,39 +122,57 @@ exports.sendContactEmail = async (req, res) => {
   const userId =
     process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "VbbuEz_PnOeCy2Qgo";
 
-  try {
-    const emailRes = await fetch(
-      "https://api.emailjs.com/api/v1.0/email/send",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          service_id: serviceId,
-          template_id: templateId,
-          user_id: userId,
-          template_params: {
-            from_name: name,
-            from_email: email,
-            message: message,
-          },
-        }),
-      },
-    );
+  const emailData = JSON.stringify({
+    service_id: serviceId,
+    template_id: templateId,
+    user_id: userId,
+    template_params: {
+      from_name: name,
+      from_email: email,
+      message: message,
+    },
+  });
 
-    if (emailRes.ok) {
-      console.log(`Email sent successfully from ${email}`);
-      return res.status(200).json({ message: "Mesajınız göndərildi!" });
-    } else {
-      const errorText = await emailRes.text();
-      console.error("EmailJS API Error:", errorText);
-      return res
-        .status(500)
-        .json({ message: "E-poçt göndərilərkən xəta baş verdi." });
-    }
-  } catch (error) {
-    console.error("Contact Error:", error);
-    return res.status(500).json({ message: "Daxili server xətası." });
-  }
+  const options = {
+    hostname: "api.emailjs.com",
+    path: "/api/v1.0/email/send",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": emailData.length,
+    },
+  };
+
+  const https = require("https");
+
+  const reqEmail = https.request(options, (resEmail) => {
+    let data = "";
+
+    resEmail.on("data", (chunk) => {
+      data += chunk;
+    });
+
+    resEmail.on("end", () => {
+      if (resEmail.statusCode === 200 || resEmail.statusCode === 201) {
+        return res
+          .status(200)
+          .json({ message: "Mesajınız uğurla göndərildi." });
+      } else {
+        console.error("EmailJS Error:", data);
+        return res
+          .status(500)
+          .json({ message: "Email göndərilərkən xəta baş verdi." });
+      }
+    });
+  });
+
+  reqEmail.on("error", (error) => {
+    console.error("EmailJS Request Error:", error);
+    return res
+      .status(500)
+      .json({ message: "Email göndərilərkən xəta baş verdi." });
+  });
+
+  reqEmail.write(emailData);
+  reqEmail.end();
 };
