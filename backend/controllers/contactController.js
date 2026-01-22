@@ -1,6 +1,8 @@
+const fetch = require("node-fetch");
+
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 60 * 1000; 
-const MAX_REQUESTS_PER_WINDOW = 3; 
+const RATE_LIMIT_WINDOW = 60 * 1000;
+const MAX_REQUESTS_PER_WINDOW = 3;
 
 const SPAM_KEYWORDS = [
   "viagra",
@@ -38,7 +40,7 @@ function checkRateLimit(ip) {
   );
 
   if (recentSubmissions.length >= MAX_REQUESTS_PER_WINDOW) {
-    return false;   
+    return false;
   }
 
   recentSubmissions.push(now);
@@ -114,9 +116,12 @@ exports.sendContactEmail = async (req, res) => {
     return res.status(400).json({ message: "Mətn çox qısadır." });
   }
 
-  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_louv4fl";
-  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_nwl3cgt";
-  const userId = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY|| "VbbuEz_PnOeCy2Qgo";
+  const serviceId =
+    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_louv4fl";
+  const templateId =
+    process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_nwl3cgt";
+  const userId =
+    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "VbbuEz_PnOeCy2Qgo";
 
   try {
     const emailRes = await fetch(
