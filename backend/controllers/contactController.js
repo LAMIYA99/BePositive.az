@@ -1,9 +1,7 @@
-// Rate limiting storage (IP -> submission times)
 const rateLimitMap = new Map();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 3; // Max 3 requests per minute
+const RATE_LIMIT_WINDOW = 60 * 1000; 
+const MAX_REQUESTS_PER_WINDOW = 3; 
 
-// Spam keywords list
 const SPAM_KEYWORDS = [
   "viagra",
   "casino",
@@ -22,9 +20,6 @@ const SPAM_KEYWORDS = [
   "crypto investment",
 ];
 
-/**
- * Get client IP address
- */
 function getClientIp(req) {
   return (
     req.headers["x-forwarded-for"]?.split(",")[0] ||
@@ -34,72 +29,48 @@ function getClientIp(req) {
   );
 }
 
-/**
- * Check rate limiting
- */
 function checkRateLimit(ip) {
   const now = Date.now();
   const submissions = rateLimitMap.get(ip) || [];
 
-  // Remove old submissions outside the window
   const recentSubmissions = submissions.filter(
     (time) => now - time < RATE_LIMIT_WINDOW,
   );
 
   if (recentSubmissions.length >= MAX_REQUESTS_PER_WINDOW) {
-    return false; // Rate limit exceeded
+    return false;   
   }
 
-  // Add current submission
   recentSubmissions.push(now);
   rateLimitMap.set(ip, recentSubmissions);
 
   return true;
 }
 
-/**
- * Validate email format
- */
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
-
-/**
- * Check for spam content
- */
 function containsSpam(text) {
   const lowerText = text.toLowerCase();
   return SPAM_KEYWORDS.some((keyword) => lowerText.includes(keyword));
 }
-
-/**
- * Validate honeypot field (should be empty)
- */
 function validateHoneypot(honeypot) {
   return !honeypot || honeypot === "";
 }
-
-/**
- * Validate submission timing (should take at least 3 seconds)
- */
 function validateTiming(timestamp) {
   const now = Date.now();
   const timeDiff = now - timestamp;
-
-  // Form should take at least 3 seconds to fill
-  return timeDiff >= 3000 && timeDiff <= 600000; // Between 3 seconds and 10 minutes
+  return timeDiff >= 3000 && timeDiff <= 600000;
 }
 
 exports.sendContactEmail = async (req, res) => {
   const { name, email, message, honeypot, timestamp } = req.body;
 
-  // 1. Basic validation
   if (!name || !email || !message) {
     return res.status(400).json({ message: "Bütün xanaları doldurun." });
   }
 
-  // 2. Honeypot validation (bot trap)
   if (!validateHoneypot(honeypot)) {
     console.log("Honeypot field filled - potential bot detected");
     return res
@@ -107,7 +78,6 @@ exports.sendContactEmail = async (req, res) => {
       .json({ message: "Xəta baş verdi. Yenidən cəhd edin." });
   }
 
-  // 3. Timing validation (too fast = bot)
   if (!timestamp || !validateTiming(timestamp)) {
     console.log("Form submitted too quickly - potential bot detected");
     return res
@@ -115,7 +85,6 @@ exports.sendContactEmail = async (req, res) => {
       .json({ message: "Zəhmət olmasa bir az gözləyin və yenidən cəhd edin." });
   }
 
-  // 4. Rate limiting check
   const clientIp = getClientIp(req);
   if (!checkRateLimit(clientIp)) {
     console.log(`Rate limit exceeded for IP: ${clientIp}`);
