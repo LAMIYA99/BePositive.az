@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const BrandSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
-    required: true,
+    required: false,
   },
   createdAt: {
     type: Date,
@@ -11,4 +11,4 @@ const BrandSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Brand', BrandSchema);
+module.exports = mongoose.model("Brand", BrandSchema);

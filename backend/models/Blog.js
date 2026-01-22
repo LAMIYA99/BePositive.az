@@ -20,8 +20,8 @@ const blogSchema = new mongoose.Schema(
     },
     tags: [
       {
-        en: { type: String, required: true },
-        az: { type: String, required: true },
+        en: { type: String, required: false },
+        az: { type: String, required: false },
       },
     ],
 
@@ -56,7 +56,7 @@ const blogSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Blog", blogSchema);
