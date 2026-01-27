@@ -114,65 +114,42 @@ exports.sendContactEmail = async (req, res) => {
     return res.status(400).json({ message: "Mətn çox qısadır." });
   }
 
-  // All validations passed - send email
-  const serviceId =
-    process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_louv4fl";
-  const templateId =
-    process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "template_nwl3cgt";
-  const userId =
-    process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "VbbuEz_PnOeCy2Qgo";
+  // All validations passed - send email via Nodemailer
+  const nodemailer = require("nodemailer");
 
-  const emailData = JSON.stringify({
-    service_id: serviceId,
-    template_id: templateId,
-    user_id: userId,
-    template_params: {
-      from_name: name,
-      from_email: email,
-      message: message,
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || "smtp.gmail.com",
+    port: parseInt(process.env.SMTP_PORT || "587"),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
-  const options = {
-    hostname: "api.emailjs.com",
-    path: "/api/v1.0/email/send",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Length": emailData.length,
-    },
+  const mailOptions = {
+    from: `"${name}" <${process.env.EMAIL_USER}>`, // Admin as sender for SMTP delivery compatibility
+    replyTo: email, // User's email to reply back
+    to: process.env.EMAIL_TO || "info@bepositive.az",
+    subject: `Yeni Əlaqə Formu: ${name}`,
+    text: `Ad: ${name}\nEmail: ${email}\nMesaj:\n${message}`,
+    html: `
+      <h3>Yeni Əlaqə Formu</h3>
+      <p><strong>Ad:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Mesaj:</strong></p>
+      <p>${message.replace(/\n/g, "<br>")}</p>
+    `,
   };
 
-  const https = require("https");
-
-  const reqEmail = https.request(options, (resEmail) => {
-    let data = "";
-
-    resEmail.on("data", (chunk) => {
-      data += chunk;
-    });
-
-    resEmail.on("end", () => {
-      if (resEmail.statusCode === 200 || resEmail.statusCode === 201) {
-        return res
-          .status(200)
-          .json({ message: "Mesajınız uğurla göndərildi." });
-      } else {
-        console.error("EmailJS Error:", data);
-        return res
-          .status(500)
-          .json({ message: "Email göndərilərkən xəta baş verdi." });
-      }
-    });
-  });
-
-  reqEmail.on("error", (error) => {
-    console.error("EmailJS Request Error:", error);
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Contact email sent successfully from ${email}`);
+    return res.status(200).json({ message: "Mesajınız uğurla göndərildi." });
+  } catch (error) {
+    console.error("Nodemailer Error:", error);
     return res
       .status(500)
       .json({ message: "Email göndərilərkən xəta baş verdi." });
-  });
-
-  reqEmail.write(emailData);
-  reqEmail.end();
+  }
 };
