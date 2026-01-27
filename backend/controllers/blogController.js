@@ -1,10 +1,13 @@
 const Blog = require("../models/Blog");
 
 exports.getAllBlogs = async (req, res) => {
+  console.log("GET /api/blogs called");
   try {
-    const blogs = await Blog.find().sort({ createdAt: -1 });
-    res.json(blogs);
+    const blogs = await Blog.find().sort({ createdAt: -1 }).lean();
+    console.log(`Successfully fetched ${blogs.length} blogs`);
+    res.status(200).json(blogs);
   } catch (err) {
+    console.error("Error in getAllBlogs:", err.message);
     res.status(500).json({ message: err.message });
   }
 };

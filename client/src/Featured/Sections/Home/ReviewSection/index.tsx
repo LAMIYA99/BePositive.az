@@ -37,7 +37,11 @@ const ReviewSection = () => {
         const res = await fetch(`/api/reviews`);
         if (res.ok) {
           const data = await res.json();
-          setReviews(data);
+          if (Array.isArray(data)) {
+            setReviews(data);
+          } else {
+            console.error("Reviews data is not an array:", data);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch reviews", error);

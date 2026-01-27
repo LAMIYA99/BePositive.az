@@ -1,10 +1,13 @@
 const Faq = require("../models/Faq");
 
 exports.getFaqs = async (req, res) => {
+  console.log("GET /api/faqs called");
   try {
-    const faqs = await Faq.find().sort({ order: 1 });
-    res.json(faqs);
+    const faqs = await Faq.find().sort({ order: 1 }).lean();
+    console.log(`Successfully fetched ${faqs.length} faqs`);
+    res.status(200).json(faqs);
   } catch (error) {
+    console.error("Error in getFaqs:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

@@ -11,8 +11,7 @@ process.on("uncaughtException", (err) => {
 });
 const mongoose = require("mongoose");
 const cors = require("cors");
-const blogRoutes = require("./routes/blogRoutes");
-const authRoutes = require("./routes/authRoutes");
+// Routes are required inline below
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -123,7 +122,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   res.json({ url: imageUrl });
 });
 
-app.use("/api/blogs", blogRoutes);
+app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/trainings", require("./routes/trainingRoutes"));
 app.use("/api/services", require("./routes/serviceRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
@@ -131,7 +130,7 @@ app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/brands", require("./routes/brandRoutes"));
 app.use("/api/team", require("./routes/teamRoutes"));
 app.use("/api/faqs", require("./routes/faqRoutes"));
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 
 const connectDB = async () => {

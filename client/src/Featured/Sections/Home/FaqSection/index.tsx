@@ -26,7 +26,11 @@ const FaqSection = () => {
         const res = await fetch("/api/faqs");
         if (res.ok) {
           const data = await res.json();
-          setFaqs(data.filter((f: Faq) => f.isActive));
+          if (Array.isArray(data)) {
+            setFaqs(data.filter((f: Faq) => f.isActive));
+          } else {
+            console.error("FAQS data is not an array:", data);
+          }
         }
       } catch (error) {
         console.error("Error fetching faqs:", error);

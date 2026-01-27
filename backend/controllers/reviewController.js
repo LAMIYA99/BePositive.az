@@ -1,10 +1,13 @@
 const Review = require("../models/Review");
 
 exports.getReviews = async (req, res) => {
+  console.log("GET /api/reviews called");
   try {
-    const reviews = await Review.find().sort({ createdAt: -1 });
+    const reviews = await Review.find().sort({ createdAt: -1 }).lean();
+    console.log(`Successfully fetched ${reviews.length} reviews`);
     res.status(200).json(reviews);
   } catch (error) {
+    console.error("Error in getReviews:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -24,7 +27,7 @@ exports.updateReview = async (req, res) => {
     const updatedReview = await Review.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedReview);
   } catch (error) {
