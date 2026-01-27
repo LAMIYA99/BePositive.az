@@ -52,7 +52,7 @@ app.use(
   }),
 );
 
-app.options("*", cors());
+// Express 5 pre-flight is handled by the global cors middleware above
 
 app.use(express.json());
 
