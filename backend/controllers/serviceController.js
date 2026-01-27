@@ -1,10 +1,13 @@
 const Service = require("../models/Service");
 
 exports.getServices = async (req, res) => {
+  console.log("GET /api/services called");
   try {
-    const services = await Service.find().sort({ createdAt: -1 });
+    const services = await Service.find().sort({ createdAt: -1 }).lean();
+    console.log(`Successfully fetched ${services.length} services`);
     res.status(200).json(services);
   } catch (error) {
+    console.error("Error in getServices:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -24,7 +27,7 @@ exports.updateService = async (req, res) => {
     const updatedService = await Service.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedService);
   } catch (error) {

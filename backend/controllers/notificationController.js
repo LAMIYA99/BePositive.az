@@ -1,12 +1,17 @@
 const Notification = require("../models/Notification");
 
 exports.getActiveNotification = async (req, res) => {
+  console.log("GET /api/notifications/active called");
   try {
-    const notification = await Notification.findOne({ isActive: true }).sort({
-      createdAt: -1,
-    });
+    const notification = await Notification.findOne({ isActive: true })
+      .sort({ createdAt: -1 })
+      .lean();
+    console.log(
+      `Active notification fetched: ${notification ? notification._id : "none"}`,
+    );
     res.status(200).json(notification);
   } catch (error) {
+    console.error("Error in getActiveNotification:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -46,7 +51,7 @@ exports.updateNotification = async (req, res) => {
     const updatedNotification = await Notification.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true },
     );
     try {
       if (req && req.io)
@@ -81,7 +86,7 @@ exports.saveResponse = async (req, res) => {
     const updated = await Notification.findByIdAndUpdate(
       notificationId,
       { $push: { responses: { value: source } } },
-      { new: true }
+      { new: true },
     );
 
     if (!updated)
@@ -92,7 +97,7 @@ exports.saveResponse = async (req, res) => {
     } catch (emitErr) {
       console.error(
         "Failed to emit notificationUpdated after response:",
-        emitErr
+        emitErr,
       );
     }
 
@@ -112,7 +117,7 @@ exports.getNotificationStats = async (req, res) => {
 
     const counts = {};
     const optionValues = new Set(
-      (notification.options || []).map((o) => o.value)
+      (notification.options || []).map((o) => o.value),
     );
     const customs = {};
 

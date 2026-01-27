@@ -1,10 +1,13 @@
 const Training = require("../models/Training");
 
 exports.getTrainings = async (req, res) => {
+  console.log("GET /api/trainings called");
   try {
-    const trainings = await Training.find().sort({ createdAt: -1 });
+    const trainings = await Training.find().sort({ createdAt: -1 }).lean();
+    console.log(`Successfully fetched ${trainings.length} trainings`);
     res.status(200).json(trainings);
   } catch (error) {
+    console.error("Error in getTrainings:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
@@ -24,7 +27,7 @@ exports.updateTraining = async (req, res) => {
     const updatedTraining = await Training.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedTraining);
   } catch (error) {
