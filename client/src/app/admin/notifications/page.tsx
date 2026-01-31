@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ToggleLeft,
   ToggleRight,
+  Youtube,
 } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,9 +21,9 @@ import dynamic from "next/dynamic";
 const NotificationCharts = dynamic(
   () =>
     import("@/components/NotificationCharts").then(
-      (mod) => mod.NotificationCharts
+      (mod) => mod.NotificationCharts,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface LocalizedString {
@@ -44,6 +45,7 @@ interface NotificationData {
   showDelay: number;
   type: "survey" | "info";
   link?: string;
+  youtube?: string;
   stats?: {
     counts: Record<string, number>;
     total: number;
@@ -54,6 +56,7 @@ interface NotificationData {
 type NotificationFormData = Omit<NotificationData, "_id">;
 
 const defaultOptions: NotificationOption[] = [
+  { label: { en: "YouTube", az: "YouTube" }, value: "youtube" },
   { label: { en: "Google", az: "Google" }, value: "google" },
   { label: { en: "Facebook", az: "Facebook" }, value: "facebook" },
   { label: { en: "Instagram", az: "Instagram" }, value: "instagram" },
@@ -83,6 +86,7 @@ export default function NotificationAdmin() {
     showDelay: 3000,
     type: "survey",
     link: "",
+    youtube: "",
   });
 
   const fetchNotifications = useCallback(async () => {
@@ -103,7 +107,7 @@ export default function NotificationAdmin() {
               console.error("Failed to fetch stats for", n._id, e);
             }
             return { ...n, stats: { counts: {}, total: 0 } };
-          })
+          }),
         );
         setNotifications(withStats);
       }
@@ -126,11 +130,11 @@ export default function NotificationAdmin() {
     return () => {
       window.removeEventListener(
         "notification:created",
-        onCreated as EventListener
+        onCreated as EventListener,
       );
       window.removeEventListener(
         "notification:updated",
-        onUpdated as EventListener
+        onUpdated as EventListener,
       );
     };
   }, [fetchNotifications]);
@@ -147,8 +151,9 @@ export default function NotificationAdmin() {
       options: [],
       isActive: true,
       showDelay: 3000,
-      type: "info",
+      type: "survey",
       link: "",
+      youtube: "",
     });
     setCurrentNotification(null);
     setIsEditing(true);
@@ -164,6 +169,7 @@ export default function NotificationAdmin() {
       showDelay: notif.showDelay,
       type: notif.type || "survey",
       link: notif.link || "",
+      youtube: notif.youtube || "",
     });
     setCurrentNotification(notif);
     setIsEditing(true);
@@ -199,6 +205,18 @@ export default function NotificationAdmin() {
   const handleSave = async () => {
     setLoading(true);
     try {
+      // Auto-add any pending option input
+      let finalOptions = [...formData.options];
+      const en = optionInput.label.en || optionInput.label.az;
+      const az = optionInput.label.az || optionInput.label.en;
+      const val =
+        optionInput.value || en?.toLowerCase().trim().replace(/\s+/g, "_");
+
+      if ((en || az) && val) {
+        finalOptions.push({ label: { en, az }, value: val });
+        setOptionInput({ label: { en: "", az: "" }, value: "" });
+      }
+
       const url = currentNotification
         ? `/api/notifications/${currentNotification._id}`
         : "/api/notifications";
@@ -208,14 +226,14 @@ export default function NotificationAdmin() {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, options: finalOptions }),
       });
 
       if (res.ok) {
         showNotification(
           currentNotification
             ? "Notification updated successfully!"
-            : "New notification created successfully!"
+            : "New notification created successfully!",
         );
         fetchNotifications();
         setIsEditing(false);
@@ -248,7 +266,7 @@ export default function NotificationAdmin() {
   };
 
   const filteredNotifications = notifications.filter((n) =>
-    n.title.en.toLowerCase().includes(searchTerm.toLowerCase())
+    n.title.en.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -327,9 +345,15 @@ export default function NotificationAdmin() {
                             </span>
                           )}
                         </div>
-                        <p className="text-slate-600 mb-4">
+                        <p className="text-slate-600 mb-2">
                           {notif.message.en}
                         </p>
+                        {notif.youtube && (
+                          <p className="text-xs text-rose-600 font-bold mb-4 flex items-center gap-1">
+                            <Youtube className="w-3 h-3" /> YouTube Link:{" "}
+                            {notif.youtube}
+                          </p>
+                        )}
                         <div className="flex flex-wrap gap-2">
                           {notif.options.map((opt) => (
                             <span
@@ -486,7 +510,10 @@ export default function NotificationAdmin() {
                           setFormData({
                             ...formData,
                             type: "survey",
-                            options: defaultOptions,
+                            options:
+                              formData.options.length === 0
+                                ? defaultOptions
+                                : formData.options,
                           })
                         }
                         className={`px-6 py-3 rounded-xl border-2 font-bold transition-all ${
@@ -528,6 +555,21 @@ export default function NotificationAdmin() {
                       />
                     </div>
                   )}
+
+                  <div>
+                    <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
+                      YouTube URL (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.youtube || ""}
+                      onChange={(e) =>
+                        setFormData({ ...formData, youtube: e.target.value })
+                      }
+                      className="w-full text-base bg-slate-50 p-4 rounded-2xl outline-none placeholder:text-slate-300"
+                      placeholder="https://youtube.com/watch?v=..."
+                    />
+                  </div>
 
                   <div>
                     <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">
@@ -597,6 +639,12 @@ export default function NotificationAdmin() {
                                 },
                               })
                             }
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                addOption();
+                              }
+                            }}
                             className="w-full px-4 py-3 bg-white rounded-xl border border-slate-100 outline-none"
                             placeholder={`Option Label (${activeTab.toUpperCase()})`}
                           />
@@ -609,6 +657,12 @@ export default function NotificationAdmin() {
                                 value: e.target.value,
                               })
                             }
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault();
+                                addOption();
+                              }
+                            }}
                             className="w-full px-4 py-3 bg-white rounded-xl border border-slate-100 outline-none"
                             placeholder="Option Value (e.g. google)"
                           />

@@ -23,6 +23,10 @@ const notificationSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    youtube: {
+      type: String,
+      default: null,
+    },
     options: [
       {
         label: {
@@ -48,7 +52,7 @@ const notificationSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Notification", notificationSchema);

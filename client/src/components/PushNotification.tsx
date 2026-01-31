@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, Youtube } from "lucide-react";
 import { useLocale } from "next-intlayer";
 import { getTranslation } from "intlayer";
 import { API_URL } from "@/lib/api";
@@ -25,12 +25,13 @@ interface NotificationData {
   showDelay: number;
   type?: "survey" | "info";
   link?: string;
+  youtube?: string;
 }
 
 export default function PushNotification() {
   const { locale } = useLocale();
   const [notification, setNotification] = useState<NotificationData | null>(
-    null
+    null,
   );
   const [isVisible, setIsVisible] = useState(false);
   const [hasResponded, setHasResponded] = useState(false);
@@ -60,7 +61,7 @@ export default function PushNotification() {
         } else {
           console.warn(
             "Active notification fetch returned non-ok status",
-            res.status
+            res.status,
           );
         }
       } catch (error) {
@@ -82,11 +83,9 @@ export default function PushNotification() {
 
     const onUpdated = (e: any) => {
       const data = e.detail;
-
-      const resp = localStorage.getItem("notification_responded_id");
       if (!data) return;
-      if (resp && resp === data._id) return;
       setNotification(data);
+      setHasResponded(false);
       setTimeout(() => setIsVisible(true), data.showDelay || 3000);
     };
 
@@ -96,11 +95,11 @@ export default function PushNotification() {
     return () => {
       window.removeEventListener(
         "notification:created",
-        onCreated as EventListener
+        onCreated as EventListener,
       );
       window.removeEventListener(
         "notification:updated",
-        onUpdated as EventListener
+        onUpdated as EventListener,
       );
     };
   }, []);
@@ -170,7 +169,7 @@ export default function PushNotification() {
               </button>
             </div>
 
-            <div className="p-10 space-y-8">
+            <div className="p-8 md:p-10 space-y-8 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
               <p className="text-slate-600 text-lg leading-relaxed font-medium">
                 {t(notification.message)}
               </p>
@@ -244,36 +243,57 @@ export default function PushNotification() {
                   </motion.div>
                 </div>
               ) : (
-                notification.link && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <a
-                      href={notification.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center justify-center gap-3 w-full py-5 bg-[#0808C1] hover:bg-[#060689] text-white rounded-3xl font-extrabold text-lg transition-all shadow-[0_20px_40px_-12px_rgba(8,8,193,0.3)] hover:shadow-[0_25px_50px_-12px_rgba(8,8,193,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                <div className="space-y-4">
+                  {notification.link && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
                     >
-                      {locale === "az" ? "Daha çox" : "Learn More"}
-                      <svg
-                        className="group-hover:translate-x-1 transition-transform"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                      <a
+                        href={notification.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center justify-center gap-3 w-full py-5 bg-[#0808C1] hover:bg-[#060689] text-white rounded-3xl font-extrabold text-lg transition-all shadow-[0_20px_40px_-12px_rgba(8,8,193,0.3)] hover:shadow-[0_25px_50px_-12px_rgba(8,8,193,0.4)] hover:-translate-y-0.5 active:translate-y-0"
                       >
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </a>
-                  </motion.div>
-                )
+                        {locale === "az" ? "Daha çox" : "Learn More"}
+                        <svg
+                          className="group-hover:translate-x-1 transition-transform"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </a>
+                    </motion.div>
+                  )}
+                </div>
+              )}
+
+              {notification.youtube && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 }}
+                  className="pt-4 border-t border-slate-100"
+                >
+                  <a
+                    href={notification.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-center gap-3 w-full py-5 bg-[#FF0000] hover:bg-[#CC0000] text-white rounded-3xl font-extrabold text-lg transition-all shadow-[0_20px_40px_-12px_rgba(255,0,0,0.3)] hover:shadow-[0_25px_50px_-12px_rgba(255,0,0,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+                  >
+                    <Youtube className="w-6 h-6" />
+                    {locale === "az" ? "YouTube-da izlə" : "Watch on YouTube"}
+                  </a>
+                </motion.div>
               )}
             </div>
           </motion.div>

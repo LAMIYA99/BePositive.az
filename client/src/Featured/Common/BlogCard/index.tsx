@@ -9,6 +9,7 @@ interface BlogCardProps {
     title: { en: string; az: string };
     excerpt: { en: string; az: string };
     image: string;
+    slug?: string;
     tags?: { en: string; az: string }[];
   };
 }
@@ -62,7 +63,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
         </p>
 
         <Link
-          href={`/BlogDetail/${blog._id}`}
+          href={`/BlogDetail/${blog.slug || blog._id}`}
           className="flex items-center gap-2 
             text-[16px] font-medium leading-[21px]
             text-[#0808C1] group-hover:text-white"
