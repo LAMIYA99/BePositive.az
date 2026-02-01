@@ -93,12 +93,9 @@ exports.sendContactEmail = async (req, res) => {
       .json({ message: "Çox tez-tez sorğu göndərirsiniz. Bir az gözləyin." });
   }
 
-  // 5. Email validation
   if (!isValidEmail(email)) {
     return res.status(400).json({ message: "Düzgün email ünvanı daxil edin." });
   }
-
-  // 6. Spam content check
   if (containsSpam(name) || containsSpam(message)) {
     console.log("Spam content detected in submission");
     return res
@@ -114,42 +111,76 @@ exports.sendContactEmail = async (req, res) => {
     return res.status(400).json({ message: "Mətn çox qısadır." });
   }
 
-  // All validations passed - send email via Nodemailer
-  const nodemailer = require("nodemailer");
+  const https = require("https");
 
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: parseInt(process.env.SMTP_PORT || "587"),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    console.error("Telegram credentials missing in environment variables");
+    return res.status(500).json({
+      message:
+        "Server tənzimləmələrində xəta var. Zəhmət olmasa sonra cəhd edin.",
+    });
+  }
+
+  const telegramMessage = `
+<b>🚀 Yeni Əlaqə Formu</b>
+
+<b>👤 Ad:</b> ${name}
+<b>📧 Email:</b> ${email}
+<b>💬 Mesaj:</b>
+${message}
+
+<b>🌐 IP:</b> ${clientIp}
+<b>⏰ Tarix:</b> ${new Date().toLocaleString("az-AZ")}
+  `.trim();
+
+  const data = JSON.stringify({
+    chat_id: chatId,
+    text: telegramMessage,
+    parse_mode: "HTML",
   });
 
-  const mailOptions = {
-    from: `"${name}" <${process.env.EMAIL_USER}>`, // Admin as sender for SMTP delivery compatibility
-    replyTo: email, // User's email to reply back
-    to: process.env.EMAIL_TO || "info@bepositive.az",
-    subject: `Yeni Əlaqə Formu: ${name}`,
-    text: `Ad: ${name}\nEmail: ${email}\nMesaj:\n${message}`,
-    html: `
-      <h3>Yeni Əlaqə Formu</h3>
-      <p><strong>Ad:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Mesaj:</strong></p>
-      <p>${message.replace(/\n/g, "<br>")}</p>
-    `,
+  const options = {
+    hostname: "api.telegram.org",
+    port: 443,
+    path: `/bot${token}/sendMessage`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": data.length,
+    },
   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log(`Contact email sent successfully from ${email}`);
-    return res.status(200).json({ message: "Mesajınız uğurla göndərildi." });
-  } catch (error) {
-    console.error("Nodemailer Error:", error);
+  const telegramReq = https.request(options, (telegramRes) => {
+    let responseData = "";
+    telegramRes.on("data", (chunk) => {
+      responseData += chunk;
+    });
+
+    telegramRes.on("end", () => {
+      if (telegramRes.statusCode === 200) {
+        console.log(`Telegram message sent successfully from ${email}`);
+        return res
+          .status(200)
+          .json({ message: "Mesajınız uğurla göndərildi." });
+      } else {
+        console.error("Telegram API Error:", responseData);
+        return res
+          .status(500)
+          .json({ message: "Mesaj göndərilərkən xəta baş verdi." });
+      }
+    });
+  });
+
+  telegramReq.on("error", (error) => {
+    console.error("Telegram Request Error:", error);
     return res
       .status(500)
-      .json({ message: "Email göndərilərkən xəta baş verdi." });
-  }
+      .json({ message: "Serverlə əlaqə zamanı xəta baş verdi." });
+  });
+
+  telegramReq.write(data);
+  telegramReq.end();
 };

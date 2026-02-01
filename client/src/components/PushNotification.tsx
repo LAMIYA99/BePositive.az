@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Youtube } from "lucide-react";
 import { useLocale } from "next-intlayer";
 import { getTranslation } from "intlayer";
-import { API_URL } from "@/lib/api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface LocalizedString {
   en: string;
@@ -13,7 +13,7 @@ interface LocalizedString {
 }
 
 interface NotificationOption {
-  label: LocalizedString;
+  label: { en: string; az: string };
   value: string;
 }
 
@@ -21,88 +21,67 @@ interface NotificationData {
   _id: string;
   title: LocalizedString;
   message: LocalizedString;
+  type: "survey" | "info";
   options: NotificationOption[];
-  showDelay: number;
-  type?: "survey" | "info";
+  isActive: boolean;
+  showDelay?: number;
   link?: string;
   youtube?: string;
 }
 
+const fetchActiveNotification = async (): Promise<NotificationData | null> => {
+  const res = await fetch("/api/notifications/active");
+  if (!res.ok) return null;
+  return res.json();
+};
+
 export default function PushNotification() {
   const { locale } = useLocale();
-  const [notification, setNotification] = useState<NotificationData | null>(
-    null,
-  );
+  const queryClient = useQueryClient();
+
+  const { data: notification } = useQuery({
+    queryKey: ["activeNotification"],
+    queryFn: fetchActiveNotification,
+    refetchInterval: 60000, // Background check every minute
+    staleTime: 30000,
+  });
+
   const [isVisible, setIsVisible] = useState(false);
   const [hasResponded, setHasResponded] = useState(false);
   const [customResponse, setCustomResponse] = useState("");
 
   const t = (content: LocalizedString) => getTranslation(content, locale);
 
+  // Logic to show/hide the notification based on data and local response status
   useEffect(() => {
-    const respondedId = localStorage.getItem("notification_responded_id");
-
-    const fetchNotification = async () => {
-      try {
-        const res = await fetch("/api/notifications/active");
-        if (res.ok) {
-          const data = await res.json();
-          console.log("Fetched active notification:", data);
-          if (data) {
-            if (respondedId && respondedId === data._id) {
-              setHasResponded(true);
-              return;
-            }
-            setNotification(data);
-            setTimeout(() => {
-              setIsVisible(true);
-            }, data.showDelay || 3000);
-          }
-        } else {
-          console.warn(
-            "Active notification fetch returned non-ok status",
-            res.status,
-          );
-        }
-      } catch (error) {
-        console.error("Failed to fetch notification:", error);
-      }
-    };
-
-    fetchNotification();
-
-    const onCreated = (e: any) => {
-      const data = e.detail;
-
+    if (notification && !hasResponded) {
       const resp = localStorage.getItem("notification_responded_id");
-      if (!data) return;
-      if (resp && resp === data._id) return;
-      setNotification(data);
-      setTimeout(() => setIsVisible(true), data.showDelay || 3000);
-    };
+      if (resp !== notification._id) {
+        const timer = setTimeout(() => {
+          setIsVisible(true);
+        }, notification.showDelay || 3000);
+        return () => clearTimeout(timer);
+      }
+    } else {
+      setIsVisible(false);
+    }
+  }, [notification, hasResponded]);
 
-    const onUpdated = (e: any) => {
-      const data = e.detail;
-      if (!data) return;
-      setNotification(data);
+  // Listen for socket-driven events via custom window events (dispatched in NotificationProvider)
+  useEffect(() => {
+    const refreshData = () => {
+      queryClient.invalidateQueries({ queryKey: ["activeNotification"] });
       setHasResponded(false);
-      setTimeout(() => setIsVisible(true), data.showDelay || 3000);
     };
 
-    window.addEventListener("notification:created", onCreated as EventListener);
-    window.addEventListener("notification:updated", onUpdated as EventListener);
+    window.addEventListener("notification:created", refreshData);
+    window.addEventListener("notification:updated", refreshData);
 
     return () => {
-      window.removeEventListener(
-        "notification:created",
-        onCreated as EventListener,
-      );
-      window.removeEventListener(
-        "notification:updated",
-        onUpdated as EventListener,
-      );
+      window.removeEventListener("notification:created", refreshData);
+      window.removeEventListener("notification:updated", refreshData);
     };
-  }, []);
+  }, [queryClient]);
 
   const handleResponse = async (value: string) => {
     try {
@@ -114,7 +93,7 @@ export default function PushNotification() {
           notificationId: notification?._id,
         }),
       });
-      if (notification && notification._id) {
+      if (notification?._id) {
         localStorage.setItem("notification_responded_id", notification._id);
       }
       setIsVisible(false);
@@ -126,7 +105,7 @@ export default function PushNotification() {
 
   const handleClose = () => {
     setIsVisible(false);
-    if (notification && notification._id) {
+    if (notification?._id) {
       localStorage.setItem("notification_responded_id", notification._id);
     }
     setHasResponded(true);
@@ -151,9 +130,9 @@ export default function PushNotification() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-white w-full max-w-lg rounded-[40px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] overflow-hidden "
+            className="relative bg-white w-full max-w-lg rounded-[40px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] overflow-hidden"
           >
-            <div className="bg-linear-to-br from-[#0808C1] to-[#060689] p-10 h-32 flex items-center relative overflow-hidden">
+            <div className="bg-gradient-to-br from-[#0808C1] to-[#060689] p-10 h-32 flex items-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-400/10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl" />
 

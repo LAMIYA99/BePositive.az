@@ -1,4 +1,5 @@
 const Blog = require("../models/Blog");
+const { clearCache } = require("../middleware/cacheMiddleware");
 
 exports.getAllBlogs = async (req, res) => {
   console.log("GET /api/blogs called");
@@ -54,6 +55,7 @@ exports.createBlog = async (req, res) => {
       });
     }
 
+    clearCache("/api/blogs");
     res.status(201).json(newBlog);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -73,6 +75,7 @@ exports.updateBlog = async (req, res) => {
       });
     }
 
+    clearCache("/api/blogs");
     res.json(updatedBlog);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -82,6 +85,7 @@ exports.updateBlog = async (req, res) => {
 exports.deleteBlog = async (req, res) => {
   try {
     await Blog.findByIdAndDelete(req.params.id);
+    clearCache("/api/blogs");
     res.json({ message: "Blog deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });

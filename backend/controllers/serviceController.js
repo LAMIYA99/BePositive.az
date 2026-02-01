@@ -1,4 +1,5 @@
 const Service = require("../models/Service");
+const { clearCache } = require("../middleware/cacheMiddleware");
 
 exports.getServices = async (req, res) => {
   console.log("GET /api/services called");
@@ -16,6 +17,7 @@ exports.createService = async (req, res) => {
   const service = new Service(req.body);
   try {
     const newService = await service.save();
+    clearCache("/api/services");
     res.status(201).json(newService);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -29,6 +31,7 @@ exports.updateService = async (req, res) => {
       req.body,
       { new: true },
     );
+    clearCache("/api/services");
     res.status(200).json(updatedService);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -38,6 +41,7 @@ exports.updateService = async (req, res) => {
 exports.deleteService = async (req, res) => {
   try {
     await Service.findByIdAndDelete(req.params.id);
+    clearCache("/api/services");
     res.status(200).json({ message: "Service deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -122,14 +122,28 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   res.json({ url: imageUrl });
 });
 
-app.use("/api/blogs", require("./routes/blogRoutes"));
-app.use("/api/trainings", require("./routes/trainingRoutes"));
-app.use("/api/services", require("./routes/serviceRoutes"));
-app.use("/api/reviews", require("./routes/reviewRoutes"));
-app.use("/api/notifications", require("./routes/notificationRoutes"));
-app.use("/api/brands", require("./routes/brandRoutes"));
-app.use("/api/team", require("./routes/teamRoutes"));
-app.use("/api/faqs", require("./routes/faqRoutes"));
+const { cacheMiddleware } = require("./middleware/cacheMiddleware");
+
+app.use("/api/blogs", cacheMiddleware(300), require("./routes/blogRoutes"));
+app.use(
+  "/api/trainings",
+  cacheMiddleware(300),
+  require("./routes/trainingRoutes"),
+);
+app.use(
+  "/api/services",
+  cacheMiddleware(300),
+  require("./routes/serviceRoutes"),
+);
+app.use("/api/reviews", cacheMiddleware(300), require("./routes/reviewRoutes"));
+app.use(
+  "/api/notifications",
+  cacheMiddleware(60),
+  require("./routes/notificationRoutes"),
+);
+app.use("/api/brands", cacheMiddleware(600), require("./routes/brandRoutes"));
+app.use("/api/team", cacheMiddleware(300), require("./routes/teamRoutes"));
+app.use("/api/faqs", cacheMiddleware(600), require("./routes/faqRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 

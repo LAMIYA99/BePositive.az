@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAppLoading } from "@/Provider/AppLoaderProvider";
 import { API_URL } from "@/lib/api";
 
+import { useQuery } from "@tanstack/react-query";
+
 interface LocalizedString {
   en: string;
   az: string;
@@ -29,41 +31,35 @@ interface Blog {
   image2?: string;
 }
 
+const fetchBlog = async (id: string): Promise<Blog> => {
+  const res = await fetch(`/api/blogs/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch blog");
+  return res.json();
+};
+
 const ContentSection = ({ id }: { id: string }) => {
   const { locale } = useLocale();
-  const [blog, setBlog] = useState<Blog | null>(null);
-  const [loading, setLoadingState] = useState(true);
-  const { setLoading } = useAppLoading();
-  const [error, setError] = useState(false);
+  const {
+    data: blog,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["blog", id],
+    queryFn: () => fetchBlog(id),
+    enabled: !!id,
+  });
 
-  useEffect(() => {
-    if (!id) return;
-
-    setLoading(true);
-
-    fetch(`/api/blogs/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed");
-        return res.json();
-      })
-      .then((data) => {
-        setBlog(data);
-        setLoading(false);
-        setLoadingState(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError(true);
-        setLoading(false);
-        setLoadingState(false);
-      });
-  }, [id]);
-
-  if (loading) {
-    return null;
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-20 animate-pulse space-y-8">
+        <div className="h-10 bg-slate-100 rounded-xl w-1/4" />
+        <div className="h-20 bg-slate-100 rounded-2xl w-3/4" />
+        <div className="h-[400px] bg-slate-100 rounded-3xl w-full" />
+      </div>
+    );
   }
 
-  if (error || !blog) {
+  if (isError || !blog) {
     return (
       <div className="container mx-auto py-20 text-center text-gray-500">
         Bloq tapılmadı.
@@ -98,7 +94,7 @@ const ContentSection = ({ id }: { id: string }) => {
             <Calendar size={16} />
             {new Date(blog.createdAt).toLocaleDateString(
               locale === "az" ? "az-AZ" : "en-US",
-              { day: "numeric", month: "short", year: "numeric" }
+              { day: "numeric", month: "short", year: "numeric" },
             )}
           </span>
 
@@ -111,9 +107,9 @@ const ContentSection = ({ id }: { id: string }) => {
                   (acc, s) =>
                     acc +
                     (s.content[locale as "en" | "az"]?.split(" ").length || 0),
-                  0
+                  0,
                 ) || 0) /
-                  200
+                  200,
             ) || 1}{" "}
             min read
           </span>

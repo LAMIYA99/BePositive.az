@@ -1,4 +1,5 @@
 const Notification = require("../models/Notification");
+const { clearCache } = require("../middleware/cacheMiddleware");
 
 exports.getActiveNotification = async (req, res) => {
   console.log("GET /api/notifications/active called");
@@ -35,6 +36,7 @@ exports.createNotification = async (req, res) => {
     } catch (emitErr) {
       console.error("Failed to emit notificationCreated:", emitErr);
     }
+    clearCache("/api/notifications");
     res.status(201).json(newNotification);
   } catch (error) {
     console.error("Notification creation error:", error.message);
@@ -59,6 +61,7 @@ exports.updateNotification = async (req, res) => {
     } catch (emitErr) {
       console.error("Failed to emit notificationUpdated:", emitErr);
     }
+    clearCache("/api/notifications");
     res.status(200).json(updatedNotification);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -68,6 +71,7 @@ exports.updateNotification = async (req, res) => {
 exports.deleteNotification = async (req, res) => {
   try {
     await Notification.findByIdAndDelete(req.params.id);
+    clearCache("/api/notifications");
     res.status(200).json({ message: "Notification deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -100,7 +104,7 @@ exports.saveResponse = async (req, res) => {
         emitErr,
       );
     }
-
+    clearCache("/api/notifications");
     res.status(200).json({ message: "Response saved" });
   } catch (error) {
     console.error("saveResponse error:", error);

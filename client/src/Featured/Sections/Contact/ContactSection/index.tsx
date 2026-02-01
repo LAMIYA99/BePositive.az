@@ -14,10 +14,10 @@ const ContactSection = () => {
     name: "",
     email: "",
     message: "",
-    honeypot: "", // Hidden field for bot detection
+    honeypot: "",
   });
 
-  // Set form start time when component mounts
+
   useEffect(() => {
     setFormStartTime(Date.now());
   }, []);
@@ -29,7 +29,7 @@ const ContactSection = () => {
   const sendEmail = async (e: any) => {
     e.preventDefault();
 
-    // Don't show error for honeypot, just silently reject
+  
     if (form.honeypot) {
       console.log("Bot detected via honeypot");
       return;
