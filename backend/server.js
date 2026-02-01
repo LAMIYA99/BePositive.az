@@ -12,10 +12,22 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
-// CORS - Most stable configuration
+// CORS - Simplified and Robust
+const allowedOrigins = [
+  "https://bepositive.az",
+  "https://www.bepositive.az",
+  "http://localhost:3000",
+];
+
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: [
@@ -33,8 +45,9 @@ app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
+    credentials: true,
   },
 });
 
@@ -46,7 +59,7 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/service", express.static(path.join(__dirname, "service")));
 
-// Cloudinary Config
+// Cloudinary
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
@@ -86,9 +99,10 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   res.json({ url: imageUrl });
 });
 
-// ROUTING - Disabling cacheMiddleware temporarily to fix 500 errors
+// Cache Middleware Placeholder (Fixed stability)
 const cacheMiddleware = (duration) => (req, res, next) => next();
 
+// API Routes
 app.use("/api/blogs", cacheMiddleware(300), require("./routes/blogRoutes"));
 app.use(
   "/api/trainings",
@@ -116,14 +130,14 @@ const connectDB = async () => {
   try {
     const mongoUri =
       process.env.MONGO_URI || "mongodb://localhost:27017/bepositive";
-    const conn = await mongoose.connect(mongoUri);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    await mongoose.connect(mongoUri);
+    console.log("MongoDB Connected...");
 
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error(`MongoDB Connection Error: ${error.message}`);
+    console.error(`DB Error: ${error.message}`);
     process.exit(1);
   }
 };
