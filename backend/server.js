@@ -12,19 +12,11 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
-// CLEANED GLOBAL CORS - Resolves Preflight/Options issues
+// Base CORS
 app.use(
   cors({
     origin: true,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-      "Origin",
-    ],
   }),
 );
 
@@ -45,46 +37,9 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/service", express.static(path.join(__dirname, "service")));
 
-const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+// Routes Placeholder
+const cacheMiddleware = (d) => (req, res, next) => next();
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-let storage;
-if (process.env.CLOUDINARY_CLOUD_NAME) {
-  storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-      folder: "bepositive_uploads",
-      allowed_formats: ["jpg", "png", "jpeg", "webp", "svg"],
-    },
-  });
-} else {
-  storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      const uploadDir = path.join(__dirname, "uploads");
-      if (!fs.existsSync(uploadDir))
-        fs.mkdirSync(uploadDir, { recursive: true });
-      cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
-  });
-}
-
-const upload = multer({ storage });
-
-app.post("/api/upload", upload.single("image"), (req, res) => {
-  if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-  const imageUrl =
-    req.file.path || req.file.secure_url || `/uploads/${req.file.filename}`;
-  res.json({ url: imageUrl });
-});
-
-// REMOVED CACHING TO RESTORE STABILITY
 app.use("/api/blogs", require("./routes/blogRoutes"));
 app.use("/api/trainings", require("./routes/trainingRoutes"));
 app.use("/api/services", require("./routes/serviceRoutes"));
@@ -95,6 +50,8 @@ app.use("/api/team", require("./routes/teamRoutes"));
 app.use("/api/faqs", require("./routes/faqRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
+
+app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
 const connectDB = async () => {
   try {
@@ -108,7 +65,6 @@ const connectDB = async () => {
     });
   } catch (error) {
     console.error(`DB Error: ${error.message}`);
-    process.exit(1);
   }
 };
 
