@@ -147,7 +147,7 @@ app.use(
 app.use("/api/reviews", cacheMiddleware(300), require("./routes/reviewRoutes"));
 app.use(
   "/api/notifications",
-  cacheMiddleware(60),
+  cacheMiddleware(30),
   require("./routes/notificationRoutes"),
 );
 app.use("/api/brands", cacheMiddleware(600), require("./routes/brandRoutes"));
