@@ -10,13 +10,19 @@ const cacheMiddleware = (duration) => (req, res, next) => {
   const cachedBody = cache.get(key);
 
   if (cachedBody) {
-    res.send(cachedBody);
-    return;
+    // If it's a string (JSON), parse it or send as is
+    res.setHeader("Content-Type", "application/json");
+    return res.send(cachedBody);
   } else {
-    res.sendResponse = res.send;
-    res.send = (body) => {
-      cache.set(key, body, duration);
-      res.sendResponse(body);
+    // Save original send function
+    const originalSend = res.send;
+
+    res.send = function (body) {
+      // Only cache successful responses
+      if (res.statusCode === 200) {
+        cache.set(key, body, duration);
+      }
+      return originalSend.call(this, body);
     };
     next();
   }
