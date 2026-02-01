@@ -20,27 +20,24 @@ const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: [
-      "https://bepositive.az",
-      "https://www.bepositive.az",
-      "http://localhost:3000",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  },
-});
-
 const PORT = process.env.PORT || 5001;
+
+// Move CORS to the very top and make it more robust
+const allowedOrigins = [
+  "https://bepositive.az",
+  "https://www.bepositive.az",
+  "http://localhost:3000",
+];
 
 app.use(
   cors({
-    origin: [
-      "https://bepositive.az",
-      "https://www.bepositive.az",
-      "http://localhost:3000",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: [
@@ -48,9 +45,21 @@ app.use(
       "Authorization",
       "X-Requested-With",
       "Accept",
+      "Origin",
     ],
   }),
 );
+
+// Explicitly handle pre-flight requests
+app.options("*", cors());
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  },
+});
 
 // Express 5 pre-flight is handled by the global cors middleware above
 
