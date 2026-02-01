@@ -12,22 +12,10 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
-// CORS - Simplified and Robust
-const allowedOrigins = [
-  "https://bepositive.az",
-  "https://www.bepositive.az",
-  "http://localhost:3000",
-];
-
+// CLEANED GLOBAL CORS - Resolves Preflight/Options issues
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: [
@@ -45,9 +33,8 @@ app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: "*",
     methods: ["GET", "POST"],
-    credentials: true,
   },
 });
 
@@ -59,7 +46,6 @@ app.use((req, res, next) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/service", express.static(path.join(__dirname, "service")));
 
-// Cloudinary
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
@@ -99,30 +85,15 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   res.json({ url: imageUrl });
 });
 
-// Cache Middleware Placeholder (Fixed stability)
-const cacheMiddleware = (duration) => (req, res, next) => next();
-
-// API Routes
-app.use("/api/blogs", cacheMiddleware(300), require("./routes/blogRoutes"));
-app.use(
-  "/api/trainings",
-  cacheMiddleware(300),
-  require("./routes/trainingRoutes"),
-);
-app.use(
-  "/api/services",
-  cacheMiddleware(300),
-  require("./routes/serviceRoutes"),
-);
-app.use("/api/reviews", cacheMiddleware(300), require("./routes/reviewRoutes"));
-app.use(
-  "/api/notifications",
-  cacheMiddleware(30),
-  require("./routes/notificationRoutes"),
-);
-app.use("/api/brands", cacheMiddleware(600), require("./routes/brandRoutes"));
-app.use("/api/team", cacheMiddleware(300), require("./routes/teamRoutes"));
-app.use("/api/faqs", cacheMiddleware(600), require("./routes/faqRoutes"));
+// REMOVED CACHING TO RESTORE STABILITY
+app.use("/api/blogs", require("./routes/blogRoutes"));
+app.use("/api/trainings", require("./routes/trainingRoutes"));
+app.use("/api/services", require("./routes/serviceRoutes"));
+app.use("/api/reviews", require("./routes/reviewRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
+app.use("/api/brands", require("./routes/brandRoutes"));
+app.use("/api/team", require("./routes/teamRoutes"));
+app.use("/api/faqs", require("./routes/faqRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
 
@@ -131,7 +102,7 @@ const connectDB = async () => {
     const mongoUri =
       process.env.MONGO_URI || "mongodb://localhost:27017/bepositive";
     await mongoose.connect(mongoUri);
-    console.log("MongoDB Connected...");
+    console.log("MongoDB Connected Successfully");
 
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
