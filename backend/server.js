@@ -12,36 +12,16 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
-// Agresif CORS Yapılandırması
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Tüm isteklere izin ver
-      return callback(null, true);
+    origin: function(origin, callback) {
+      callback(null, true); 
     },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-    ],
-    optionsSuccessStatus: 200,
-  }),
+  })
 );
 
-// Tüm rotalar için OPTIONS preflight isteğini açıkça yanıtla
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, X-Requested-With, Accept",
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
-});
+
 
 app.use(express.json());
 
