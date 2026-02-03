@@ -13,12 +13,29 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
 // Base CORS
+const allowedOrigins = [
+  "https://bepositive.az",
+  "https://www.bepositive.az",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
+    optionsSuccessStatus: 200,
   }),
 );
+
+// Explicitly handle OPTIONS preflight
+app.options("*", cors());
 
 app.use(express.json());
 

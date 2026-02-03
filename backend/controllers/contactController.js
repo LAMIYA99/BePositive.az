@@ -130,6 +130,9 @@ exports.sendContactEmail = async (req, res) => {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
+  console.log(`Telegram Bot Token: ${token ? "Exists" : "MISSING"}`);
+  console.log(`Telegram Chat ID: ${chatId ? "Exists" : "MISSING"}`);
+
   if (!token || !chatId) {
     console.error("Telegram credentials missing in environment variables");
     return res.status(500).json({
