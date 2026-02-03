@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "aos/dist/aos.css"; 
+@import "aos/dist/aos.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -130,11 +130,9 @@
     @apply border-border;
   }
 
-
   *:not(input):not(textarea):not([contenteditable="true"]) {
     caret-color: transparent;
   }
-
 
   *:focus-visible {
     @apply outline-2 outline-ring/50 outline-offset-2;
@@ -148,4 +146,9 @@
     @apply bg-background text-foreground;
     -webkit-tap-highlight-color: transparent;
   }
+}
+
+/* Hide reCAPTCHA badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
 }
