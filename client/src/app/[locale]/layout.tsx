@@ -4,7 +4,6 @@ import { getHTMLTextDir } from "intlayer";
 
 import Layout from "@/Layout";
 import AosInit from "../aos-init";
-import { QueryProviders } from "@/Provider/QueryProviders";
 import PushNotificationClient from "@/components/PushNotificationClient";
 
 const SITE_URL = "https://bepositive.az";
@@ -77,10 +76,8 @@ const LocaleLayout: NextLayoutIntlayer = async ({ children, params }) => {
   return (
     <div lang={locale} dir={getHTMLTextDir(locale)} className="min-h-screen">
       <AosInit />
-      <QueryProviders>
-        <Layout>{children}</Layout>
-        <PushNotificationClient />
-      </QueryProviders>
+      <Layout>{children}</Layout>
+      <PushNotificationClient />
     </div>
   );
 };

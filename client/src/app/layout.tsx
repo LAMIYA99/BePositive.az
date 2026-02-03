@@ -16,6 +16,7 @@ const inter = Inter({
 
 import { Toaster } from "react-hot-toast";
 import { NotificationProvider } from "@/Provider/NotificationProvider";
+import { QueryProviders } from "@/Provider/QueryProviders";
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -107,12 +108,14 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
         />
 
         <Suspense fallback={null}>
-          <AppLoaderProvider>
-            <NotificationProvider>
-              {children}
-              <Toaster position="top-center" reverseOrder={false} />
-            </NotificationProvider>
-          </AppLoaderProvider>
+          <QueryProviders>
+            <AppLoaderProvider>
+              <NotificationProvider>
+                {children}
+                <Toaster position="top-center" reverseOrder={false} />
+              </NotificationProvider>
+            </AppLoaderProvider>
+          </QueryProviders>
         </Suspense>
       </body>
     </html>
