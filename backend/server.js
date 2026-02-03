@@ -22,6 +22,11 @@ app.use(
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
+
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -50,6 +55,13 @@ app.use("/api/team", require("./routes/teamRoutes"));
 app.use("/api/faqs", require("./routes/faqRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/contact", require("./routes/contactRoutes"));
+
+app.use((err, req, res, next) => {
+  console.error("Global Error Handler:", err);
+  res
+    .status(500)
+    .json({ message: "Internal Server Error", error: err.message });
+});
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 

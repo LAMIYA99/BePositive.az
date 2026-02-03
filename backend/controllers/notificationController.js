@@ -1,13 +1,24 @@
 const Notification = require("../models/Notification");
 
 exports.getActiveNotification = async (req, res) => {
+  console.log("GET /api/notifications/active called");
   try {
     const notification = await Notification.findOne({ isActive: true })
       .sort({ createdAt: -1 })
       .lean();
+    console.log(
+      "Fetched active notification:",
+      notification ? notification._id : "none",
+    );
     res.status(200).json(notification);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error in getActiveNotification:", error);
+    res
+      .status(500)
+      .json({
+        message: "Error fetching active notification",
+        error: error.message,
+      });
   }
 };
 

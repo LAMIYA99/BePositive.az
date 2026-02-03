@@ -7,8 +7,10 @@ exports.getFaqs = async (req, res) => {
     console.log(`Successfully fetched ${faqs.length} faqs`);
     res.status(200).json(faqs);
   } catch (error) {
-    console.error("Error in getFaqs:", error.message);
-    res.status(500).json({ message: error.message });
+    console.error("Error in getFaqs:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching faqs", error: error.message });
   }
 };
 

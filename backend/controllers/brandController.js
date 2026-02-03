@@ -9,8 +9,10 @@ exports.getBrands = async (req, res) => {
     console.log(`Successfully fetched ${brands.length} brands`);
     res.status(200).json(brands);
   } catch (error) {
-    console.error("Error in getBrands:", error.message);
-    res.status(500).json({ message: error.message });
+    console.error("Error in getBrands:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching brands", error: error.message });
   }
 };
 
