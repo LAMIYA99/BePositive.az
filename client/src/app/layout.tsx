@@ -16,9 +16,6 @@ const inter = Inter({
 
 import { Toaster } from "react-hot-toast";
 import { NotificationProvider } from "@/Provider/NotificationProvider";
-import dynamic from "next/dynamic";
-
-import PushNotificationClient from "@/components/PushNotificationClient";
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -114,7 +111,6 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
             <NotificationProvider>
               {children}
               <Toaster position="top-center" reverseOrder={false} />
-              <PushNotificationClient />
             </NotificationProvider>
           </AppLoaderProvider>
         </Suspense>
