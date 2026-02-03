@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5001;
 const allowedOrigins = [
   "https://bepositive.az",
   "https://www.bepositive.az",
+  "http://72.62.135.104:3000",
   "http://localhost:3000",
   "http://localhost:5173",
 ];
@@ -23,9 +24,16 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (
+        allowedOrigins.indexOf(origin) !== -1 ||
+        origin.includes("bepositive.az")
+      ) {
         callback(null, true);
       } else {
+        console.log("Rejected Origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },

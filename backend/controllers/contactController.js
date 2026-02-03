@@ -65,6 +65,9 @@ function validateTiming(timestamp) {
 }
 
 exports.sendContactEmail = async (req, res) => {
+  console.log("CONTACT FORM SUBMISSION RECEIVED");
+  console.log("Body:", JSON.stringify(req.body, null, 2));
+
   const {
     name,
     email,
