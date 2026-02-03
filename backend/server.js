@@ -12,38 +12,36 @@ const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
-// Base CORS
-const allowedOrigins = [
-  "https://bepositive.az",
-  "https://www.bepositive.az",
-  "http://72.62.135.104:3000",
-  "http://localhost:3000",
-  "http://localhost:5173",
-];
-
+// Agresif CORS Yapılandırması
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-
-      if (
-        allowedOrigins.indexOf(origin) !== -1 ||
-        origin.includes("bepositive.az")
-      ) {
-        callback(null, true);
-      } else {
-        console.log("Rejected Origin:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
+      // Tüm isteklere izin ver
+      return callback(null, true);
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+    ],
     optionsSuccessStatus: 200,
   }),
 );
 
-// Explicitly handle OPTIONS preflight
-app.options("*", cors());
+// Tüm rotalar için OPTIONS preflight isteğini açıkça yanıtla
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With, Accept",
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(200);
+});
 
 app.use(express.json());
 
