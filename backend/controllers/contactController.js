@@ -180,6 +180,9 @@ ${message}
     });
 
     telegramRes.on("end", () => {
+      console.log("Telegram API Response Status:", telegramRes.statusCode);
+      console.log("Telegram API Response Body:", responseData);
+
       if (telegramRes.statusCode === 200) {
         console.log(`Telegram message sent successfully from ${email}`);
         return res
